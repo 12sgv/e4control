@@ -1,0 +1,167 @@
+<!-- This section details the % votes for each policy -->
+<p>Here is the current <b>vote breakdown:</b></p>
+
+<ul>
+    <li>Votes for the fully in-office policy: {{ total_office_votes }}</li>
+    <li>Votes for the fully remote policy: {{ total_remote_votes }}</li>
+    <li>Percent voting for the <b>fully remote</b> policy: {{ total_percent_votes_remote }}%</li>
+</ul>
+
+<!-- Breakdown of where the participants are going -->
+<p>Here is the current 2/3 remote breakdown</p>
+<ul>
+    <li>Number of participants going to 2/3 remote: {{ remote_23 }}</li>
+    <li>Total number of participants entered: {{ total_voters }}</li>
+    <li>Percent <b>remote</b> going to 2/3 remote: {{ r23_percent_remote }}%</li>
+    <li>Percent <b>total</b> going to 2/3 remote: {{r23_percent_total}}%</li>
+</ul>
+<!-- Payments by type -->
+<p>Here is the current <b>payment numbers:</b></p>
+
+<ul>
+    <li>Average payment <b>paired</b> completed: ${{ completed_payments_mean }}</li>
+    <li>Average payment <b>all</b> completed: {{ total_pay_mean }}</li>
+    <li>Total payments <b>not paired& 2/3 remote</b> completed: {{ not_paired_payments_total }}</li>
+    <li>Total payments <b>paired</b> completed: ${{ completed_payments_total }}</li>
+    <li>Total payments: {{ total_pay }}</li>
+</ul>
+
+<!-- Number completing the study -->
+<p>Here is the current <b>completion totals:</b></p>
+
+<ul>
+    <li>Number of <b>paired</b> completed: {{ total_complete_finished }}</li>
+    <li>Number of <b>not paired</b> completed: {{ total_not_paired_finished }}</li>
+    <li>Number of <b>2/3 remote</b> completed: {{ remote_23_finished }}</li>
+    <li>Number of <b>timed_out:</b> {{ timed_out_total }}</li>
+    <li><b>Total number started</b> (voted): {{ total_voters}}</li>
+</ul>
+
+<p>Here is the current breakdown of participants:</p>
+
+<ul>
+    <li>Percent <b>paired</b> completed: {{ percent_complete }}%</li>
+    <li>Percent <b>not paired</b> completed: {{ percent_not_paired }}%</li>
+    <li>Percent <b>timed_out:</b> {{ percent_timed_out }}%</li>
+    <li>Total completed: {{ total_percent_completed }}%</li>
+</ul>
+
+<!-- assigned pairings table -->
+<p>Table of <b>assigned</b> observations for each condition:</p>
+
+<table>
+    <tr>
+        <td>WW</td>
+        <td>{{ WW_participants_assigned }}</td>
+        <td>{{ LL_participants_assigned }}</td>
+        <td>LL</td>
+    </tr>
+    <tr>
+        <td>WL</td>
+        <td> {{ WL_participants_assigned }} </td>
+        <td> {{ LW_participants_assigned }} </td>
+        <td>LW</td>
+    </tr>
+</table>
+
+<!-- observations table -->
+<p>Table of <b>actual</b> observations for each condition:</p>
+
+<table>
+    <tr>
+        <td>WW</td>
+        <td>{{ WW_participants_finished }}</td>
+        <td>{{ LL_participants_finished }}</td>
+        <td>LL</td>
+    </tr>
+    <tr>
+        <td>WL</td>
+        <td> {{ WL_participants_finished }} </td>
+        <td> {{ LW_participants_finished }} </td>
+        <td>LW</td>
+    </tr>
+</table>
+
+<!-- finished table -->
+<p>Table of <b>actual finished</b> observations for each condition:</p>
+
+<table>
+    <tr>
+        <td>WW</td>
+        <td>{{ WW_participants_completed }}</td>
+        <td>{{ LL_participants_completed }}</td>
+        <td>LL</td>
+    </tr>
+    <tr>
+        <td>WL</td>
+        <td> {{ WL_participants_completed }} </td>
+        <td> {{ LW_participants_completed }} </td>
+        <td>LW</td>
+    </tr>
+</table>
+
+<!-- styling for tables -->
+<style>
+    table, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    td {
+        padding: 5px;
+    }
+</style>
+
+<!-- chart -->
+<p style="text-align: center;"><b>Chart of giving by condition</b></p>
+
+
+<canvas id="myChart" width="250" height="150"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- payments table -->
+<p><b>Below are the payments for each participant:</b></p>
+
+{{ payments_table_html }}
+
+<!-- script for chart -->
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Winner', 'Loser'],
+            datasets: [
+                {
+                    label: 'Same',
+                    data: [{{ WW_mean }}, {{ LL_mean }}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+                {
+                    label: 'Different',
+                    data: [{{ WL_mean }}, {{ LW_mean }}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    offset: true
+                },
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Giving (help points)'
+                    }
+                }
+            }
+        }
+    });
+</script>

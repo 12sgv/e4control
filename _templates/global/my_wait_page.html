@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ page_title }}</h1>
+    <p>{{block_text}}</p>
+     <!-- Your form fields and submit button here -->
+    <form id="auto_submit_form" method="post" role="form" class="form">
+        {% csrf_token %}
+        <!-- Your form fields here -->
+        <!-- Example: <input type="text" name="some_field"> -->
+
+        <!-- Hide the Next button using CSS -->
+        <style>
+            .otree-btn-next {
+                display: none;
+            }
+        </style>
+    </form>
+
+    <!-- Auto-submit the form after the specified time -->
+    <script type="text/javascript">
+        // Function to automatically submit the form after a fixed time
+        function autoSubmitForm(seconds) {
+            setTimeout(function () {
+                document.getElementById('auto_submit_form').submit();
+            }, seconds * 1000); // Convert seconds to milliseconds
+        }
+
+        // Start the auto-submit process when the page is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            autoSubmitForm(30); // Adjust the time (in seconds) to auto-submit the form as needed
+        });
+    </script>
+{% endblock %}

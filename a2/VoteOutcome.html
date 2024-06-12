@@ -1,0 +1,40 @@
+{{ block title }}Vote Result{{ endblock }}
+{{ block content }}
+
+    <p>
+        The majority of the members in your team voted for the <strong>fully {{outcome}} policy.</strong>
+        You voted for the <strong>fully {{vote}} policy.</strong> This means that <strong> you
+        {{wonlost}}</strong> the vote.
+    </p>
+    <p>
+        Based on the outcome of the vote, your company will implement the fully {{outcome}} policy for your team.
+        From now on, the company requires your team to work fully {{outcome}}.
+    </p>
+    <p>
+        On the next page, you will be paired with one other member of your team and receive
+        additional instructions.
+    </p>
+<p>
+    Please click Next to advance to the next page.
+</p>
+
+{{ next_button }}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+<!-- Only show timer when 30 seconds remain -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 30) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+{{ endblock }}
