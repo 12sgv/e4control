@@ -3,7 +3,7 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
-App 4/6 in sequence.
+App 3/6 in sequence.
 App Before: help
 App After: survey
 ---------------------------------------
@@ -13,7 +13,7 @@ Participants complete the Demographics
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'a4'
+    NAME_IN_URL = 'c3'
     NUM_ROUNDS = 1
     PLAYERS_PER_GROUP = None
     StandardChoices = [
@@ -65,14 +65,14 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     def group_by_arrival_time_method(self, waiting_players):
         #initialize a dictionary to hold the list of groups
-        d = {}
+        l = {}
         for player in waiting_players:
             if player.participant.vars.get('other_timed_out', 0) == 1:
                 return [player]
-            group_id = player.participant.vars['group_number']
-            if group_id not in d:
-                d[group_id] = []
-            players_in_my_group = d[group_id]
+            group_id = player.participant.vars['paired_group']
+            if group_id not in l:
+                l[group_id] = []
+            players_in_my_group = l[group_id]
             players_in_my_group.append(player)
             if group_id > 0:
                 if len(players_in_my_group) == 2:
@@ -91,16 +91,9 @@ class Player(BasePlayer):
     is_out = models.BooleanField()
     is_bot = models.BooleanField()
     other_giving = models.IntegerField()
-    # PEQ
-    vote_preference = models.IntegerField(choices=C.StandardChoices,
-                                          widget=widgets.RadioSelectHorizontal,
-                                          label='I feel strongly about the policy I voted for.')
-    vote_valued = models.IntegerField(choices=C.StandardChoices,
-                                      widget=widgets.RadioSelectHorizontal,
-                                      label='The company values employee input on their remote versus in-office work policy.')
-    affect = models.IntegerField(choices=C.AffectChoices,
-                                 widget=widgets.RadioSelect,
-                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost.)')
+    #timint vars
+    finished_voting = models.BooleanField(initial=False)
+    # PEQ Identity
     identity_identify = models.IntegerField(choices=C.StandardChoices,
                                             widget=widgets.RadioSelect,
                                             label='I identify with my partner.')
@@ -110,26 +103,22 @@ class Player(BasePlayer):
     identity_like = models.IntegerField(choices=C.StandardChoices,
                                         widget=widgets.RadioSelect,
                                         label='I like my partner.')
-    blame = models.IntegerField(choices=[
-        [0, 'Not at all'],
-        [1, ''],
-        [2, ''],
-        [3, ''],
-        [4, ''],
-        [5, ''],
-        [6, 'A great extent']],
-        widget=widgets.RadioSelect,
-        label='To what extent were you angry or upset with your partner because of the outcome of the vote?')
-    sympathy = models.IntegerField(choices=[
-        [0, 'Not at all'],
-        [1, ''],
-        [2, ''],
-        [3, ''],
-        [4, ''],
-        [5, ''],
-        [6, 'A great extent']],
-        widget=widgets.RadioSelect,
-        label='To what extent did you feel bad for your partner because of the outcome of the vote?')
+    #Voting Field
+    policy_vote = models.StringField(
+        choices=[
+            ['Office', 'Fully in-office policy'],
+            ['Remote', 'Fully remote policy'],
+        ],
+        label='I would vote for the:',
+        widget=widgets.RadioSelect
+    )
+    #PEQ Voting
+    vote_preference = models.IntegerField(choices=C.StandardChoices,
+                                          widget=widgets.RadioSelectHorizontal,
+                                          label='I feel strongly about the policy I voted for.')
+    vote_valued = models.IntegerField(choices=C.StandardChoices,
+                                      widget=widgets.RadioSelectHorizontal,
+                                      label='The company values employee input on their remote versus in-office work policy.')
     expectation_valence = models.StringField(
         choices=[
             ['Office', 'Fully in-office policy'],
@@ -147,8 +136,7 @@ class Player(BasePlayer):
 # function to determine if waiting to long for the partner to arrive
 def waiting_too_long_partner_formation(self):
     return time.time() - self.participant.vars['help_completion_time'] > self.session.config[
-        'partner_creation_timeout']
-
+        'c_help_wait_timeout']
 # retrieve what other player provided
 def other_giving(self):
     if self.id_in_group == 1:
@@ -161,19 +149,24 @@ def other_giving(self):
     return self.participant.vars['other_giving']
 
 # PAGES
-# 10. Help Completion Page
-class a41(WaitPage):
+# 8. Help Completion Page
+class c31(WaitPage):
     group_by_arrival_time = True
     title_text = 'Help Completion Page'
     body_text = 'The amount of help you have given to your partner has been recorded and both of your payoffs' \
-                ' have been adjusted accordingly. You will automatically advance to the next page shortly where ' \
-                'you will answer a few survey questions about the study…'
+                ' have been adjusted accordingly. You will automatically advance to the next page shortly…'
 
-class a42(Page):
+#9. Survey Questions about the Helping
+class c32(Page):
     form_model = 'player'
-    form_fields = ['vote_preference', 'vote_valued', 'affect', 'identity_identify', 'identity_happy', 'identity_like', 'blame',
-                   'sympathy', 'expectation_valence', 'expectation_strength']
+    form_fields = ['identity_identify', 'identity_happy', 'identity_like']
 
+    def vars_for_template(self):
+        return dict(
+        #expectation_strength_label = "How confident were you that the fully {} policy would win?".format(self.participant.vars['policy_vote'])
+        )
+
+    #pass other giving vars to player
     def vars_for_template(self):
         if self.participant.vars['other_timed_out'] == 0 and len(self.group.get_players())>1:
             if self.id_in_group == 1:
@@ -186,4 +179,25 @@ class a42(Page):
         else:
             pass
 
-page_sequence = [a41, a42]
+#10. Voting
+class c33(Page):
+    form_model = 'player'
+    form_fields = ['policy_vote']
+
+
+    def before_next_page(self, timeout_happened):
+        self.participant.vars['policy_vote'] = self.policy_vote
+        self.finished_voting = True
+        self.participant.vars['finished_voting'] = True
+
+#11. PEQ Voting (Survey) for Main Group
+class c34(Page):
+    form_model = 'player'
+    form_fields = ['vote_preference', 'vote_valued', 'expectation_valence', 'expectation_strength']
+
+    def vars_for_template(self):
+        return dict(
+        #expectation_strength_label = "How confident were you that the fully {} policy would win?".format(self.participant.vars['policy_vote'])
+        )
+
+page_sequence = [c31, c32, c33, c34]

@@ -3,7 +3,7 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
-App 5/6 in sequence.
+App 4/6 in sequence.
 App Before: PEQ or wait23
 App After: payment_info
 ---------------------------------------
@@ -13,7 +13,7 @@ Participants complete the Demographics
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'a5'
+    NAME_IN_URL = 'c4'
     NUM_ROUNDS = 1
     PLAYERS_PER_GROUP = None
     StandardChoices = [
@@ -169,7 +169,8 @@ class Player(BasePlayer):
 
 
 # PAGES
-class a51(Page):
+#12. First page of Demographics Survey
+class c41(Page):
     form_model = 'player'
     form_fields = [
         'employed', 'work_location', 'location_preference', 'team_size', 'industry', 'education', 'work_experience',
@@ -186,8 +187,8 @@ class a51(Page):
         self.participant.vars['work_experience'] = self.work_experience
         self.participant.vars['firm_allow_input'] = self.firm_allow_input
 
-
-class a52(Page):
+#13. Second Page of Demographics Survey
+class c42(Page):
     form_model = 'player'
     form_fields = [
         'firm_input', 'firm_input_other', 'firm_feel_input',
@@ -209,4 +210,4 @@ class a52(Page):
         self.participant.vars['firm_adjust_post_pandemic'] = self.field_maybe_none('firm_adjust_post_pandemic')
 
 
-page_sequence = [a51, a52]
+page_sequence = [c41, c42]

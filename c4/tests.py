@@ -19,7 +19,7 @@ class PlayerBot(Bot):
             fai_choices = ['Yes']*67 + ['No']*33
             fai = random.choice(fai_choices)
             # On the Demographics1 page, enter the specified values and submit the page
-            yield a51, dict(
+            yield c41, dict(
                 employed=em,
                 work_location=wl,
                 location_preference=lp,
@@ -36,7 +36,7 @@ class PlayerBot(Bot):
                 ffrp_choices = ['Yes'] + ['No']
                 ffrp = random.choices(ffrp_choices)
                 fapp = random.randint(1, 4)
-                yield a52, dict(
+                yield c42, dict(
                     firm_input=fi,
                     firm_input_other="bot is here",
                     firm_feel_input=ffi,

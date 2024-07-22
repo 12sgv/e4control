@@ -43,7 +43,6 @@
     <li>Percent <b>paired</b> completed: {{ percent_complete }}%</li>
     <li>Percent <b>not paired</b> completed: {{ percent_not_paired }}%</li>
     <li>Percent <b>timed_out:</b> {{ percent_timed_out }}%</li>
-    <li>Total completed: {{ total_percent_completed }}%</li>
 </ul>
 
 <!-- assigned pairings table -->
@@ -111,13 +110,26 @@
     }
 </style>
 
-<!-- chart -->
+<!-- chart helping by treatment -->
 <p style="text-align: center;"><b>Chart of giving by condition</b></p>
 
 
 <canvas id="myChart" width="250" height="150"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Helping by vote type -->
+<p>Here is the current breakdown of helping behavior by vote type:</p>
+<ul>
+    <li>Mean <b>Totals</b> helping: {{ total_mean }}</li>
+    <li>Mean <b>Remote</b> helping: {{ remote_mean }}</li>
+    <li>Mean <b>Office</b> helping: {{ office_mean }}</li>
+</ul>
+<!-- chart helping by vote -->
+<p style="text-align: center;"><b>Chart of giving by vote type</b></p>
+
+
+<canvas id="myChart2" width="250" height="150"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- payments table -->
 <p><b>Below are the payments for each participant:</b></p>
 
@@ -159,6 +171,56 @@
                     title: {
                         display: true,
                         text: 'Giving (help points)'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Giving'],
+            datasets: [
+                {
+                    label: 'Total',
+                    data: [{{ total_mean }}],
+                    backgroundColor: 'rgba(128, 128, 128, 0.2)',
+                    borderColor: 'rgba(128, 128, 128, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+                {
+                    label: 'Remote',
+                    data: [{{ remote_mean }}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+                {
+                    label: 'Office',
+                    data: [{{ office_mean }}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    offset: true,
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Giving (help points given)'
                     }
                 }
             }

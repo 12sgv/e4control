@@ -3,14 +3,14 @@ from os import environ
 
 SESSION_CONFIGS = [
        dict(
-        name='instrument',
+        name='treatment',
         app_sequence=['a1', 'a2', 'a3', 'a4', 'a5', 'a6'],
         num_demo_participants=5,
         use_browser_bots=False,
        ),
     dict(
-        name='survey',
-        app_sequence=['a5', 'a6'],
+        name='control',
+        app_sequence=['c1', 'c2', 'c3', 'c4', 'c5'],
         num_demo_participants=5,
         use_browser_bots=False,
     )
@@ -23,22 +23,30 @@ SESSION_CONFIGS = [
 
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.01,
-    participation_fee=1.00,
-    kicked_out_bonus=0.50,
-    not_paired_bonus=0.50,
-    remote_cutoff=50,
+    participation_fee=1.50,
+    extra_bonus=0.25,
+    kicked_out_bonus=0.25,
+    not_paired_bonus=0.25,
+    remote_cutoff=33,
     doc="",
     debug=False,
     group_size=5,
     group_formation_timeout=420,
     vote_outcome_timeout=60,
-    partner_creation_timeout=75,
+    partner_creation_timeout=150,
     partner_check_timeout=90,
     offer_timeout=120,
     help_wait_timeout=120,
     link_23r='https://app.prolific.com/submissions/complete?cc=C16WMJYY',
     link_nopartner='https://app.prolific.com/submissions/complete?cc=CDAJQ04E',
     link_completed='https://app.prolific.com/submissions/complete?cc=C1E01PP1',
+    link_timeoutgroup='https://app.prolific.com/submissions/complete?cc=CGZN8X5J',
+    c_additional_instructions_timeout=60,
+    c_offer_timeout=120,
+    c_help_wait_timeout=120,
+    c_link_nopartner='https://app.prolific.com/submissions/complete?cc=CDAJQ04E',
+    c_link_completed='https://app.prolific.com/submissions/complete?cc=C1E01PP1',
+    c_link_timeoutgroup='https://app.prolific.com/submissions/complete?cc=CGZN8X5J'
    )
 
 PARTICIPANT_FIELDS = [

@@ -3,7 +3,7 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
-App 6/6 in sequence.
+App 5/5 in sequence.
 App Before: survey
 App After: NONE, redirect to Prolific
 ---------------------------------------
@@ -14,7 +14,7 @@ NEED to CALCULATE EARNINGS HERE
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'a6'
+    NAME_IN_URL = 'c5'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -43,33 +43,11 @@ def vars_for_admin_report(subsession):
     total_remote_votes = 0
     total_office_votes = 0
     total_voters = 0
-    # initialize counter for remote participants assigned to the r23 condition
-    remote_23 = 0
-    remote_23_finished = 0
-    # initialize counters for participants assigned to each condition
-    WL_participants_assigned = 0
-    LW_participants_assigned = 0
-    WW_participants_assigned = 0
-    LL_participants_assigned = 0
-    # initialize counters for the number of participants completed in each condition
-    WL_participants_completed = 0
-    LW_participants_completed = 0
-    LL_participants_completed = 0
-    WW_participants_completed = 0
-    # Initialize counters for the number of participants finished in each condition
-    WL_participants_finished = 0
-    LW_participants_finished = 0
-    LL_participants_finished = 0
-    WW_participants_finished = 0
     # initialize a list of all payoffs for complete/not_paired/timed_out/
     completed_payments = []
     not_paired_payments = []
     timed_out_total = 0
-    # initialize a list of all giving for each condition
-    WW_giving = []
-    LL_giving = []
-    WL_giving = []
-    LW_giving = []
+    # initialize a list of giving total and for remote/office
     total_giving = []
     remote_giving = []
     office_giving = []
@@ -78,59 +56,19 @@ def vars_for_admin_report(subsession):
         # gather the votes for each policy
         if player.participant.vars.get('finished_voting') == True:
             total_voters += 1
-            if player.participant.vars.get('policy_vote') == 'Remote':
-                total_remote_votes += 1
-            elif player.participant.vars.get('policy_vote') == 'Office':
-                total_office_votes += 1
-                # gather r23 number
-            if player.participant.vars.get('r23') == True:
-                remote_23 += 1
-            # gather the assigned observations
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_assigned += 1
-        # gather the completed observations
-        if player.participant.vars.get('finished_giving') == True:
             total_giving.append(player.participant.vars.get('giving'))
             if player.participant.vars.get('policy_vote') == 'Remote':
+                total_remote_votes += 1
                 remote_giving.append(player.participant.vars.get('giving'))
             elif player.participant.vars.get('policy_vote') == 'Office':
+                total_office_votes += 1
                 office_giving.append(player.participant.vars.get('giving'))
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_completed += 1
-        if player.participant.vars.get('finished') == True:
-            # gather the finished observations and their giving
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_finished += 1
-                WW_giving.append(player.participant.vars.get('giving'))
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_finished += 1
-                LL_giving.append(player.participant.vars.get('giving'))
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_finished += 1
-                WL_giving.append(player.participant.vars.get('giving'))
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_finished += 1
-                LW_giving.append(player.participant.vars.get('giving'))
             # gather payments for each type of participant (of the completed or not completed, but finished)
             if player.participant.vars.get('not_paired') == True or player.participant.vars.get('r23') == True:
                 not_paired_payments.append(player.participant.vars.get('earnings'))
             else:
                 completed_payments.append(player.participant.vars.get('earnings'))
                 print("completed payment added", completed_payments)
-            if player.participant.vars.get('r23') == True:
-                remote_23_finished += 1
         # count timed_out_participants
         if player.participant.vars.get('timed_out') == True:
             timed_out_total += 1
@@ -153,10 +91,6 @@ def vars_for_admin_report(subsession):
     not_paired_payments_total = sum(not_paired_payments)
     total_pay_mean = total_pay / (len(completed_payments) + len(not_paired_payments)) if len(
         not_paired_payments) > 0 or len(completed_payments) > 0 else 0
-
-    #calculate percent of participants going to r23
-    r23_percent_remote = round(100 * (remote_23 / total_remote_votes ), 2) if total_remote_votes > 0 else 0
-    r23_percent_total = round(100 * (remote_23 / total_voters), 2) if total_voters > 0 else 0
     # calculate the number of completed pairs vs timed out
     total_complete_finished = len(completed_payments)
     total_not_paired_finished = len(not_paired_payments)
@@ -166,38 +100,25 @@ def vars_for_admin_report(subsession):
                                2) if total_participants > 0 else 0
     percent_timed_out = round(100 * (timed_out_total / total_participants), 2) if total_participants > 0 else 0
     total_percent_completed = round(100 * ((total_complete_finished + total_not_paired_finished + timed_out_total) / total_participants), 2) if total_participants > 0 else 0
-
-    # calculate the mean for each condition
-    WW_mean = sum(WW_giving) / len(WW_giving) if len(WW_giving) > 0 else 0
-    LL_mean = sum(LL_giving) / len(LL_giving) if len(LL_giving) > 0 else 0
-    WL_mean = sum(WL_giving) / len(WL_giving) if len(WL_giving) > 0 else 0
-    LW_mean = sum(LW_giving) / len(LW_giving) if len(LW_giving) > 0 else 0
+    # calculate the mean for each giving type
     total_mean = sum(total_giving) / len(total_giving) if len(total_giving) > 0 else 0
     remote_mean = sum(remote_giving) / len(remote_giving) if len(remote_giving) > 0 else 0
     office_mean = sum(office_giving) / len(office_giving) if len(office_giving) > 0 else 0
+
 
     return dict(
         total_remote_votes=total_remote_votes, total_office_votes=total_office_votes,
         total_percent_votes_remote=total_percent_votes_remote,
         total_voters=total_voters,
-        remote_23=remote_23, remote_23_finished=remote_23_finished, r23_percent_total=r23_percent_total,
-        r23_percent_remote=r23_percent_remote,
         total_pay=total_pay, completed_payments_total=completed_payments_total,
         completed_payments_mean=completed_payments_mean, total_pay_mean=total_pay_mean,
         not_paired_payments_total=not_paired_payments_total,
         total_complete_finished=total_complete_finished, total_not_paired_finished=total_not_paired_finished,
         timed_out_total=timed_out_total, percent_complete=percent_complete, percent_timed_out=percent_timed_out,
         percent_not_paired=percent_not_paired, total_participants=total_participants,
-        total_percent_completed = total_percent_completed,
-        WW_participants_assigned=WW_participants_assigned, LL_participants_assigned=LL_participants_assigned,
-        WL_participants_assigned=WL_participants_assigned, LW_participants_assigned=LW_participants_assigned,
-        WW_participants_finished=WW_participants_finished, LL_participants_finished=LL_participants_finished,
-        WL_participants_finished=WL_participants_finished, LW_participants_finished=LW_participants_finished,
-        WW_participants_completed=WW_participants_completed, LL_participants_completed=LL_participants_completed,
-        WL_participants_completed=WL_participants_completed, LW_participants_completed=LW_participants_completed,
-        WW_mean=WW_mean, LL_mean=LL_mean, WL_mean=WL_mean, LW_mean=LW_mean,
-        payments_table_html=payments_table_html,
+        total_percent_completed=total_percent_completed,
         total_mean=total_mean, remote_mean=remote_mean, office_mean=office_mean,
+        payments_table_html=payments_table_html,
     )
 
 
@@ -248,10 +169,10 @@ def create_payments_table(subsession):
 
 
 # PAGES
-#Main Group Payoff Page (Page 15)
-class a61(Page):
+#14. Main Group Payoff
+class c51(Page):
     def is_displayed(self):
-        if self.participant.vars['is_out'] == False and self.participant.vars['timed_out'] == False:
+        if self.participant.vars['not_paired'] == False and self.participant.vars['timed_out'] == False:
             return True
         else:
             return False
@@ -279,10 +200,10 @@ class a61(Page):
             'earnings': self.earnings,
         }
 
-#2/3 Remote & 5th Person Payoff Page (Pages 16a & 16b)
-class a62(Page):
+#15. Not Paired Payoff
+class c52(Page):
     def is_displayed(self):
-        if self.participant.vars['is_out'] == True:
+        if self.participant.vars['not_paired'] == True:
             return True
         else:
             return False
@@ -292,18 +213,13 @@ class a62(Page):
         player.earnings = player.session.config['participation_fee'] + player.session.config['extra_bonus']
         player.participant.vars['earnings'] = player.earnings
         player.payoff = player.earnings
-        if player.participant.vars['r23'] == True:
-            not_paired_wording = "your team was"
-        else:
-            not_paired_wording = "you were unable to be matched with a partner and were"
         return {
             'participation_fee': player.session.config['participation_fee'],
-            'not_paired_wording': not_paired_wording,
             'extra_bonus': player.session.config['extra_bonus']
         }
 
-#Timed Out Group Formation Page
-class a63(Page):
+#18. Timed Out Group Formation Page
+class c53(Page):
     def is_displayed(self):
         if self.participant.vars['group_formation_timeout'] == 1:
             return True
@@ -320,8 +236,8 @@ class a63(Page):
             'extra_bonus': player.session.config['extra_bonus']
         }
 
-#Timed Out Own Fault Page
-class a64(Page):
+#17. Timed Out Helping Page
+class c54(Page):
     def is_displayed(self):
         if self.participant.vars['kicked_out'] == 1:
             return True
@@ -329,8 +245,8 @@ class a64(Page):
             return False
 
 
-#End of Study Feedback Page (Page 17)
-class a65(Page):
+#16. End of Study Feedback Page
+class c55(Page):
     form_model = 'player'
     form_fields = ['feedback']
 
@@ -348,23 +264,21 @@ class a65(Page):
         self.finished = True
         self.participant.vars['finished'] = True
         # Assign completion codes
-        if self.participant.vars['r23'] == True:
-            self.completion_link = self.session.config['link_23r']
-        elif self.participant.vars['not_paired'] == True:
-            self.completion_link = self.session.config['link_nopartner']
+        if self.participant.vars['not_paired'] == True:
+            self.completion_link = self.session.config['c_link_nopartner']
         elif self.participant.vars['group_formation_timeout'] == True:
-            self.completion_link = self.session.config['link_timeoutgroup']
+            self.completion_link = self.session.config['c_link_timeoutgroup']
         elif self.participant.vars['kicked_out'] == True:
             self.completion_link = ""
         else:
-            self.completion_link = self.session.config['link_completed']
+            self.completion_link = self.session.config['c_link_completed']
         return {
             'earnings': self.earnings
         }
 
 
 #Prolific Buffer Page
-class a66(Page):
+class c56(Page):
     form_model = 'player'
 
     def is_displayed(self):
@@ -380,4 +294,4 @@ class a66(Page):
     pass
 
 
-page_sequence = [a61, a62, a63, a64, a65, a66]
+page_sequence = [c51, c52, c53, c54, c55, c56]

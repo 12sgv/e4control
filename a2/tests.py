@@ -4,17 +4,43 @@ from . import *
 #this bot plays through correctly (complete)
 class PlayerBot(Bot):
     def play_round(self):
-        if self.player.participant.vars['is_out'] == False:
-            yield Submission(NoGroup, check_html=False)
-            yield VoteOutcome
-            if self.player.participant.vars['treatment'] == 1:
-                manipulation_answer = 1
-            elif self.player.participant.vars['treatment'] == 2:
-                manipulation_answer = 2
-            elif self.player.participant.vars['treatment'] == 3:
-                manipulation_answer = 3
-            else:
-                manipulation_answer = 4
-            yield PartnerCheck, dict(partner_check=manipulation_answer)
-            offer = random.randint(0, 100)
-            yield Submission(Offer, {'giving': offer}, check_html=False)
+        if self.player.participant.vars['r23'] == False:
+            yield Submission(a22, check_html=False)
+            yield a23
+            #for main group
+            if not self.participant.vars['is_out'] == 1:
+                #get vars for a24
+                if self.player.participant.vars['treatment'] == 1:
+                    manipulation_answer = 1
+                elif self.player.participant.vars['treatment'] == 2:
+                    manipulation_answer = 2
+                elif self.player.participant.vars['treatment'] == 3:
+                    manipulation_answer = 3
+                else:
+                    manipulation_answer = 4
+                yield a24, dict(partner_check=manipulation_answer)
+                #vars for a25
+                offer = random.randint(0, 100)
+                yield Submission(a25, {'giving': offer}, check_html=False)
+            #for 5th person
+            if self.participant.vars['not_paired'] == 1:
+                yield a26
+                offer = random.randint(0, 100)
+                yield Submission(a27, {'giving': offer}, check_html=False)
+                # generate random responses for PEQ 5th Person
+                vp = random.randint(-3, 3)
+                vv = random.randint(-3, 3)
+                a = random.randint(-3, 3)
+                expectation_choices = ['Remote'] * 86 + ['Office'] * 14
+                ev = random.choice(expectation_choices)
+                es = random.randint(-3, 3)
+                # On the PEQ page, enter the specified values and submit the page
+                yield a28, dict(
+                    vote_preference=vp,
+                    vote_valued=vv,
+                    affect=a,
+                    expectation_valence=ev,
+                    expectation_strength=es,
+                )
+
+

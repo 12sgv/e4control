@@ -17,6 +17,52 @@ class C(BaseConstants):
     NAME_IN_URL = 'a2'
     NUM_ROUNDS = 1
     PLAYERS_PER_GROUP = 5
+    #PEQ Scales
+    StandardChoices = [
+        [-3, 'Strongly disagree'],
+        [-2, 'Moderately disagree'],
+        [-1, 'Slightly disagree'],
+        [0, 'Neutral'],
+        [1, 'Slightly agree'],
+        [2, 'Moderately agree'],
+        [3, 'Strongly agree'],
+    ]
+    AffectChoices = [
+        [-3, 'Strongly negative'],
+        [-2, 'Moderately negative'],
+        [-1, 'Slightly negative'],
+        [0, 'Indifferent'],
+        [1, 'Slightly positive'],
+        [2, 'Moderately positive'],
+        [3, 'Strongly positive'],
+    ]
+    StandardChoiceTable = [
+        'Strongly disagree',
+        'Moderately disagree',
+        'Slightly disagree',
+        'Neutral',
+        'Slightly agree',
+        'Moderately agree',
+        'Strongly agree',
+    ]
+    AffectChoiceTable = [
+        'Strongly negative',
+        'Moderately negative',
+        'Slightly negative',
+        'Indifferent',
+        'Slightly positive',
+        'Moderately positive',
+        'Strongly positive',
+    ]
+    FeelChoiceTable = [
+        'Not at all',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'A great extent',
+    ]
 
 
 class Subsession(BaseSubsession):
@@ -46,16 +92,19 @@ class Subsession(BaseSubsession):
                 office_votes[1].remote_won = True
                 remote_votes[0].remote_won = True
                 remote_votes[1].remote_won = True
+                remote_votes[2].remote_won = True
                 #Set outcome variable
                 office_votes[0].winner = False
                 office_votes[1].winner = False
                 remote_votes[0].winner = True
                 remote_votes[1].winner = True
+                remote_votes[2].winner = True
                 #Assign variable to track treatment
                 office_votes[0].treatment = 2
                 office_votes[1].treatment = 2
                 remote_votes[0].treatment = 1
                 remote_votes[1].treatment = 1
+                remote_votes[2].treatment = 5
                 #assign participants to the group number and increment group for each group
                 office_votes[0].group_number = self.session.vars['group_number']
                 office_votes[1].group_number = self.session.vars['group_number']
@@ -63,6 +112,12 @@ class Subsession(BaseSubsession):
                 remote_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
+                remote_votes[2].group_number = 0
+                #assign partner id variable
+                office_votes[0].participant.vars['partner_id'] = office_votes[1].id_in_subsession
+                office_votes[1].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
                 #assign vars to fifth person
                 remote_votes[2].is_out = True
                 remote_votes[2].participant.vars['is_out'] = True
@@ -88,16 +143,19 @@ class Subsession(BaseSubsession):
                 # Set winning policy
                 office_votes[0].remote_won = False
                 office_votes[1].remote_won = False
+                office_votes[2].remote_won = False
                 remote_votes[0].remote_won = False
                 remote_votes[1].remote_won = False
                 # Set outcome variable
                 office_votes[0].winner = True
                 office_votes[1].winner = True
+                office_votes[2].winner = True
                 remote_votes[0].winner = False
                 remote_votes[1].winner = False
                 # Assign variable to track treatment
                 office_votes[0].treatment = 1
                 office_votes[1].treatment = 1
+                office_votes[2].treatment = 5
                 remote_votes[0].treatment = 2
                 remote_votes[1].treatment = 2
                 # assign participants to the group number and increment group for each group
@@ -107,6 +165,12 @@ class Subsession(BaseSubsession):
                 remote_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
+                office_votes[2].group_number = 0
+                # assign partner id variable
+                office_votes[0].participant.vars['partner_id'] = office_votes[1].id_in_subsession
+                office_votes[1].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
                 # assign vars to fifth person
                 office_votes[2].is_out = True
                 office_votes[2].participant.vars['is_out'] = True
@@ -134,16 +198,19 @@ class Subsession(BaseSubsession):
                 office_votes[1].remote_won = True
                 remote_votes[0].remote_won = True
                 remote_votes[1].remote_won = True
+                remote_votes[2].remote_won = True
                 # Set outcome variable
                 office_votes[0].winner = False
                 office_votes[1].winner = False
                 remote_votes[0].winner = True
                 remote_votes[1].winner = True
+                remote_votes[2].winner = True
                 # Assign variable to track treatment
                 office_votes[0].treatment = 4
                 office_votes[1].treatment = 4
                 remote_votes[0].treatment = 3
                 remote_votes[1].treatment = 3
+                remote_votes[2].treatment = 5
                 # assign participants to the group number and increment group for each group
                 office_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[0].group_number = self.session.vars['group_number']
@@ -151,6 +218,12 @@ class Subsession(BaseSubsession):
                 office_votes[1].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
+                remote_votes[2].group_number = 0
+                # assign partner id variable
+                office_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                office_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = office_votes[1].id_in_subsession
                 # assign vars to fifth person
                 remote_votes[2].is_out = True
                 remote_votes[2].participant.vars['is_out'] = True
@@ -176,16 +249,19 @@ class Subsession(BaseSubsession):
                 # Set winning policy
                 office_votes[0].remote_won = False
                 office_votes[1].remote_won = False
+                office_votes[2].remote_won = False
                 remote_votes[0].remote_won = False
                 remote_votes[1].remote_won = False
                 # Set outcome variable
                 office_votes[0].winner = True
                 office_votes[1].winner = True
+                office_votes[2].winner = True
                 remote_votes[0].winner = False
                 remote_votes[1].winner = False
                 # Assign variable to track treatment
                 office_votes[0].treatment = 3
                 office_votes[1].treatment = 3
+                office_votes[2].treatment = 5
                 remote_votes[0].treatment = 4
                 remote_votes[1].treatment = 4
                 # assign participants to the group number and increment group for each group
@@ -195,6 +271,12 @@ class Subsession(BaseSubsession):
                 office_votes[1].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
+                office_votes[2].group_number = 0
+                # assign partner id variable
+                office_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                office_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = office_votes[1].id_in_subsession
                 # assign vars to fifth person
                 office_votes[2].is_out = True
                 office_votes[2].participant.vars['is_out'] = True
@@ -220,14 +302,16 @@ class Player(BasePlayer):
     #general vars
     is_out = models.BooleanField(initial=False)
     timed_out = models.BooleanField(initial=False)
+    kicked_out = models.BooleanField(initial=False)
     #group pairing algorithm vars
     group_type = models.IntegerField()
     aligned = models.BooleanField()
     remote_won = models.BooleanField()
     winner = models.BooleanField()
-    treatment = models.IntegerField()   #1: WW, 2:LL, 3:WL, 4:LW
+    treatment = models.IntegerField()   #1: WW, 2:LL, 3:WL, 4:LW 5:5th Person
     group_number = models.IntegerField()
     not_paired = models.BooleanField()
+    other_player = models.IntegerField()
     #page finished vars
     finished_voting = models.BooleanField(initial=False)
     finished_vote_outcome = models.BooleanField(initial=False)
@@ -254,6 +338,57 @@ class Player(BasePlayer):
         label="Amount of help I am giving to my partner:",
     )
     group_formation_timeout = models.BooleanField(initial=False)
+    #PEQ Vars
+    vote_preference = models.IntegerField(choices=C.StandardChoices,
+                                          widget=widgets.RadioSelectHorizontal,
+                                          label='I feel strongly about the policy I voted for.')
+    vote_valued = models.IntegerField(choices=C.StandardChoices,
+                                      widget=widgets.RadioSelectHorizontal,
+                                      label='The company values employee input on their remote versus in-office work policy.')
+    affect = models.IntegerField(choices=C.AffectChoices,
+                                 widget=widgets.RadioSelect,
+                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost.)')
+    identity_identify = models.IntegerField(choices=C.StandardChoices,
+                                            widget=widgets.RadioSelect,
+                                            label='I identify with my partner.')
+    identity_happy = models.IntegerField(choices=C.StandardChoices,
+                                         widget=widgets.RadioSelect,
+                                         label='I feel happy to be paired with my partner.')
+    identity_like = models.IntegerField(choices=C.StandardChoices,
+                                        widget=widgets.RadioSelect,
+                                        label='I like my partner.')
+    blame = models.IntegerField(choices=[
+        [0, 'Not at all'],
+        [1, ''],
+        [2, ''],
+        [3, ''],
+        [4, ''],
+        [5, ''],
+        [6, 'A great extent']],
+        widget=widgets.RadioSelect,
+        label='To what extent were you angry or upset with your partner because of the outcome of the vote?')
+    sympathy = models.IntegerField(choices=[
+        [0, 'Not at all'],
+        [1, ''],
+        [2, ''],
+        [3, ''],
+        [4, ''],
+        [5, ''],
+        [6, 'A great extent']],
+        widget=widgets.RadioSelect,
+        label='To what extent did you feel bad for your partner because of the outcome of the vote?')
+    expectation_valence = models.StringField(
+        choices=[
+            ['Office', 'Fully in-office policy'],
+            ['Remote', 'Fully remote policy'],
+            ['None', "I didn't consider which policy would win"]
+        ],
+        widget=widgets.RadioSelect,
+    )
+    expectation_strength = models.IntegerField(choices=C.StandardChoices,
+                                               widget=widgets.RadioSelectHorizontal,
+                                               label="How confident were you that you would win the vote?",
+                                               blank=True)
 
 
 
@@ -262,9 +397,23 @@ def waiting_too_long_group_formation(self):
     return time.time() - self.participant.vars['group_formation_arrival'] > self.session.config[
         'group_formation_timeout']
 
+# retrieve what other player provided
+def other_giving(self):
+    if self.id_in_group == 1:
+        other_player = self.group.get_player_by_id(2)
+        self.participant.vars['partner__id'] = other_player.participant.id_in_session
+    elif self.id_in_group == 2:
+        other_player = self.group.get_player_by_id(1)
+        self.participant.vars['partner_id'] = other_player.participant.id_in_session
+    else:
+        print("no id in group for this player. Player group id:", self.id_in_group)
+    self.participant.vars['other_giving'] = other_player.giving
+    return self.participant.vars['other_giving']
+
 
 # PAGES
-class GroupAssignment(WaitPage):
+# 6a. Team Advancement Page (Main Group)
+class a21(WaitPage):
     group_by_arrival_time = True
     title_text = 'Team Advancement Page'
     body_text = 'Your vote has been recorded. You will automatically advance to the next page when' \
@@ -276,10 +425,11 @@ class GroupAssignment(WaitPage):
         for player in group.get_players():
             player.participant.vars['vote_group_id'] = group.id_in_subsession
 
+
     # send those who are kicked out to the end of the experiment
     def app_after_this_page(self, upcoming_apps):
         if self.participant.vars['group_formation_timeout'] == 1:
-            return "payment_info"
+            return "a6"
         else:
             return None
 
@@ -287,28 +437,27 @@ class GroupAssignment(WaitPage):
     def before_next_page(self, timeout_happened):
         if timeout_happened:
             self.participant.vars['group_formation_timeout'] = 1
-            self.participant.vars['calculated_payoff'] = int(2.50)
+            self.participant.vars['earnings'] = self.session.config['participation_fee']
         else:
             self.participant.vars['group_formation_timeout'] = 0
             self.participant.vars['treatment'] = self.treatment
 
 
 # this page is a buffer
-class NoGroup(Page):
+class a22(Page):
     timeout_seconds = 0.001
+    def before_next_page(player: Player, timeout_happened):
+        player.participant.vars['group_number'] = player.group_number
 
-    def app_after_this_page(self, upcoming_apps):
-        if self.participant.vars['is_out'] == 1:
-            return "survey"
-
-class VoteOutcome(Page):
+#Vote Result
+class a23(Page):
     # timeout set to session configs
     def get_timeout_seconds(self):
         return self.session.config['vote_outcome_timeout']
 
     # display for participants who have not timed out
     def is_displayed(player: Player):
-        if player.is_out == True:
+        if player.group_formation_timeout == True:
             return False
         else:
             return True
@@ -326,28 +475,17 @@ class VoteOutcome(Page):
     def before_next_page(self, timeout_happened):
         self.finished_vote_outcome = True
         self.participant.vars['treatment'] = self.treatment
-#        added_pairings = self.session.vars.get('added_pairings', [])  # Set to keep track of already added pairings
-#        # retrieve partner informaiton into their variables
-#        if self.id not in added_pairings:
-#            partner_id = self.participant.vars['other_player_group_id']
-#            partner = self.group.get_player_by_id(partner_id)
-#            partner_session_id = partner.id
-#            # sort the player IDs
-#            player_ids = sorted([self.id, partner_session_id])
-#            # check if partnership already added
-#            if partner_id not in added_pairings:
-#                #partner_list.append(player_ids)
-#                added_pairings.extend(player_ids)
-#                self.session.vars['added_pairings'] = added_pairings
-#                #self.session.vars['partner_list'] = partner_list
-#            else:
-#                print('partner id not in added_pairings')
+
         if timeout_happened:
             # Assign variables to timed out and kicked out
             self.timed_out = True
             self.participant.vars['timed_out_vote_outcome'] = True
+            self.kicked_out = True
+            self.participant.vars['kicked_out'] = 1
 
-class PartnerCheck(Page):
+
+#Partner Check
+class a24(Page):
     # retrieve the timeout seconds for this page from the session configs
     def get_timeout_seconds(self):
         return self.session.config['partner_check_timeout']
@@ -371,26 +509,10 @@ class PartnerCheck(Page):
                    'understand the outcome of the vote and whether you and your partner won or lost the vote.'
 
     def vars_for_template(self):
-        #store partner variables
-#        print("before storing partner variables")
-#        for player in self.group.get_players():
-#            if self.id_in_group == 1:
-#                other_player = self.group.get_player_by_id(2)
-#            elif self.id_in_group == 2:
-#                other_player = self.group.get_player_by_id(1)
-#            else:
-#                print("no id in group for this player. Player group id:", self.id_in_group)
-#            player.participant.vars['help_partner_group_id'] = other_player.id_in_group
-#            player.participant.vars['help_partner_participant_id'] = other_player.participant.id_in_session
-#        print("after storing partner variables")
-#        self.participant.vars['other_policy_vote_description'] = 'in-office' if self.participant.vars[
-#                                                                                    'other_policy_vote'] == 'Office' else 'remote'
-
         outcome = "remote" if self.remote_won == True else "office"
         vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "office"
         wonlost = "won" if self.winner == True else "lost"
         othervote = "remote" if self.treatment == 3 and self.remote_won == True else "office"
-
         return {
             'wonlost': wonlost,
             'vote': vote,
@@ -406,15 +528,22 @@ class PartnerCheck(Page):
             self.timed_out = True
             self.participant.vars['timed_out'] = True
             self.participant.vars['timed_out_partner_check'] = True
+            self.kicked_out = True
+            self.participant.vars['kicked_out'] = True
+            for p in self.group.get_players():
+                if p.participant.vars['group_number'] == self.participant.vars['group_number'] and p.id_in_group != self.id_in_group:
+                    p.participant.vars['other_timed_out'] = True
+                    p.participant.vars['other_giving'] = 100
+
+
 
     # send those who are kicked out to the end of the experiment
     def app_after_this_page(self, upcoming_apps):
-        if 'is_out' in self.participant.vars and self.participant.vars['is_out'] == 1:
-            self.participant.vars['calculated_payoff'] = self.payoff
-            return "payment_info"
+        if 'timed_out' in self.participant.vars and self.participant.vars['timed_out'] == 1:
+            return "a6"
 
-
-class Offer(Page):
+#Helping (Main Group)
+class a25(Page):
     #retrieve timeout seconds from the session configs
     def get_timeout_seconds(self):
         return self.session.config['offer_timeout']
@@ -452,6 +581,12 @@ class Offer(Page):
             self.participant.vars['giving'] = self.giving
             self.participant.vars['timed_out'] = True
             self.participant.vars['timed_out_help'] = True
+            self.kicked_out = True
+            self.participant.vars['kicked_out'] = True
+            for p in self.group.get_players():
+                if p.participant.vars['group_number'] == self.participant.vars['group_number'] and p.id_in_group != self.id_in_group:
+                    p.participant.vars['other_timed_out'] = True
+                    p.participant.vars['other_giving'] = 100
         else:
             self.finished_giving = True
             self.participant.vars['finished_giving'] = True
@@ -459,9 +594,75 @@ class Offer(Page):
     # send those who are kicked out to the end of the experiment
     def app_after_this_page(self, upcoming_apps):
         if 'timed_out' in self.participant.vars and self.participant.vars['timed_out'] == 1:
-            return "payment_info"
+            return "a6"
         else:
-            return "PEQ"
+            return "a4"
 
 
-page_sequence = [GroupAssignment, NoGroup, VoteOutcome, PartnerCheck, Offer]
+###### 5th Person Info #######
+
+#5th person short version alert page
+class a26(Page):
+    #Only show to the 5th person
+    def is_displayed(player: Player):
+        if player.participant.vars['not_paired'] == 1:
+            return True
+        else:
+            return False
+
+
+#Helping (5th Person)
+class a27(Page):
+
+    # only display if the participant is 5th participant
+    def is_displayed(player: Player):
+        if player.participant.vars['not_paired'] == 1:
+            return True
+        else:
+            return False
+
+    form_model = "player"
+    form_fields = ["giving"]
+
+    # custom error message if they did not select a number of points to give
+    def error_message(player, values):
+        if values['giving'] is None:
+            return 'Please select the number of help points you would give your team member.'
+
+    def vars_for_template(self):
+        wonlost = "won" if self.winner == True else "lost"
+        return {
+            'wonlost': wonlost,
+        }
+
+    # give everything if the participant timed out
+    def before_next_page(self, timeout_happened):
+        # track when participant left this page to start timer for the next group formation page
+        self.participant.vars['help_completion_time'] = time.time()
+        self.participant.vars['giving'] = self.giving
+        self.finished_giving = True
+        self.participant.vars['finished_giving'] = True
+
+
+#5th Person PEQ
+class a28(Page):
+    form_model = 'player'
+    form_fields = ['vote_preference', 'vote_valued', 'affect', 'expectation_valence', 'expectation_strength']
+
+    # only display if the participant is 5th participant
+    def is_displayed(player: Player):
+        if player.participant.vars['not_paired'] == 1:
+            return True
+        else:
+            return False
+
+    def vars_for_template(self):
+        return dict(
+        #expectation_strength_label = "How confident were you that the fully {} policy would win?".format(self.participant.vars['policy_vote'])
+        )
+
+    def app_after_this_page(self, upcoming_apps):
+            return "a5"
+
+
+page_sequence = [a21, a22, a23, a24, a25, a26, a27, a28]

@@ -14,7 +14,7 @@ Then wait for group to finish vote before moving onto the next app
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'TeamAdvancement'
+    NAME_IN_URL = 'a3'
     NUM_ROUNDS = 1
     PLAYERS_PER_GROUP = 5
 
@@ -47,15 +47,12 @@ def waiting_too_long_group_formation(self):
 
 
 # PAGES
-class GroupAssignment(WaitPage):
+#6b. Team Advancement Page (2/3 Remote
+class a31(WaitPage):
     group_by_arrival_time = True
     title_text = 'Team Advancement Page'
     body_text = 'Your vote has been recorded. You will automatically advance to the next page when all members ' \
-                'of your team are ready to advance...'
-
-    # send everyone after this to the survey page
-    def app_after_this_page(self, upcoming_apps):
-        return "survey"
+                'of your team are ready to advance.'
 
     # timeout those who are waiting too long on this page and pay them the basic fee
     def before_next_page(self, timeout_happened):
@@ -64,9 +61,10 @@ class GroupAssignment(WaitPage):
             self.participant.vars['remote_group_formation_timeout'] = True
 
 
-# this page is a buffer if needed
-# class Buffer(Page):
-#   timeout_seconds = 0.001
+#Further Instruction page for 2/3 Remote
+class a32(Page):
+    # send everyone after this to the survey page
+    def app_after_this_page(self, upcoming_apps):
+        return "a5"
 
-
-page_sequence = [GroupAssignment]
+page_sequence = [a31]

@@ -1,0 +1,28 @@
+{{ block title }}End of Study{{ endblock }}
+{{ block content }}
+<!-- 16. End of Study (completed participatns of all types) -->
+
+    <div class="panel panel-default" style="margin-bottom:10px">
+        <div class="panel-body">
+
+            <p>
+                Thank you for participating in this study. You have earned <strong>{{earnings}}</strong>.
+                Payment will be made within one week.
+            </p>
+
+        </div>
+    </div>
+
+
+{{ formfields }}
+
+<p>
+    Please click the Finish Study button to be redirected back to Prolific.
+</p>
+
+{% block next_button %}
+<button class="btn btn-primary" type="submit">Finish Study</button>
+{% endblock %}
+
+{{ endblock }}
+

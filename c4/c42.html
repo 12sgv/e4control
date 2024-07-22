@@ -1,0 +1,79 @@
+{{ block title }}Survey{{ endblock }}
+{{ block content }}
+    <p style="font-size: larger;">
+        <strong>The following questions are about your current work situation rather than your experience in
+            the study.</strong> These questions are only included to understand the makeup of
+        the participants in the study.
+    </p>
+
+        {{ formfield 'firm_input' }}
+        {{ formfield 'firm_input_other' }}
+
+        {{ form.firm_feel_input.label }}
+
+    <style>
+        .table {
+            table-layout: fixed;
+            width: 80%
+        }
+        .table td, .table th {
+            text-align: center;
+        }
+        .table tr:first-child th {
+            font-weight: normal;
+        }
+    </style>
+    <table class="table">
+        <tr>
+            {% for choice in C.InfluenceWorkTable %}
+                <th>{{ choice }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for i in range(1, 8) %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for choice in form.firm_feel_input %}
+                <td>{{ choice }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+
+       <div id="fullremotepandemic">
+        {{ formfield 'firm_full_remote_pandemic' }}
+       </div>
+
+        <div id="firm-adjust-post-pandemic-field" style="display: none;">
+            {{ formfield 'firm_adjust_post_pandemic' }}
+        </div>
+
+<p>
+    Please click Next to advance to the next page.
+</p>
+
+    {{ next_button }}
+
+    <script>
+        // Get references to the form fields
+        var firmFullRemotePandemicField = document.getElementById('fullremotepandemic');
+        var firmAdjustPostPandemicField = document.getElementById('firm-adjust-post-pandemic-field');
+        var remoteyes = document.getElementById('id_firm_full_remote_pandemic-0');
+        var remoteno = document.getElementById('id_firm_full_remote_pandemic-1');
+
+
+        // Listen for changes to the firm_full_remote_pandemic field
+        firmFullRemotePandemicField.addEventListener('change', function() {
+            // Show or hide the firm_adjust_post_pandemic field based on the value of the firm_full_remote_pandemic field
+            if (remoteyes.checked) {
+                firmAdjustPostPandemicField.style.display = 'block';
+            } else if (remoteno.checked) {
+                firmAdjustPostPandemicField.style.display = 'none';
+            }
+        });
+    </script>
+
+
+
+{{ endblock }}
