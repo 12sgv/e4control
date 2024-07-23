@@ -4,12 +4,18 @@ import random
 import time
 
 doc = """
+MAIN TASK
 App 2/6 in sequence.
-App Before: instructions
-App After: PEQ
+App Before: a1 (Instructions)
+App After: a4 (PEQ)
 ---------------------------------------
-Participants are grouped into groups upon arrival then vote on the firm policy
-Then wait for group to finish vote before moving onto the next app
+Participants in the main group arrive here after voting in a1.
+Participants begin the app by waiting for their team of 5 to arrive.
+Four of the participants are part of the main group and are paired with one other member of the main group.
+They then complete the main experimental task with their partners.
+The fifth participant in the main group is not paired with another team member.
+This fifth participant completes a hypothetical version of the main task.
+All participants in the main group advance to the PEQ (a4) after this app.
 """
 
 
@@ -63,7 +69,15 @@ class C(BaseConstants):
         '',
         'A great extent',
     ]
-
+    ConfidenceTable = [
+        'Not at all confident',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Extremely confident',
+    ]
 
 class Subsession(BaseSubsession):
     def group_by_arrival_time_method(self, waiting_players):

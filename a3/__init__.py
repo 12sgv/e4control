@@ -4,12 +4,15 @@ import random
 import time
 
 doc = """
+2/3 REMOTE
 App 3/6 in sequence.
-App Before: instructions
-App After: survey
+App Before: a1 (Intro)
+App After: a5 (Survey)
 ---------------------------------------
-Participants are grouped into groups upon arrival then vote on the firm policy
-Then wait for group to finish vote before moving onto the next app
+After voting, 2/3 of the Remote participants are directed to this app.
+This app includes the wait page and additional instructions for the 2/3 Remote participants.
+They wait at the wait page and upon a team of 5 2/3 Remote participants arrives.
+Then, participants learn they are in the shortened version of the study and advance to the survey (a5).
 """
 
 
@@ -67,4 +70,4 @@ class a32(Page):
     def app_after_this_page(self, upcoming_apps):
         return "a5"
 
-page_sequence = [a31]
+page_sequence = [a31, a32]

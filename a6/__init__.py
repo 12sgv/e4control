@@ -3,13 +3,16 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
+PAYMENT INFO
 App 6/6 in sequence.
-App Before: survey
+App Before: a5 (Survey)
 App After: NONE, redirect to Prolific
 ---------------------------------------
-Participants are shown the breakdown of results
-Participants are given completion code
-NEED to CALCULATE EARNINGS HERE
+Participants advance to this app after completing the survey (a5).
+Participants are shown the breakdown of results and how much they earned from the study, unless they timed out.
+Participants who completed the study are then allowed to provide feedback on the study.
+Participants who completed the study are then redirected back to Prolific.
+This app also hosts the code for the custom report screen for the Treatment condition.
 """
 
 
@@ -376,7 +379,6 @@ class a66(Page):
     @staticmethod
     def js_vars(player):
         return dict(completionlink=player.completion_link)
-
     pass
 
 

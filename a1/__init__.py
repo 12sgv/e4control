@@ -6,10 +6,13 @@ import time
 doc = """
 INSTRUCTIONS
 App 1/6 in sequence.
-App Before: None
-App After: help for completed participants or wait23 for 2/3 remote participants
+App Before: None [Prolific]
+App After: a2 for main group & 5th person, a3 for 2/3 remote participants
 ---------------------------------------
-Participants give consent, input ProlificID if it wasn't already grabbed, read instructions, read background, and vote.
+Participants are directed to this app from Prolific via a link on Prolific.
+In this app, participants give consent, input ProlificID, read instructions, read background, and then vote.
+After voting, participants in the main group and the 5th participants advance to the main part of the study (a2).
+2/3 of the randomly selected remote voters will be directed to a3 and complete the condensed version of the study.
 """
 
 

@@ -1,10 +1,16 @@
 {{ block title }}Survey{{ endblock }}
 {{ block content }}
+ {% if participant.vars.not_paired %}
+    <p style="font-size: larger;">
+       <strong> Please answer the following questions about your current work situation.</strong>
+    </p>
+{% else %}
     <p style="font-size: larger;">
         <strong>The following questions are about your current work situation rather than your
             experience in the study.</strong> These questions are only included to understand the makeup
         of the participants in the study.
     </p>
+{% endif %}
 
     {{ formfield 'employed' }}
     {{ formfield 'work_location' }}

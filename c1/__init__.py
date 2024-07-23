@@ -5,11 +5,13 @@ import time
 
 doc = """
 INSTRUCTIONS
-App 1/6 in sequence.
-App Before: None
-App After: help for completed participants or wait23 for 2/3 remote participants
+App 1/5 in sequence.
+App Before: None [Prolific]
+App After: c2 (Helping Task)
 ---------------------------------------
-Participants give consent, input ProlificID if it wasn't already grabbed, read instructions, read background, and vote.
+Participants are directed to this app from Prolific via a link on Prolific.
+In this app, participants give consent, input ProlificID, read instructions, and then read background information.
+After advancing, participants move to the main part of the study (c2).
 """
 
 

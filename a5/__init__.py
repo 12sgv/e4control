@@ -3,12 +3,16 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
+SURVEY
 App 5/6 in sequence.
-App Before: PEQ or wait23
-App After: payment_info
+App Before: a3 (2/3 Remote) or a4 (PEQ)
+App After: a6 (Payment Info)
 ---------------------------------------
-Participants complete the PEQ
-Participants complete the Demographics
+Participants in the main group advance to this app after completing the PEQ (a4).
+2/3 Remote participants complete this app after learning they have the shorter version of the study (a3)
+All participants complete the survey. 
+Participants answer basic demographic questions and questions about their work environment.
+Then, all participants advance to the payment information app (a6).
 """
 
 

@@ -3,12 +3,15 @@ import time
 from otree.export import get_fields_for_csv
 
 doc = """
+PEQ
 App 4/6 in sequence.
-App Before: help
-App After: survey
+App Before: a2 (Main Task)
+App After: a5 (Survey)
 ---------------------------------------
-Participants complete the PEQ
-Participants complete the Demographics
+Participants that are part of the main group advance to this page after completing the main experimental task (a2).
+Participants answer PEQ questions bout their experience in the study.
+Fifth participants view a modified version of the questions.
+All participants advance to the survey (a5) after completing this app.
 """
 
 
@@ -60,6 +63,15 @@ class C(BaseConstants):
         '',
         '',
         'A great extent',
+    ]
+    ConfidenceTable = [
+        'Not at all confident',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Extremely confident',
     ]
 
 class Subsession(BaseSubsession):

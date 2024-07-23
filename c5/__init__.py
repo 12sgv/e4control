@@ -4,12 +4,14 @@ from otree.export import get_fields_for_csv
 
 doc = """
 App 5/5 in sequence.
-App Before: survey
+App Before: c4 (Survey)
 App After: NONE, redirect to Prolific
 ---------------------------------------
-Participants are shown the breakdown of results
-Participants are given completion code
-NEED to CALCULATE EARNINGS HERE
+Participants advance to this app after completing the survey (c4).
+Participants are shown the breakdown of results and how much they earned from the study, unless they timed out.
+Participants who completed the study are then allowed to provide feedback on the study.
+Participants who completed the study are then redirected back to Prolific.
+This app also hosts the code for the custom report screen for the Control condition.
 """
 
 

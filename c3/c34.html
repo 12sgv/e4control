@@ -61,10 +61,16 @@
 
 <br>
 
+<style>
+    .table td:nth-child(n+2):nth-child(-n+8) {
+        width: 100px; /* Adjust this value to your preference */
+    }
+</style>
+
 <table class="table" id="expectation_strength_table" style="display: none;">  <!-- Table for expectation_strength -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
-        {% for choice in C.StandardChoiceTable %}
+        {% for choice in C.ConfidenceTable %}
             <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>

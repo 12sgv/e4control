@@ -4,14 +4,17 @@ import random
 import time
 
 doc = """
-App 2/6 in sequence.
-App Before: instructions
-App After: PEQ
+HELPING TASK
+App 2/5 in sequence.
+App Before: c1 (Instructions)
+App After: c3 (PEQ) or c4 (Survey)
 ---------------------------------------
-Participants are grouped into groups upon arrival then vote on the firm policy
-Then wait for group to finish vote before moving onto the next app
+All participants arrive here after completing the instructions (a1).
+Participants wait for a group of 5 to form and four of the team members are paired with a partner.
+Participants are then able to help their partner.
+After helping their partner, the main group of participants then go to the voting task (c3).
+After forming a team, the 5th team member reads additional instructions and is sent to the survey (c4)
 """
-
 
 class C(BaseConstants):
     NAME_IN_URL = 'c2'
@@ -62,6 +65,15 @@ class C(BaseConstants):
         '',
         '',
         'A great extent',
+    ]
+    ConfidenceTable = [
+        'Not at all confident',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Extremely confident',
     ]
 
 
