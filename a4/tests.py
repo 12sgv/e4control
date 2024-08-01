@@ -6,7 +6,7 @@ import random
 # this bot plays through correctly (complete)
 class PlayerBot(Bot):
     def play_round(self):
-        if self.player.participant.vars['is_out'] == False:
+        if self.participant.vars['is_out'] == False:
             # survey app
             #generate random responses
             vp = random.randint(-3, 3)
