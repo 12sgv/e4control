@@ -65,8 +65,9 @@ def vars_for_admin_report(subsession):
             elif player.participant.vars.get('policy_vote') == 'Office':
                 total_office_votes += 1
                 office_giving.append(player.participant.vars.get('giving'))
+        if player.participant.vars.get('finished') == True:
             # gather payments for each type of participant (of the completed or not completed, but finished)
-            if player.participant.vars.get('not_paired') == True or player.participant.vars.get('r23') == True:
+            if player.participant.vars.get('not_paired') == True:
                 not_paired_payments.append(player.participant.vars.get('earnings'))
             else:
                 completed_payments.append(player.participant.vars.get('earnings'))

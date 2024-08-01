@@ -162,7 +162,7 @@ def vars_for_admin_report(subsession):
     r23_percent_total = round(100 * (remote_23 / total_voters), 2) if total_voters > 0 else 0
     # calculate the number of completed pairs vs timed out
     total_complete_finished = len(completed_payments)
-    total_not_paired_finished = len(not_paired_payments)
+    total_not_paired_finished = len(not_paired_payments) - remote_23_finished
     total_participants = total_voters
     percent_complete = round(100 * (total_complete_finished / total_participants), 2) if total_participants > 0 else 0
     percent_not_paired = round(100 * (total_not_paired_finished / total_participants),
