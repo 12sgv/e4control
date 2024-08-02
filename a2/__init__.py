@@ -490,13 +490,6 @@ class a23(Page):
         self.finished_vote_outcome = True
         self.participant.vars['treatment'] = self.treatment
 
-        if timeout_happened:
-            # Assign variables to timed out and kicked out
-            self.timed_out = True
-            self.participant.vars['timed_out_vote_outcome'] = True
-            self.kicked_out = True
-            self.participant.vars['kicked_out'] = 1
-
 
 #Partner Check
 class a24(Page):
