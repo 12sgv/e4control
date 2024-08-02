@@ -31,6 +31,8 @@ class Subsession(BaseSubsession):
             if waiting_too_long_group_formation(player):
                 player.participant.vars['group_formation_timeout'] = 1
                 player.participant.vars['pair_number'] = 97
+                player.remote_group_formation_timeout = True
+                player.participant.vars['remote_group_formation_timeout'] = True
                 return [player]
 
 
@@ -43,29 +45,45 @@ class Player(BasePlayer):
     remote_group_formation_timeout = models.BooleanField(initial=False)
 
 
-# function to see if the player should time out on the first wait page (groupassignment waitpage)
+# function to see if the player should time out on the first wait page (group assignment waitpage)
 def waiting_too_long_group_formation(self):
     return time.time() - self.participant.vars['group_formation_arrival'] > self.session.config[
         'group_formation_timeout']
 
 
 # PAGES
-#6b. Team Advancement Page (2/3 Remote
+#6b. Team Advancement Page (2/3 Remote)
 class a31(WaitPage):
     group_by_arrival_time = True
     title_text = 'Team Advancement Page'
     body_text = 'Your vote has been recorded. You will automatically advance to the next page when all members ' \
                 'of your team are ready to advance.'
 
+    def app_after_this_page(self, upcoming_apps):
+        print("after app def called")
+        if self.remote_group_formation_timeout == 1:
+            return "a6"
+        else:
+            return None
+
     # timeout those who are waiting too long on this page and pay them the basic fee
     def before_next_page(self, timeout_happened):
+        print("Before def called")
         if timeout_happened:
             self.remote_group_formation_timeout = True
-            self.participant.vars['remote_group_formation_timeout'] = True
-
+            self.participant.vars['remote_group_formation_timeout'] = 1
+            print("Timed Out and Var Assigned")
+        else:
+            self.participant.vars['remote_group_formation_timeout'] = 0
+            print("TO Var NOT Assigned")
 
 #Further Instruction page for 2/3 Remote
 class a32(Page):
+    def is_displayed(player: Player):
+        if player.participant.vars['remote_group_formation_timeout'] == False:
+            return True
+        else:
+            return False
     # send everyone after this to the survey page
     def app_after_this_page(self, upcoming_apps):
         return "a5"

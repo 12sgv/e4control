@@ -113,6 +113,7 @@ class a12(Page):
         self.participant.vars['partner_check_incorrect_count'] = 0
         self.participant.vars['new_group_identifier'] = 0
         self.participant.vars['earnings'] = 0
+        self.participant.vars['remote_group_formation_timeout'] = False
         if hasattr(self, 'label'):
             self.prolificID = self.participant.label
             self.participant.vars['prolificID'] = self.prolificID
