@@ -285,7 +285,7 @@ class a61(Page):
 #2/3 Remote & 5th Person Payoff Page (Pages 16a & 16b)
 class a62(Page):
     def is_displayed(self):
-        if self.participant.vars['is_out'] == True:
+        if self.participant.vars['is_out'] == True and self.participant.vars['group_formation_timeout'] == 0:
             return True
         else:
             return False

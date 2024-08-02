@@ -175,7 +175,7 @@ def create_payments_table(subsession):
 #14. Main Group Payoff
 class c51(Page):
     def is_displayed(self):
-        if self.participant.vars['not_paired'] == False and self.participant.vars['timed_out'] == False:
+        if self.participant.vars['not_paired'] == False and self.participant.vars['timed_out'] == False and self.participant.vars['group_formation_timeout'] == False:
             return True
         else:
             return False
