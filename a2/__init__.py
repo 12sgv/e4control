@@ -339,8 +339,8 @@ class Player(BasePlayer):
         choices=[
             [1, 'We both voted the same and both won'],
             [2, 'We both voted the same and both lost'],
-            [3, 'We voted different from one another, and my partner lost and I won'],
-            [4, 'We voted different from one another, and my partner won and I lost'],
+            [3, 'We voted different from one another, and I won and my partner lost'],
+            [4, 'We voted different from one another, and I lost and my partner won'],
         ]
     )
     incorrect_count = models.IntegerField(initial=0)

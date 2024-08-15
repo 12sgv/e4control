@@ -2,31 +2,36 @@
 {{ block content }}
 <!-- 8a. Details About How Your Partner Voted (4 paired team members)  -->
 
+<p>You have been paired with one other member of your team who is a real Prolific participant completing the study
+    at the same time as you. This person will be your partner in the next task.</p>
+
     {% if participant.vars.treatment == 1 or participant.vars.treatment == 2 %}
         <p>
-           You have been paired with one other member of your team who is a real Prolific participant completing
-            the study at the same time as you. This person will be your partner in the next task.
             As stated earlier, the majority of your team voted for the <strong>fully {{outcome}} policy.</strong>
-            You and your partner voted for the <strong>fully {{vote}} policy</strong>, therefore
-            you <strong>both {{wonlost}}</strong> the vote.
+            <ul>
+            <li>You and your partner voted for the <strong>fully {{vote}} policy</strong>, therefore
+                you <strong>both {{wonlost}}</strong> the vote. </li>
+            </ul>
         </p>
     {% elif participant.vars.treatment == 3 %}
             <p>
-                You have been paired with one other member of your team who is a real Prolific participant completing
-                the study at the same time as you. This person will be your partner in the next task.
                 As stated earlier, the majority of your team voted for the <strong>fully {{outcome}} policy.</strong>
-                You also voted for the <strong> fully {{outcome}} policy</strong> and
-                therefore <strong>won</strong> the vote. However, your partner voted for the <strong>fully
-                {{othervote}} policy</strong> and therefore <strong>lost</strong> the vote.
+            <ul>
+                <li>You voted for the <strong> fully {{outcome}} policy</strong> and
+                therefore <strong>won</strong> the vote. </li>
+                <li>However, your partner voted for the <strong>fully
+                {{othervote}} policy</strong> and therefore <strong>lost</strong> the vote.</li>
+            </ul>
             </p>
     {% elif participant.vars.treatment == 4 %}
         <p>
-            You have been paired with one other member of your team who is a real Prolific participant completing
-            the study at the same time as you. This person will be your partner in the next task.
             As stated earlier, the majority of your team voted for the <strong>fully {{outcome}} policy.</strong>
-            Your partner also voted for the <strong> fully {{outcome}} policy</strong> and
-            therefore <strong>won</strong> the vote. However, you voted for the <strong>fully
-            {{vote}} policy</strong> and therefore <strong>lost</strong> the vote.
+            <ul>
+            <li>You voted for the <strong>fully
+            {{vote}} policy</strong> and therefore <strong>lost</strong> the vote.</li>
+            <li>However, our partner voted for the <strong> fully {{outcome}} policy</strong> and
+                therefore <strong>won</strong> the vote. </li>
+            </ul>
         </p>
     {% endif %}
 
