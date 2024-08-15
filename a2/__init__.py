@@ -477,8 +477,8 @@ class a23(Page):
             return True
 
     def vars_for_template(self):
-        outcome = "remote" if self.remote_won == True else "office"
-        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "office"
+        outcome = "remote" if self.remote_won == True else "in-office"
+        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "in-office"
         wonlost = "won" if self.winner == True else "lost"
         return {
             'outcome': outcome,
@@ -516,10 +516,10 @@ class a24(Page):
                    'understand the outcome of the vote and whether you and your partner won or lost the vote.'
 
     def vars_for_template(self):
-        outcome = "remote" if self.remote_won == True else "office"
-        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "office"
+        outcome = "remote" if self.remote_won == True else "in-office"
+        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "in-office"
         wonlost = "won" if self.winner == True else "lost"
-        othervote = "remote" if self.treatment == 3 and self.remote_won == True else "office"
+        othervote = "in-office" if self.treatment == 3 and self.remote_won == True else "remote"
         return {
             'wonlost': wonlost,
             'vote': vote,
