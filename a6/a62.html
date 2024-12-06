@@ -6,9 +6,22 @@
         {{ not_paired_wording }} assigned to a shorter version of the study.
     </p>
     <p>
-        To compensate you for your completion of the study, <strong>you will be paid the participation fee of
-        {{ participation_fee }} plus an additional bonus of ${{ extra_bonus }}.</strong>
+        Therefore, your payoff is as follows:
     </p>
+<div style="margin-left: 30px;">
+    <p>
+        Participation fee: <strong>{{ participation_fee }}</strong>
+    </p>
+    <p>
+        Initial payoff amount: <strong>{{ initial_payoff_amount }}</strong>
+    </p>
+    <p>
+        Increase in payoff amount for winning the vote: <strong>{{ outcome_effect }}</strong>
+    </p>
+    <p>
+        <strong>Total Payoff = {{ earnings }}</strong>
+    </p>
+</div>
     <p>
         Please click Next to advance to the next page.
     </p>

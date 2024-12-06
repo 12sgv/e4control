@@ -266,10 +266,18 @@ class a61(Page):
         participant.vars['kept_points'] = 100 - participant.vars['giving']
         participant.vars['kept_dollars'] = cu(participant.vars['kept_points']) / 100
         participant.vars['received_dollars'] = cu(participant.vars['other_giving']) / 100
-        self.earnings = participant.vars['kept_dollars'] + participant.vars['received_dollars'] + self.session.config[
-            'participation_fee']
+        if self.participant.vars['winner']:
+            self.earnings = self.session.config['participation_fee'] + self.session.config['initial_payoff_amount'] \
+                            + self.session.config['outcome_payoff_effect'] + participant.vars['kept_dollars'] \
+                            + participant.vars['received_dollars']
+        else:
+            self.earnings = self.session.config['participation_fee'] + self.session.config['initial_payoff_amount'] \
+                            - self.session.config['outcome_payoff_effect'] + participant.vars['kept_dollars'] \
+                            + participant.vars['received_dollars']
         self.participant.vars['earnings'] = self.earnings
         self.payoff = self.earnings
+        outcome_effect = cu(self.session.config['outcome_payoff_effect'])
+        initial_payoff_amount = cu(self.session.config['initial_payoff_amount'])
 
         return {
             'player_giving': participant.vars['giving'],
@@ -280,6 +288,8 @@ class a61(Page):
             'received_dollars': participant.vars['received_dollars'],
             'participation_fee': self.session.config['participation_fee'],
             'earnings': self.earnings,
+            'outcome_effect': outcome_effect,
+            'initial_payoff_amount': initial_payoff_amount,
         }
 
 #2/3 Remote & 5th Person Payoff Page (Pages 16a & 16b)
@@ -292,9 +302,11 @@ class a62(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        player.earnings = player.session.config['participation_fee'] + player.session.config['extra_bonus']
+        player.earnings = player.session.config['participation_fee'] + player.session.config['initial_payoff_amount'] + player.session.config['outcome_payoff_effect']
         player.participant.vars['earnings'] = player.earnings
         player.payoff = player.earnings
+        outcome_effect = cu(player.session.config['outcome_payoff_effect'])
+        initial_payoff_amount = cu(player.session.config['initial_payoff_amount'])
         if player.participant.vars['r23'] == True:
             not_paired_wording = "your team was"
         else:
@@ -302,7 +314,10 @@ class a62(Page):
         return {
             'participation_fee': player.session.config['participation_fee'],
             'not_paired_wording': not_paired_wording,
-            'extra_bonus': player.session.config['extra_bonus']
+            'extra_bonus': player.session.config['extra_bonus'],
+            'outcome_effect': outcome_effect,
+            'initial_payoff_amount': initial_payoff_amount,
+            'earnings': player.earnings
         }
 
 #Timed Out Group Formation Page

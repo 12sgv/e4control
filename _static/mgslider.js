@@ -37,7 +37,7 @@ function mgslider(field, min, max, step) {
     this.hook = function (slider, value) {};
 
     this.prefix = "mgslider_yF5sTZLy";
-    this.yourvalue = "Amount of help I am giving to my partner";
+    this.yourvalue = "Amount of help points I am giving to my partner";
 
     mgsliders.push({field: field, obj: this});
 }

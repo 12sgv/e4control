@@ -31,6 +31,23 @@
     <p>
         Therefore, your payoff is as follows:
     </p>
+<div style="margin-left: 30px;">
+    <p>
+        Participation fee: <strong>{{ participation_fee }}</strong>
+    </p>
+    <p>
+        Initial payoff amount: <strong>{{ initial_payoff_amount }}</strong>
+    </p>
+    {% if participant.vars.winner %}
+    <p>
+        Increase in payoff amount for winning the vote: <strong>{{outcome_effect}}</strong>
+    </p>
+    {% endif %}
+    {% if not participant.vars.winner %}
+    <p>
+        Reduction in payoff amount for losing the vote: <strong>-{{ outcome_effect }}</strong>
+    </p>
+    {% endif %}
     <p>
         Help points kept: <strong>{{ kept_dollars }}</strong>
     </p>
@@ -45,13 +62,10 @@
             Help points received from partner: <strong>{{ received_dollars }}</strong>
         </p>
     {% endif %}
-
     <p>
-       Participation fee: <strong>{{ participation_fee }}</strong>
+      <strong>Total payoff = {{ earnings }}</strong>
     </p>
-    <p>
-        Total payoff = <strong>{{ earnings }}</strong>.
-    </p>
+</div>
     <p>
         Please click Next to advance to the next page.
     </p>

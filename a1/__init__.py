@@ -1,5 +1,6 @@
 from otree.api import *
 from otree.export import get_fields_for_csv
+from django.utils.safestring import mark_safe
 import random
 import time
 
@@ -46,10 +47,10 @@ class Player(BasePlayer):
     prolificID = models.StringField(label='To continue, please input your Prolific ID.')
     policy_vote = models.StringField(
         choices=[
-            ['Office', 'Fully in-office policy'],
-            ['Remote', 'Fully remote policy'],
+            ['Remote', mark_safe("<b>Fully remote policy:</b> Work remotely 5 full days per week.")],
+            ['Hybrid', mark_safe("<b>Hybrid policy:</b> Work in-office 3 full days per week and remotely the remaining 2 full days.")]
         ],
-        label='I vote for the:',
+        label=mark_safe("<b>I vote for the:</b>"),
         widget=widgets.RadioSelect
     )
     # 2/3 Remote Var
@@ -84,7 +85,7 @@ class a11(Page):
     def vars_for_template(self):
         self.participant.vars['timed_out_vote'] = False
 
-    # record prolificID and ip address for the next apps
+    # record prolificID for the next apps
     def before_next_page(self, timeout_happened):
         self.participant.label = self.prolificID
         self.participant.vars['prolificID'] = self.prolificID

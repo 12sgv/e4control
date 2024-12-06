@@ -1,5 +1,6 @@
 from otree.api import *
 from otree.export import get_fields_for_csv
+from django.utils.safestring import mark_safe
 import random
 import time
 
@@ -64,7 +65,7 @@ class C(BaseConstants):
         'Not at all',
         '',
         '',
-        '',
+        'Somewhat',
         '',
         '',
         'A great extent',
@@ -73,63 +74,72 @@ class C(BaseConstants):
         'Not at all confident',
         '',
         '',
-        '',
+        'Somewhat confident',
         '',
         '',
         'Extremely confident',
+    ]
+    PreferenceTable = [
+        'No preference',
+        '',
+        'Slight preference',
+        '',
+        'Moderate preference',
+        '',
+        'Very strong preference',
     ]
 
 class Subsession(BaseSubsession):
     def group_by_arrival_time_method(self, waiting_players):
         #Set this as a session var
-        office_votes = [p for p in waiting_players if p.participant.vars['policy_vote'] == 'Office']
+        hybrid_votes = [p for p in waiting_players if p.participant.vars['policy_vote'] == 'Hybrid']
         remote_votes = [p for p in waiting_players if p.participant.vars['policy_vote'] == 'Remote']
         #group_type 1 is same pairing with remote winning
         if self.session.vars['group_type'] == 1:
             #Make it so remote wins 3-2
-            if len(office_votes) >= 2 and len(remote_votes) >= 3:
+            if len(hybrid_votes) >= 2 and len(remote_votes) >= 3:
                 #Assign group type to the participants
-                office_votes[0].group_type = self.session.vars['group_type']
-                office_votes[1].group_type = self.session.vars['group_type']
+                hybrid_votes[0].group_type = self.session.vars['group_type']
+                hybrid_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[0].group_type = self.session.vars['group_type']
                 remote_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[2].group_type = self.session.vars['group_type']
                 #increment group_type session variable
                 self.session.vars['group_type'] = 2
                 #Set alignment variable
-                office_votes[0].aligned = True
-                office_votes[1].aligned = True
+                hybrid_votes[0].aligned = True
+                hybrid_votes[1].aligned = True
                 remote_votes[0].aligned = True
                 remote_votes[1].aligned = True
                 #Set winning policy
-                office_votes[0].remote_won = True
-                office_votes[1].remote_won = True
+                hybrid_votes[0].remote_won = True
+                hybrid_votes[1].remote_won = True
                 remote_votes[0].remote_won = True
                 remote_votes[1].remote_won = True
                 remote_votes[2].remote_won = True
                 #Set outcome variable
-                office_votes[0].winner = False
-                office_votes[1].winner = False
+                hybrid_votes[0].winner = False
+                hybrid_votes[1].winner = False
                 remote_votes[0].winner = True
                 remote_votes[1].winner = True
                 remote_votes[2].winner = True
                 #Assign variable to track treatment
-                office_votes[0].treatment = 2
-                office_votes[1].treatment = 2
+                hybrid_votes[0].treatment = 2
+                hybrid_votes[1].treatment = 2
                 remote_votes[0].treatment = 1
                 remote_votes[1].treatment = 1
                 remote_votes[2].treatment = 5
                 #assign participants to the group number and increment group for each group
-                office_votes[0].group_number = self.session.vars['group_number']
-                office_votes[1].group_number = self.session.vars['group_number']
+                hybrid_votes[0].group_number = self.session.vars['group_number']
+                hybrid_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
                 remote_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
                 remote_votes[2].group_number = 0
                 #assign partner id variable
-                office_votes[0].participant.vars['partner_id'] = office_votes[1].id_in_subsession
-                office_votes[1].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                hybrid_votes[0].participant.vars['partner_id'] = hybrid_votes[1].id_in_subsession
+                hybrid_votes[1].participant.vars['partner_id'] = hybrid_votes[0].id_in_subsession
                 remote_votes[0].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
                 remote_votes[1].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
                 #assign vars to fifth person
@@ -138,166 +148,166 @@ class Subsession(BaseSubsession):
                 remote_votes[2].not_paired = True
                 remote_votes[2].participant.vars['not_paired'] = True
                 # advance group
-                return office_votes[:2] + remote_votes[:3]
-        #group_type 2 is same pairing with office winning
+                return hybrid_votes[:2] + remote_votes[:3]
+        #group_type 2 is same pairing with hybrid winning
         elif self.session.vars['group_type'] == 2:
-            if len(office_votes) >=3 and len(remote_votes) >= 2:
-                office_votes[0].group_type = self.session.vars['group_type']
-                office_votes[1].group_type = self.session.vars['group_type']
+            if len(hybrid_votes) >=3 and len(remote_votes) >= 2:
+                hybrid_votes[0].group_type = self.session.vars['group_type']
+                hybrid_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[0].group_type = self.session.vars['group_type']
                 remote_votes[1].group_type = self.session.vars['group_type']
-                office_votes[2].group_type = self.session.vars['group_type']
+                hybrid_votes[2].group_type = self.session.vars['group_type']
                 # increment group_type session variable
                 self.session.vars['group_type'] = 3
                 # Set alignment variable
-                office_votes[0].aligned = True
-                office_votes[1].aligned = True
+                hybrid_votes[0].aligned = True
+                hybrid_votes[1].aligned = True
                 remote_votes[0].aligned = True
                 remote_votes[1].aligned = True
                 # Set winning policy
-                office_votes[0].remote_won = False
-                office_votes[1].remote_won = False
-                office_votes[2].remote_won = False
+                hybrid_votes[0].remote_won = False
+                hybrid_votes[1].remote_won = False
+                hybrid_votes[2].remote_won = False
                 remote_votes[0].remote_won = False
                 remote_votes[1].remote_won = False
                 # Set outcome variable
-                office_votes[0].winner = True
-                office_votes[1].winner = True
-                office_votes[2].winner = True
+                hybrid_votes[0].winner = True
+                hybrid_votes[1].winner = True
+                hybrid_votes[2].winner = True
                 remote_votes[0].winner = False
                 remote_votes[1].winner = False
                 # Assign variable to track treatment
-                office_votes[0].treatment = 1
-                office_votes[1].treatment = 1
-                office_votes[2].treatment = 5
+                hybrid_votes[0].treatment = 1
+                hybrid_votes[1].treatment = 1
+                hybrid_votes[2].treatment = 5
                 remote_votes[0].treatment = 2
                 remote_votes[1].treatment = 2
                 # assign participants to the group number and increment group for each group
-                office_votes[0].group_number = self.session.vars['group_number']
-                office_votes[1].group_number = self.session.vars['group_number']
+                hybrid_votes[0].group_number = self.session.vars['group_number']
+                hybrid_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
                 remote_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
-                office_votes[2].group_number = 0
+                hybrid_votes[2].group_number = 0
                 # assign partner id variable
-                office_votes[0].participant.vars['partner_id'] = office_votes[1].id_in_subsession
-                office_votes[1].participant.vars['partner_id'] = office_votes[0].id_in_subsession
+                hybrid_votes[0].participant.vars['partner_id'] = hybrid_votes[1].id_in_subsession
+                hybrid_votes[1].participant.vars['partner_id'] = hybrid_votes[0].id_in_subsession
                 remote_votes[0].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
                 remote_votes[1].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
                 # assign vars to fifth person
-                office_votes[2].is_out = True
-                office_votes[2].participant.vars['is_out'] = True
-                office_votes[2].not_paired = True
-                office_votes[2].participant.vars['not_paired'] = True
+                hybrid_votes[2].is_out = True
+                hybrid_votes[2].participant.vars['is_out'] = True
+                hybrid_votes[2].not_paired = True
+                hybrid_votes[2].participant.vars['not_paired'] = True
                 # advance group
-                return office_votes[:3] + remote_votes[:2]
+                return hybrid_votes[:3] + remote_votes[:2]
         #group_type 3 is different pairing with remote winning
         elif self.session.vars['group_type'] == 3:
-            if len(office_votes) >= 2 and len(remote_votes) >= 3:
-                office_votes[0].group_type = self.session.vars['group_type']
-                office_votes[1].group_type = self.session.vars['group_type']
+            if len(hybrid_votes) >= 2 and len(remote_votes) >= 3:
+                hybrid_votes[0].group_type = self.session.vars['group_type']
+                hybrid_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[0].group_type = self.session.vars['group_type']
                 remote_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[2].group_type = self.session.vars['group_type']
                 # Increment group_type session variable
                 self.session.vars['group_type'] = 4
                 # Set alignment variable
-                office_votes[0].aligned = False
-                office_votes[1].aligned = False
+                hybrid_votes[0].aligned = False
+                hybrid_votes[1].aligned = False
                 remote_votes[0].aligned = False
                 remote_votes[1].aligned = False
                 # Set winning policy
-                office_votes[0].remote_won = True
-                office_votes[1].remote_won = True
+                hybrid_votes[0].remote_won = True
+                hybrid_votes[1].remote_won = True
                 remote_votes[0].remote_won = True
                 remote_votes[1].remote_won = True
                 remote_votes[2].remote_won = True
                 # Set outcome variable
-                office_votes[0].winner = False
-                office_votes[1].winner = False
+                hybrid_votes[0].winner = False
+                hybrid_votes[1].winner = False
                 remote_votes[0].winner = True
                 remote_votes[1].winner = True
                 remote_votes[2].winner = True
                 # Assign variable to track treatment
-                office_votes[0].treatment = 4
-                office_votes[1].treatment = 4
+                hybrid_votes[0].treatment = 4
+                hybrid_votes[1].treatment = 4
                 remote_votes[0].treatment = 3
                 remote_votes[1].treatment = 3
                 remote_votes[2].treatment = 5
                 # assign participants to the group number and increment group for each group
-                office_votes[0].group_number = self.session.vars['group_number']
+                hybrid_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[0].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
-                office_votes[1].group_number = self.session.vars['group_number']
+                hybrid_votes[1].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
                 remote_votes[2].group_number = 0
                 # assign partner id variable
-                office_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
-                remote_votes[0].participant.vars['partner_id'] = office_votes[0].id_in_subsession
-                office_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
-                remote_votes[1].participant.vars['partner_id'] = office_votes[1].id_in_subsession
+                hybrid_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = hybrid_votes[0].id_in_subsession
+                hybrid_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = hybrid_votes[1].id_in_subsession
                 # assign vars to fifth person
                 remote_votes[2].is_out = True
                 remote_votes[2].participant.vars['is_out'] = True
                 remote_votes[2].not_paired = True
                 remote_votes[2].participant.vars['not_paired'] = True
                 # advance group
-                return office_votes[:2] + remote_votes[:3]
-        #group type 4 is different pairing with office winning
+                return hybrid_votes[:2] + remote_votes[:3]
+        #group type 4 is different pairing with hybrid winning
         elif self.session.vars['group_type'] == 4:
-            if len(office_votes) >= 3 and len(remote_votes) >= 2:
-                office_votes[0].group_type = self.session.vars['group_type']
-                office_votes[1].group_type = self.session.vars['group_type']
+            if len(hybrid_votes) >= 3 and len(remote_votes) >= 2:
+                hybrid_votes[0].group_type = self.session.vars['group_type']
+                hybrid_votes[1].group_type = self.session.vars['group_type']
                 remote_votes[0].group_type = self.session.vars['group_type']
                 remote_votes[1].group_type = self.session.vars['group_type']
-                office_votes[2].group_type = self.session.vars['group_type']
+                hybrid_votes[2].group_type = self.session.vars['group_type']
                 # Increment group_type session variable
                 self.session.vars['group_type'] = 1
                 # Set alignment variable
-                office_votes[0].aligned = False
-                office_votes[1].aligned = False
+                hybrid_votes[0].aligned = False
+                hybrid_votes[1].aligned = False
                 remote_votes[0].aligned = False
                 remote_votes[1].aligned = False
                 # Set winning policy
-                office_votes[0].remote_won = False
-                office_votes[1].remote_won = False
-                office_votes[2].remote_won = False
+                hybrid_votes[0].remote_won = False
+                hybrid_votes[1].remote_won = False
+                hybrid_votes[2].remote_won = False
                 remote_votes[0].remote_won = False
                 remote_votes[1].remote_won = False
                 # Set outcome variable
-                office_votes[0].winner = True
-                office_votes[1].winner = True
-                office_votes[2].winner = True
+                hybrid_votes[0].winner = True
+                hybrid_votes[1].winner = True
+                hybrid_votes[2].winner = True
                 remote_votes[0].winner = False
                 remote_votes[1].winner = False
                 # Assign variable to track treatment
-                office_votes[0].treatment = 3
-                office_votes[1].treatment = 3
-                office_votes[2].treatment = 5
+                hybrid_votes[0].treatment = 3
+                hybrid_votes[1].treatment = 3
+                hybrid_votes[2].treatment = 5
                 remote_votes[0].treatment = 4
                 remote_votes[1].treatment = 4
                 # assign participants to the group number and increment group for each group
-                office_votes[0].group_number = self.session.vars['group_number']
+                hybrid_votes[0].group_number = self.session.vars['group_number']
                 remote_votes[0].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
-                office_votes[1].group_number = self.session.vars['group_number']
+                hybrid_votes[1].group_number = self.session.vars['group_number']
                 remote_votes[1].group_number = self.session.vars['group_number']
                 self.session.vars['group_number'] += 1
-                office_votes[2].group_number = 0
+                hybrid_votes[2].group_number = 0
                 # assign partner id variable
-                office_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
-                remote_votes[0].participant.vars['partner_id'] = office_votes[0].id_in_subsession
-                office_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
-                remote_votes[1].participant.vars['partner_id'] = office_votes[1].id_in_subsession
+                hybrid_votes[0].participant.vars['partner_id'] = remote_votes[0].id_in_subsession
+                remote_votes[0].participant.vars['partner_id'] = hybrid_votes[0].id_in_subsession
+                hybrid_votes[1].participant.vars['partner_id'] = remote_votes[1].id_in_subsession
+                remote_votes[1].participant.vars['partner_id'] = hybrid_votes[1].id_in_subsession
                 # assign vars to fifth person
-                office_votes[2].is_out = True
-                office_votes[2].participant.vars['is_out'] = True
-                office_votes[2].not_paired = True
-                office_votes[2].participant.vars['not_paired'] = True
+                hybrid_votes[2].is_out = True
+                hybrid_votes[2].participant.vars['is_out'] = True
+                hybrid_votes[2].not_paired = True
+                hybrid_votes[2].participant.vars['not_paired'] = True
                 # advance group
-                return office_votes[:3] + remote_votes[:2]
+                return hybrid_votes[:3] + remote_votes[:2]
         else:
             return None
 
@@ -353,58 +363,36 @@ class Player(BasePlayer):
     )
     group_formation_timeout = models.BooleanField(initial=False)
     #PEQ Vars
-    vote_preference = models.IntegerField(choices=C.StandardChoices,
+    vote_preference = models.IntegerField(choices=[
+                                          [0, 'No preference'],
+                                          [1, ''],
+                                          [2, 'Slight preference'],
+                                          [3, ''],
+                                          [4, 'Moderate preference'],
+                                          [5, ''],
+                                          [6, 'Very strong preference']],
                                           widget=widgets.RadioSelectHorizontal,
-                                          label='I feel strongly about the policy I voted for.')
-    vote_valued = models.IntegerField(choices=C.StandardChoices,
-                                      widget=widgets.RadioSelectHorizontal,
-                                      label='The company values employee input on their remote versus in-office work policy.')
+                                          label='To what extent did you prefer the policy you voted for over the other policy?')
     affect = models.IntegerField(choices=C.AffectChoices,
                                  widget=widgets.RadioSelect,
-                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost.)')
-    identity_identify = models.IntegerField(choices=C.StandardChoices,
-                                            widget=widgets.RadioSelect,
-                                            label='I identify with my partner.')
-    identity_happy = models.IntegerField(choices=C.StandardChoices,
-                                         widget=widgets.RadioSelect,
-                                         label='I feel happy to be paired with my partner.')
-    identity_like = models.IntegerField(choices=C.StandardChoices,
-                                        widget=widgets.RadioSelect,
-                                        label='I like my partner.')
-    blame = models.IntegerField(choices=[
-        [0, 'Not at all'],
-        [1, ''],
-        [2, ''],
-        [3, ''],
-        [4, ''],
-        [5, ''],
-        [6, 'A great extent']],
-        widget=widgets.RadioSelect,
-        label='To what extent were you angry or upset with your partner because of the outcome of the vote?')
-    sympathy = models.IntegerField(choices=[
-        [0, 'Not at all'],
-        [1, ''],
-        [2, ''],
-        [3, ''],
-        [4, ''],
-        [5, ''],
-        [6, 'A great extent']],
-        widget=widgets.RadioSelect,
-        label='To what extent did you feel bad for your partner because of the outcome of the vote?')
+                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost)')
+    fairness = models.IntegerField(choices=C.StandardChoices,
+                                   widget=widgets.RadioSelect,
+                                   label='My helping behavior was influenced by a desire to be fair.')
     expectation_valence = models.StringField(
         choices=[
-            ['Office', 'Fully in-office policy'],
-            ['Remote', 'Fully remote policy'],
+            ['Remote', mark_safe("<b>Fully remote policy:</b> Work remotely 5 full days per week.")],
+            ['Hybrid', mark_safe("<b>Hybrid policy:</b> Work in-office 3 full days per week and remotely the remaining 2 full days.")],
             ['None', "I didn't consider which policy would win"]
         ],
         widget=widgets.RadioSelect,
     )
     expectation_strength = models.IntegerField(choices=C.StandardChoices,
                                                widget=widgets.RadioSelectHorizontal,
-                                               label="How confident were you that you would win the vote?",
                                                blank=True)
-
-
+    vote_valued = models.IntegerField(choices=C.StandardChoices,
+                                          widget=widgets.RadioSelectHorizontal,
+                                          label='The company values employee input on remote versus hybrid work policies.')
 
 # function to see if the player should time out on the first wait page (groupassignment waitpage)
 def waiting_too_long_group_formation(self):
@@ -437,7 +425,16 @@ class a21(WaitPage):
         group = self.group
         # retrieve group_id
         for player in group.get_players():
-            player.participant.vars['vote_group_id'] = group.id_in_subsession
+            if not player.is_out:
+                player.participant.vars['vote_group_id'] = group.id_in_subsession
+                player.participant.vars['group_type'] = player.group_type
+                player.participant.vars['aligned'] = player.aligned
+                player.participant.vars['remote_won'] = player.remote_won
+                player.participant.vars['winner'] = player.winner
+                player.participant.vars['treatment'] = player.treatment
+                player.participant.vars['group_number'] = player.group_number
+            else:
+                player.participant.vars['winner'] = player.winner
 
 
     # send those who are kicked out to the end of the experiment
@@ -477,13 +474,13 @@ class a23(Page):
             return True
 
     def vars_for_template(self):
-        outcome = "remote" if self.remote_won == True else "in-office"
-        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "in-office"
-        wonlost = "won" if self.winner == True else "lost"
+        outcome = "fully remote" if self.remote_won == True else "hybrid"
+        vote = "fully remote" if self.participant.vars['policy_vote'] == "Remote" else "hybrid"
+        outcome_effect = self.session.config['outcome_payoff_effect']
         return {
             'outcome': outcome,
             'vote': vote,
-            'wonlost': wonlost,
+            'outcome_effect': outcome_effect,
         }
 
     def before_next_page(self, timeout_happened):
@@ -516,15 +513,15 @@ class a24(Page):
                    'understand the outcome of the vote and whether you and your partner won or lost the vote.'
 
     def vars_for_template(self):
-        outcome = "remote" if self.remote_won == True else "in-office"
-        vote = "remote" if self.participant.vars['policy_vote'] == "Remote" else "in-office"
-        wonlost = "won" if self.winner == True else "lost"
-        othervote = "in-office" if self.treatment == 3 and self.remote_won == True else "remote"
+        outcome = "fully remote" if self.remote_won == True else "hybrid"
+        vote = "fully remote" if self.participant.vars['policy_vote'] == "Remote" else "hybrid"
+        othervote = "hybrid" if self.treatment == 3 and self.remote_won == True else "fully remote"
+        outcome_effect = self.session.config['outcome_payoff_effect']
         return {
-            'wonlost': wonlost,
             'vote': vote,
             'outcome': outcome,
             'othervote': othervote,
+            'outcome_effect': outcome_effect,
         }
 
     def before_next_page(self, timeout_happened):
@@ -571,9 +568,11 @@ class a25(Page):
             return 'Please select the number of help points you want to give to your partner.'
 
     def vars_for_template(self):
-        wonlost = "won" if self.winner == True else "lost"
+        vote = "fully remote" if self.participant.vars['policy_vote'] == "Remote" else "hybrid"
+        othervote = "hybrid" if self.treatment == 3 and self.remote_won == True else "fully remote"
         return {
-            'wonlost': wonlost,
+            'vote': vote,
+            'othervote': othervote,
         }
 
     # give everything if the participant timed out
@@ -654,7 +653,7 @@ class a27(Page):
 #5th Person PEQ
 class a28(Page):
     form_model = 'player'
-    form_fields = ['vote_preference', 'vote_valued', 'affect', 'expectation_valence', 'expectation_strength']
+    form_fields = ['vote_preference', 'affect', 'fairness', 'expectation_valence', 'expectation_strength', 'vote_valued']
 
     # only display if the participant is 5th participant
     def is_displayed(player: Player):

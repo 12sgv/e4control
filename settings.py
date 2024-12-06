@@ -8,12 +8,6 @@ SESSION_CONFIGS = [
         num_demo_participants=5,
         use_browser_bots=False,
        ),
-    dict(
-        name='control',
-        app_sequence=['c1', 'c2', 'c3', 'c4', 'c5'],
-        num_demo_participants=5,
-        use_browser_bots=False,
-    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -24,10 +18,12 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.01,
     participation_fee=1.50,
+    initial_payoff_amount=1.00,
+    outcome_payoff_effect=0.50,
     extra_bonus=0.25,
     kicked_out_bonus=0.25,
     not_paired_bonus=0.25,
-    remote_cutoff=67,
+    remote_cutoff=0,
     doc="",
     debug=False,
     group_size=5,
@@ -37,21 +33,15 @@ SESSION_CONFIG_DEFAULTS = dict(
     partner_check_timeout=90,
     offer_timeout=120,
     help_wait_timeout=120,
-    link_23r='https://app.prolific.com/submissions/complete?cc=C16WMJYY',
-    link_nopartner='https://app.prolific.com/submissions/complete?cc=CDAJQ04E',
-    link_completed='https://app.prolific.com/submissions/complete?cc=C1E01PP1',
-    link_timeoutgroup='https://app.prolific.com/submissions/complete?cc=CGZN8X5J',
-    c_additional_instructions_timeout=60,
-    c_offer_timeout=120,
-    c_help_wait_timeout=120,
-    c_link_nopartner='https://app.prolific.com/submissions/complete?cc=CDAJQ04E',
-    c_link_completed='https://app.prolific.com/submissions/complete?cc=C1E01PP1',
-    c_link_timeoutgroup='https://app.prolific.com/submissions/complete?cc=CGZN8X5J'
+    link_23r='https://app.prolific.com/submissions/complete?cc=C2T29CQ2',
+    link_nopartner='https://app.prolific.com/submissions/complete?cc=C4UY7KQS',
+    link_completed='https://app.prolific.com/submissions/complete?cc=C17GDOGH',
+    link_timedoutgroup='https://app.prolific.com/submissions/complete?cc=C1JHEYPP',
    )
 
 PARTICIPANT_FIELDS = [
     'ProlificID',
-    'policy_vote', 'office_votes', 'remote_votes',
+    'policy_vote', 'hybrid_votes', 'remote_votes',
     'winning_policy', 'policy_vote_result', 'earnings', 'pairing',
     'pair_number', 'giving', 'other_giving', 'dollar_payoff',
     'participant_code', 'participant_id', 'prolific_id',

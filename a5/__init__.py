@@ -93,7 +93,7 @@ class Player(BasePlayer):
         [4, 'I work in a team of 6-10 people'],
         [5, 'I work in a team of more than 10 people']],
         widget=widgets.RadioSelect,
-        label='''Which of the following best describes your current team at work?''',
+        label='''Which of the following best describes who you regularly work with?''',
     )
     industry = models.IntegerField(choices=[
         [1, 'Financial services'],
@@ -123,10 +123,8 @@ class Player(BasePlayer):
         [False, 'No'],
     ],
         widget=widgets.RadioSelect,
-        label='Has your current employer sought employee input on remote vs. in-office work policies?',
+        label='Has your current employer sought employee input on any work policies?',
     )
-
-    # Demographics 2
     firm_input = models.IntegerField(choices=[
         [1, 'Employee vote'],
         [2, 'Survey'],
@@ -135,9 +133,34 @@ class Player(BasePlayer):
         [5, 'Apps like Slack or Teams'],
         [6, 'Other']],
         widget=widgets.RadioSelect,
-        label='Please select the form of input your current employer sought from employees relating to remote vs. in-office work policies:',
+        blank=True,
+        label='Please select the form of input your current employer sought from employees on any work policies. Please select all that apply:',
     )
     firm_input_other = models.StringField(
+        label='''If you selected 'Other' above, please describe how your current employer sought input:''',
+        blank=True,
+        initial='',
+    )
+    remote_allow_input = models.BooleanField(choices=[
+        [True, 'Yes'],
+        [False, 'No'],
+    ],
+        widget=widgets.RadioSelect,
+        blank=True,
+        label='Has your current employer sought employee input specifically on remote vs. hybrid work policies?')
+
+    # Demographics 2
+    remote_input = models.IntegerField(choices=[
+        [1, 'Employee vote'],
+        [2, 'Survey'],
+        [3, 'One-on-one discussion'],
+        [4, 'Town hall(s)'],
+        [5, 'Apps like Slack or Teams'],
+        [6, 'Other']],
+        widget=widgets.RadioSelect,
+        label='Please select the form of input your current employer sought from employees relating to remote vs. hybrid work policies:',
+    )
+    remote_input_other = models.StringField(
         label='''If you selected 'Other' above, please describe how your current employer sought input:''',
         blank=True,
         initial='',
@@ -177,7 +200,7 @@ class a51(Page):
     form_model = 'player'
     form_fields = [
         'employed', 'work_location', 'location_preference', 'team_size', 'industry', 'education', 'work_experience',
-        'firm_allow_input',
+        'firm_allow_input', 'firm_input', 'firm_input_other', 'remote_allow_input',
     ]
 
     def before_next_page(self, timeout_happened):
@@ -194,7 +217,7 @@ class a51(Page):
 class a52(Page):
     form_model = 'player'
     form_fields = [
-        'firm_input', 'firm_input_other', 'firm_feel_input',
+        'remote_input', 'remote_input_other', 'firm_feel_input',
         'firm_full_remote_pandemic', 'firm_adjust_post_pandemic',
     ]
 

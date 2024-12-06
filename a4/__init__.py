@@ -1,6 +1,7 @@
 from otree.api import *
 import time
 from otree.export import get_fields_for_csv
+from django.utils.safestring import mark_safe
 
 doc = """
 PEQ
@@ -59,7 +60,7 @@ class C(BaseConstants):
         'Not at all',
         '',
         '',
-        '',
+        'Somewhat',
         '',
         '',
         'A great extent',
@@ -68,10 +69,19 @@ class C(BaseConstants):
         'Not at all confident',
         '',
         '',
-        '',
+        'Somewhat confident',
         '',
         '',
         'Extremely confident',
+    ]
+    PreferenceTable = [
+        'No preference',
+        '',
+        'Slight preference',
+        '',
+        'Moderate preference',
+        '',
+        'Very strong preference',
     ]
 
 class Subsession(BaseSubsession):
@@ -104,24 +114,28 @@ class Player(BasePlayer):
     is_bot = models.BooleanField()
     other_giving = models.IntegerField()
     # PEQ
-    vote_preference = models.IntegerField(choices=C.StandardChoices,
+    vote_preference = models.IntegerField(choices=[
+                                          [0, 'No preference'],
+                                          [1, ''],
+                                          [2, 'Slight preference'],
+                                          [3, ''],
+                                          [4, 'Moderate preference'],
+                                          [5, ''],
+                                          [6, 'Very strong preference']],
                                           widget=widgets.RadioSelectHorizontal,
-                                          label='I feel strongly about the policy I voted for.')
-    vote_valued = models.IntegerField(choices=C.StandardChoices,
-                                      widget=widgets.RadioSelectHorizontal,
-                                      label='The company values employee input on their remote versus in-office work policy.')
+                                          label='To what extent did you prefer the policy you voted for over the other policy?')
     affect = models.IntegerField(choices=C.AffectChoices,
                                  widget=widgets.RadioSelect,
-                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost.)')
+                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost)')
     identity_identify = models.IntegerField(choices=C.StandardChoices,
                                             widget=widgets.RadioSelect,
-                                            label='I identify with my partner.')
+                                            label='I identified with my partner.')
     identity_happy = models.IntegerField(choices=C.StandardChoices,
                                          widget=widgets.RadioSelect,
-                                         label='I feel happy to be paired with my partner.')
+                                         label='I was happy to be paired with my partner.')
     identity_like = models.IntegerField(choices=C.StandardChoices,
                                         widget=widgets.RadioSelect,
-                                        label='I like my partner.')
+                                        label='I liked my partner.')
     blame = models.IntegerField(choices=[
         [0, 'Not at all'],
         [1, ''],
@@ -136,24 +150,42 @@ class Player(BasePlayer):
         [0, 'Not at all'],
         [1, ''],
         [2, ''],
-        [3, ''],
+        [3, 'Somewhat'],
         [4, ''],
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
         label='To what extent did you feel bad for your partner because of the outcome of the vote?')
+    deserving = models.IntegerField(choices=[
+        [0, 'Not at all'],
+        [1, ''],
+        [2, ''],
+        [3, 'Somewhat'],
+        [4, ''],
+        [5, ''],
+        [6, 'A great extent']],
+        widget=widgets.RadioSelect,
+        label='To what extent did you partner deserve your help?')
+    fairness = models.IntegerField(choices=C.StandardChoices,
+                                   widget=widgets.RadioSelect,
+                                   label='My helping behavior was influenced by a desire to be fair.')
+    equality = models.IntegerField(choices=C.StandardChoices,
+                                   widget=widgets.RadioSelect,
+                                   label="My helping behavior was influenced by a desire to make my payoff and my partner's payoff more equal.")
     expectation_valence = models.StringField(
         choices=[
-            ['Office', 'Fully in-office policy'],
-            ['Remote', 'Fully remote policy'],
+            ['Remote', mark_safe("<b>Fully remote policy:</b> Work remotely 5 full days per week.")],
+            ['Hybrid', mark_safe("<b>Hybrid policy:</b> Work in-office 3 full days per week and remotely the remaining 2 full days.")],
             ['None', "I didn't consider which policy would win"]
         ],
         widget=widgets.RadioSelect,
     )
     expectation_strength = models.IntegerField(choices=C.StandardChoices,
                                                widget=widgets.RadioSelectHorizontal,
-                                               label="",
                                                blank=True)
+    vote_valued = models.IntegerField(choices=C.StandardChoices,
+                                          widget=widgets.RadioSelectHorizontal,
+                                          label='The company values employee input on remote versus hybrid work policies.')
 
 #FUNCTIONS
 # function to determine if waiting to long for the partner to arrive
@@ -183,8 +215,8 @@ class a41(WaitPage):
 
 class a42(Page):
     form_model = 'player'
-    form_fields = ['vote_preference', 'vote_valued', 'affect', 'identity_identify', 'identity_happy', 'identity_like', 'blame',
-                   'sympathy', 'expectation_valence', 'expectation_strength']
+    form_fields = ['vote_preference', 'affect', 'identity_identify', 'identity_happy', 'identity_like', 'blame',
+                   'sympathy', 'deserving', 'fairness', 'equality', 'expectation_valence', 'expectation_strength', 'vote_valued',]
 
     def vars_for_template(self):
         if self.participant.vars['other_timed_out'] == 0 and len(self.group.get_players())>1:

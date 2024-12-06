@@ -13,12 +13,38 @@
     {{ formfield 'industry' }}
     {{ formfield 'education' }}
     {{ formfield 'work_experience' }}
-    {{ formfield 'firm_allow_input' }}
+    <div id="firmallowinput">
+        {{ formfield 'firm_allow_input' }}
+    </div>
+    <div id="inputquestions" style="display: none;">
+        {{ formfield 'firm_input' }}
+        {{ formfield 'firm_input_other' }}
+        {{ formfield 'remote_allow_input' }}
+    </div>
 
 <p>
     Please click Next to advance to the next page.
 </p>
 
     {{ next_button }}
+
+    <script>
+        // Get references to the form fields
+        var firmallowinputField = document.getElementById('firmallowinput');
+        var inputquestionsField = document.getElementById('inputquestions');
+        var inputyes = document.getElementById('id_firm_allow_input-0');
+        var inputno = document.getElementById('id_firm_allow_input-1');
+
+
+        // Listen for changes to the firm_allow_input field
+        firmallowinputField.addEventListener('change', function() {
+            // Show or hide the firm input type field based on the value of the firm_allow_input field
+            if (inputyes.checked) {
+                inputquestionsField.style.display = 'block';
+            } else if (inputno.checked) {
+                inputquestionsField.style.display = 'none';
+            }
+        });
+    </script>
 
 {{ endblock }}

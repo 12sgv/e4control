@@ -1,16 +1,48 @@
 {{ block title }}Vote Result{{ endblock }}
 {{ block content }}
 <!-- 7a. Vote Result  -->
-
+{% if participant.vars.winner == 1 %}
     <p>
-        The majority of the members in your team voted for the <strong>fully {{outcome}} policy.</strong>
-        You voted for the <strong>fully {{vote}} policy.</strong> This means that <strong> you
-        {{wonlost}}</strong> the vote.
+        The majority of the members in your team voted for the <strong>{{outcome}} policy.</strong>
+        You voted for the <strong>{{vote}} policy.</strong> Therefore, <strong>you
+        won</strong> the vote.
     </p>
     <p>
-        Based on the outcome of the vote, your company will implement the fully {{outcome}} policy for your team.
-        Starting next month, the company will require your team to work fully {{outcome}}.
+        In an actual work environment your team would be required to work under a {{outcome}} policy.
+        Because a {{outcome}} policy is your preferred policy, you would receive benefits related
+        to winning the vote and having this policy implemented. Since it is not practical to implement
+        actual work policies in this study, you instead will receive the related benefits as an increase
+        in your payoff amount of {{outcome_effect}}. All other team members whose preferred policy
+        won the vote will also receive the related benefits as an increase in
+        their payoff amount of ${{outcome_effect}}.
     </p>
+    <p>
+        Just as team members in an actual work environment who won the vote would receive benefits
+        related to working under their preferred policy, team members who lost the vote would incur
+        costs related to not being able to work under their preferred policy. In this study these
+        related costs are implemented by reducing their payoff amount by ${{outcome_effect}}.
+    </p>
+{% elif participant.vars.winner == 0 %}
+    <p>
+        The majority of the members in your team voted for the <strong>{{outcome}} policy.</strong>
+        You voted for the <strong>{{vote}} policy.</strong> Therefore, <strong>you
+        lost</strong> the vote.
+    </p>
+    <p>
+        In an actual work environment your team would be required to work under a {{outcome}} policy.
+        Because a {{outcome}} policy is not your preferred policy, you would incur costs related to losing
+        the vote and having this policy implemented. Since it is not practical to implement actual
+        work policies in this study, you instead will incur the related costs as a reduction
+        of your payoff amount of ${{outcome_effect}}. All other team members whose preferred policy
+        lost the vote will also incur the related costs as a reduction of their payoff amount of $0.50.
+    </p>
+    <p>
+        Just as team members in an actual work environment who lost the vote would incur costs
+        related to not being able to work under their preferred policy, team members who won
+        the vote would receive benefits related to working under their preferred policy. In this study,
+        these related benefits are implemented by increasing their payoff amount by $0.50.
+    </p>
+{% endif %}
     <p>
         On the next page, you will be paired with one other member of your team and receive
         additional instructions.
