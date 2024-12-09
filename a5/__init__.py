@@ -39,13 +39,13 @@ class C(BaseConstants):
         'Strongly agree',
     ]
     InfluenceWorkTable = [
-        'None',
+        'Not at all',
         '',
+        'Slightly',
         '',
-        'Some',
+        'Moderately',
         '',
-        '',
-        'A lot',
+        'A great extent',
     ]
 
 #may need to adjust the constants to allow for seamless code integration
@@ -123,23 +123,7 @@ class Player(BasePlayer):
         [False, 'No'],
     ],
         widget=widgets.RadioSelect,
-        label='Has your current employer sought employee input on any work policies?',
-    )
-    firm_input = models.IntegerField(choices=[
-        [1, 'Employee vote'],
-        [2, 'Survey'],
-        [3, 'One-on-one discussion'],
-        [4, 'Town hall(s)'],
-        [5, 'Apps like Slack or Teams'],
-        [6, 'Other']],
-        widget=widgets.RadioSelect,
-        blank=True,
-        label='Please select the form of input your current employer sought from employees on any work policies. Please select all that apply:',
-    )
-    firm_input_other = models.StringField(
-        label='''If you selected 'Other' above, please describe how your current employer sought input:''',
-        blank=True,
-        initial='',
+        label='Have you ever had an employer seek input from you and other employees on any work policies?',
     )
     remote_allow_input = models.BooleanField(choices=[
         [True, 'Yes'],
@@ -147,33 +131,18 @@ class Player(BasePlayer):
     ],
         widget=widgets.RadioSelect,
         blank=True,
-        label='Has your current employer sought employee input specifically on remote vs. hybrid work policies?')
+        label='Has an employer sought employee input specifically on remote vs. hybrid work policies?')
 
     # Demographics 2
-    remote_input = models.IntegerField(choices=[
-        [1, 'Employee vote'],
-        [2, 'Survey'],
-        [3, 'One-on-one discussion'],
-        [4, 'Town hall(s)'],
-        [5, 'Apps like Slack or Teams'],
-        [6, 'Other']],
-        widget=widgets.RadioSelect,
-        label='Please select the form of input your current employer sought from employees relating to remote vs. hybrid work policies:',
-    )
-    remote_input_other = models.StringField(
-        label='''If you selected 'Other' above, please describe how your current employer sought input:''',
-        blank=True,
-        initial='',
-    )
     firm_feel_input = models.IntegerField(choices=[
-        [1, 'None'],
+        [1, 'Not at all'],
         [2, ''],
-        [3, ''],
-        [4, 'Some'],
-        [5, ''],
+        [3, 'Slightly'],
+        [4, ''],
+        [5, 'Moderately'],
         [6, ''],
-        [7, 'A lot']],
-        label='''Please select the extent to which you feel that your input influenced your current employer's remote work policies:''',
+        [7, 'A great extent']],
+        label='''Please select the extent to which you feel that your input influenced your employer's remote work policies:''',
         widget=widgets.RadioSelect,
     )
     firm_full_remote_pandemic = models.BooleanField(choices=[
@@ -181,7 +150,7 @@ class Player(BasePlayer):
         [False, 'No'],
     ],
         widget=widgets.RadioSelect,
-        label='Did your current employer adopt a fully remote work policy during the pandemic?',
+        label='Did your employer adopt a fully remote work policy during the pandemic?',
     )
     firm_adjust_post_pandemic = models.IntegerField(choices=[
         [1, 'No change, still fully-remote'],
@@ -189,7 +158,7 @@ class Player(BasePlayer):
         [3, 'Moved to hybrid, but in-office'],
         [4, 'Moved to fully in-office'],
     ],
-        label='Has your current employer moved away from the fully remote policy adopted during the pandemic?',
+        label='Has your employer moved away from the fully remote policy adopted during the pandemic?',
         widget=widgets.RadioSelect,
         blank=True,
     )
@@ -200,7 +169,7 @@ class a51(Page):
     form_model = 'player'
     form_fields = [
         'employed', 'work_location', 'location_preference', 'team_size', 'industry', 'education', 'work_experience',
-        'firm_allow_input', 'firm_input', 'firm_input_other', 'remote_allow_input',
+        'firm_allow_input', 'remote_allow_input',
     ]
 
     def before_next_page(self, timeout_happened):
@@ -217,7 +186,7 @@ class a51(Page):
 class a52(Page):
     form_model = 'player'
     form_fields = [
-        'remote_input', 'remote_input_other', 'firm_feel_input',
+        'firm_feel_input',
         'firm_full_remote_pandemic', 'firm_adjust_post_pandemic',
     ]
 
@@ -229,8 +198,6 @@ class a52(Page):
             return False
 
     def before_next_page(self, timeout_happened):
-        self.participant.vars['firm_input'] = self.firm_input
-        self.participant.vars['firm_input_other'] = self.firm_input_other
         self.participant.vars['firm_feel_input'] = self.firm_feel_input
         self.participant.vars['firm_full_remote_pandemic'] = self.firm_full_remote_pandemic
         self.participant.vars['firm_adjust_post_pandemic'] = self.field_maybe_none('firm_adjust_post_pandemic')
