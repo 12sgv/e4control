@@ -4,51 +4,51 @@
 
 <p>You have been paired with one other member of your team who is a real Prolific participant completing the study
     at the same time as you. This person will be your partner in the next task.</p>
-<p>As stated earlier, the majority of your team voted for the <strong>{{outcome}} policy.</strong></p>
+<p>As stated earlier, the majority of your team preferred the <strong>{{outcome}} policy.</strong></p>
 
     {% if participant.vars.treatment == 1%} <!-- WW -->
         <p>
             <ul>
-            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore
-                you <strong>both won</strong> the vote. As explained earlier, both you and your partner will
+            <li>You and your partner both preferred the <strong>{{vote}} policy</strong>, therefore
+                you <strong>both won</strong>. As explained earlier, both you and your partner will
                 receive the benefits of having your preferred policy implemented as an increase in your
-                payoff amount of ${{outcome_effect}}.</li>
+                payoff amount of $0.50.</li>
             </ul>
         </p>
     {% elif participant.vars.treatment == 2 %} <!-- LL -->
         <p>
             <ul>
-            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore
-                you <strong>both lost</strong> the vote. As explained earlier, both you and your partner
+            <li>You and your partner both preferred the <strong>{{vote}} policy</strong>, therefore
+                you <strong>both lost</strong>. As explained earlier, both you and your partner
                 will incur costs related to not having your preferred policy implemented as a decrease
-                in your payoff amount of ${{outcome_effect}}.</li>
+                in your payoff amount of $0.50.</li>
             </ul>
         </p>
     {% elif participant.vars.treatment == 3 %} <!-- WL -->
             <p>
             <ul>
-                <li>You preferred and voted for the <strong>{{outcome}} policy</strong> and
-                therefore <strong>won</strong> the vote. As explained earlier, you will receive
+                <li>You preferredthe <strong>{{outcome}} policy</strong> and
+                therefore <strong>won</strong>. As explained earlier, you will receive
                     the benefits of having your preferred policy implemented as an increase
-                    in your payoff amount of ${{outcome_effect}}.</li>
-                <li>However, your partner preferred and voted for the <strong>
-                {{othervote}} policy</strong> and therefore <strong>lost</strong> the vote.
+                    in your payoff amount of $0.50.</li>
+                <li>However, your partner preferred the <strong>
+                {{othervote}} policy</strong> and therefore <strong>lost</strong>.
                     Thus, as explained earlier, your partner will incur costs related to not having
-                    their preferred policy implemented as a reduction in their payoff
-                    amount of ${{outcome_effect}}.</li>
+                    their preferred policy implemented as a decrease in their payoff
+                    amount of $0.50.</li>
             </ul>
             </p>
     {% elif participant.vars.treatment == 4 %} <!-- LW -->
         <p>
             <ul>
-            <li>You preferred and voted for the <strong>
-            {{vote}} policy</strong> and therefore <strong>lost</strong> the vote. As explained earlier,
-                you will incur costs related to not having your preferred policy implemented as a reduction
-                in your payoff amount of ${{outcome_effect}}.</li>
-            <li>However, your partner preferred and voted for the <strong>{{outcome}} policy</strong> and
-                therefore <strong>won</strong> the vote. Thus, as explained earlier, your partner will
+            <li>You preferred the <strong>
+            {{vote}} policy</strong> and therefore <strong>lost</strong>. As explained earlier,
+                you will incur costs related to not having your preferred policy implemented as a decrease
+                in your payoff amount of $0.50.</li>
+            <li>However, your partner preferred the <strong>{{outcome}} policy</strong> and
+                therefore <strong>won</strong>. Thus, as explained earlier, your partner will
                 receive the benefits of having their preferred policy implemented as an increase in their
-                payoff amount of ${{outcome_effect}}.</li>
+                payoff amount of $0.50.</li>
             </ul>
         </p>
     {% endif %}
