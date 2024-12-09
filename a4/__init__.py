@@ -59,18 +59,18 @@ class C(BaseConstants):
     FeelChoiceTable = [
         'Not at all',
         '',
+        'Slightly',
         '',
-        'Somewhat',
-        '',
+        'Moderately',
         '',
         'A great extent',
     ]
     ConfidenceTable = [
         'Not at all confident',
         '',
+        'Slightly confident',
         '',
-        'Somewhat confident',
-        '',
+        'Moderately confident',
         '',
         'Extremely confident',
     ]

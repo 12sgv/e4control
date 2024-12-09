@@ -1,7 +1,7 @@
 {{ block title }}Survey{{ endblock }}
 {{ block content }}
     <p style="font-size: larger;">
-        <strong>The following questions are about your current work situation rather than your
+        <strong>The following questions are about your actual work situation rather than your
             experience in the study.</strong> These questions are only included to understand the makeup
         of the participants in the study.
     </p>
@@ -17,8 +17,6 @@
         {{ formfield 'firm_allow_input' }}
     </div>
     <div id="inputquestions" style="display: none;">
-        {{ formfield 'firm_input' }}
-        {{ formfield 'firm_input_other' }}
         {{ formfield 'remote_allow_input' }}
     </div>
 
