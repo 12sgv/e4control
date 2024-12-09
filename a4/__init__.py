@@ -123,10 +123,10 @@ class Player(BasePlayer):
                                           [5, ''],
                                           [6, 'Very strong preference']],
                                           widget=widgets.RadioSelectHorizontal,
-                                          label='To what extent did you prefer the policy you voted for over the other policy?')
+                                          label='To what extent did you prefer the policy you chose over the other policy?')
     affect = models.IntegerField(choices=C.AffectChoices,
                                  widget=widgets.RadioSelect,
-                                 label='How did you feel about the outcome of the vote? (i.e., whether you won or lost)')
+                                 label="How did you feel about the outcome of your team's input? (i.e., whether you won or lost)")
     identity_identify = models.IntegerField(choices=C.StandardChoices,
                                             widget=widgets.RadioSelect,
                                             label='I identified with my partner.')
@@ -145,7 +145,7 @@ class Player(BasePlayer):
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
-        label='To what extent were you angry or upset with your partner because of the outcome of the vote?')
+        label="To what extent were you angry or upset with your partner because of the outcome of your team's input?")
     sympathy = models.IntegerField(choices=[
         [0, 'Not at all'],
         [1, ''],
@@ -155,7 +155,7 @@ class Player(BasePlayer):
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
-        label='To what extent did you feel bad for your partner because of the outcome of the vote?')
+        label="To what extent did you feel bad for your partner because of the outcome of your team's input?")
     deserving = models.IntegerField(choices=[
         [0, 'Not at all'],
         [1, ''],

@@ -36,23 +36,23 @@
 
 {% if participant.vars.treatment == 1%} <!-- WW -->
         <p>
-           You and your partner both preferred and voted for the <strong>{{vote}} policy,</strong>
-            therefore you <strong>both won the vote.</strong>
+           You and your partner both preferred the <strong>{{vote}} policy,</strong>
+            therefore you <strong>both won.</strong>
         </p>
 {% elif participant.vars.treatment == 2 %} <!-- WW -->
         <p>
-           You and your partner both preferred and voted for the <strong>{{vote}} policy,</strong>
-            therefore you <strong>both lost the vote.</strong>
+           You and your partner both preferred the <strong>{{vote}} policy,</strong>
+            therefore you <strong>both lost.</strong>
         </p>
 {% elif participant.vars.treatment == 3 %} <!-- WL -->
     <p>
-        You preferred and voted for the <strong>{{vote}} policy</strong> and therefore <strong>won</strong> the vote.
-        Your partner preferred and voted for the <strong>{{othervote}} policy</strong> and therefore <strong>lost</strong> the vote.
+        You preferred the <strong>{{vote}} policy</strong> and therefore <strong>won</strong>.
+        Your partner preferred the <strong>{{othervote}} policy</strong> and therefore <strong>lost</strong>.
     </p>
 {% elif participant.vars.treatment == 4 %}
     <p>
-        You preferred and voted for the <strong>{{vote}} policy</strong> and therefore <strong>lost</strong> the vote.
-        Your partner preferred and voted for the <strong>{{othervote}} policy</strong> and therefore <strong>won</strong> the vote.
+        You preferred the <strong>{{vote}} policy</strong> and therefore <strong>lost</strong>.
+        Your partner preferred the <strong>{{othervote}} policy</strong> and therefore <strong>won</strong>.
     </p>
 {% endif %}
 
