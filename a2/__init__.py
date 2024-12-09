@@ -347,10 +347,10 @@ class Player(BasePlayer):
         doc="""Partner Manipulation Check""",
         label="Which of the following statements about you and your partner is true?",
         choices=[
-            [1, 'We both preferred the same policy and both won'],
-            [2, 'We both preferred the same policy and both lost'],
-            [3, 'We preferred different policies from one another, and I won and my partner lost'],
-            [4, 'We preferred different policies from one another, and I lost and my partner won'],
+            [1, 'We both voted the same and both won'],
+            [2, 'We both voted the same and both lost'],
+            [3, 'We voted different from one another, and I won and my partner lost'],
+            [4, 'We voted different from one another, and I lost and my partner won'],
         ]
     )
     incorrect_count = models.IntegerField(initial=0)
@@ -418,7 +418,7 @@ def other_giving(self):
 class a21(WaitPage):
     group_by_arrival_time = True
     title_text = 'Team Advancement Page'
-    body_text = 'Your response has been recorded. You will automatically advance to the next page when' \
+    body_text = 'Your vote has been recorded. You will automatically advance to the next page when' \
                 ' all members of your team are ready to advance...'
 
     def after_all_players_arrive(self):

@@ -50,7 +50,7 @@ class Player(BasePlayer):
             ['Remote', mark_safe("<b>Fully remote policy:</b> Work remotely 5 full days per week.")],
             ['Hybrid', mark_safe("<b>Hybrid policy:</b> Work in-office 3 full days per week and remotely the remaining 2 full days.")]
         ],
-        label=mark_safe("<b>I prefer the:</b>"),
+        label=mark_safe("<b>I vote for the:</b>"),
         widget=widgets.RadioSelect
     )
     # 2/3 Remote Var
