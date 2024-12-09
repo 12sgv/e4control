@@ -135,13 +135,13 @@ class Player(BasePlayer):
 
     # Demographics 2
     firm_feel_input = models.IntegerField(choices=[
-        [1, 'None'],
+        [1, 'Not at all'],
         [2, ''],
-        [3, ''],
-        [4, 'Some'],
-        [5, ''],
+        [3, 'Slightly'],
+        [4, ''],
+        [5, 'Moderately'],
         [6, ''],
-        [7, 'A lot']],
+        [7, 'A great extent']],
         label='''Please select the extent to which you feel that your input influenced your employer's remote work policies:''',
         widget=widgets.RadioSelect,
     )
