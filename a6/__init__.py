@@ -80,7 +80,7 @@ def vars_for_admin_report(subsession):
             total_voters += 1
             if player.participant.vars.get('policy_vote') == 'Remote':
                 total_remote_votes += 1
-            elif player.participant.vars.get('policy_vote') == 'Office':
+            elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 total_office_votes += 1
             # gather the assigned observations
             if player.participant.vars.get('treatment') == 1:
@@ -96,7 +96,7 @@ def vars_for_admin_report(subsession):
             total_giving.append(player.participant.vars.get('giving'))
             if player.participant.vars.get('policy_vote') == 'Remote':
                 remote_giving.append(player.participant.vars.get('giving'))
-            elif player.participant.vars.get('policy_vote') == 'Office':
+            elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 office_giving.append(player.participant.vars.get('giving'))
             if player.participant.vars.get('treatment') == 1:
                 WW_participants_completed += 1
