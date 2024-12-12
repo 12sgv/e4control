@@ -53,8 +53,6 @@ class Player(BasePlayer):
         label=mark_safe("<b>I vote for the:</b>"),
         widget=widgets.RadioSelect
     )
-    # 2/3 Remote Var
-    r23 = models.BooleanField(initial=False)
     # initialize variables used throughout the study
     is_out = models.BooleanField(initial=False)
     not_paired = models.BooleanField()

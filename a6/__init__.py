@@ -46,9 +46,6 @@ def vars_for_admin_report(subsession):
     total_remote_votes = 0
     total_office_votes = 0
     total_voters = 0
-    # initialize counter for remote participants assigned to the r23 condition
-    remote_23 = 0
-    remote_23_finished = 0
     # initialize counters for participants assigned to each condition
     WL_participants_assigned = 0
     LW_participants_assigned = 0
@@ -85,9 +82,6 @@ def vars_for_admin_report(subsession):
                 total_remote_votes += 1
             elif player.participant.vars.get('policy_vote') == 'Office':
                 total_office_votes += 1
-                # gather r23 number
-            if player.participant.vars.get('r23') == True:
-                remote_23 += 1
             # gather the assigned observations
             if player.participant.vars.get('treatment') == 1:
                 WW_participants_assigned += 1
@@ -127,13 +121,11 @@ def vars_for_admin_report(subsession):
                 LW_participants_finished += 1
                 LW_giving.append(player.participant.vars.get('giving'))
             # gather payments for each type of participant (of the completed or not completed, but finished)
-            if player.participant.vars.get('not_paired') == True or player.participant.vars.get('r23') == True:
+            if player.participant.vars.get('not_paired') == True:
                 not_paired_payments.append(player.participant.vars.get('earnings'))
             else:
                 completed_payments.append(player.participant.vars.get('earnings'))
                 print("completed payment added", completed_payments)
-            if player.participant.vars.get('r23') == True:
-                remote_23_finished += 1
         # count timed_out_participants
         if player.participant.vars.get('timed_out') == True:
             timed_out_total += 1
@@ -157,12 +149,9 @@ def vars_for_admin_report(subsession):
     total_pay_mean = total_pay / (len(completed_payments) + len(not_paired_payments)) if len(
         not_paired_payments) > 0 or len(completed_payments) > 0 else 0
 
-    #calculate percent of participants going to r23
-    r23_percent_remote = round(100 * (remote_23 / total_remote_votes ), 2) if total_remote_votes > 0 else 0
-    r23_percent_total = round(100 * (remote_23 / total_voters), 2) if total_voters > 0 else 0
     # calculate the number of completed pairs vs timed out
     total_complete_finished = len(completed_payments)
-    total_not_paired_finished = len(not_paired_payments) - remote_23_finished
+    total_not_paired_finished = len(not_paired_payments)
     total_participants = total_voters
     percent_complete = round(100 * (total_complete_finished / total_participants), 2) if total_participants > 0 else 0
     percent_not_paired = round(100 * (total_not_paired_finished / total_participants),
@@ -183,8 +172,6 @@ def vars_for_admin_report(subsession):
         total_remote_votes=total_remote_votes, total_office_votes=total_office_votes,
         total_percent_votes_remote=total_percent_votes_remote,
         total_voters=total_voters,
-        remote_23=remote_23, remote_23_finished=remote_23_finished, r23_percent_total=r23_percent_total,
-        r23_percent_remote=r23_percent_remote,
         total_pay=total_pay, completed_payments_total=completed_payments_total,
         completed_payments_mean=completed_payments_mean, total_pay_mean=total_pay_mean,
         not_paired_payments_total=not_paired_payments_total,
@@ -307,10 +294,7 @@ class a62(Page):
         player.payoff = player.earnings
         outcome_effect = cu(player.session.config['outcome_payoff_effect'])
         initial_payoff_amount = cu(player.session.config['initial_payoff_amount'])
-        if player.participant.vars['r23'] == True:
-            not_paired_wording = "your team was"
-        else:
-            not_paired_wording = "you were unable to be matched with a partner and were"
+        not_paired_wording = "you were unable to be matched with a partner and were"
         return {
             'participation_fee': player.session.config['participation_fee'],
             'not_paired_wording': not_paired_wording,
