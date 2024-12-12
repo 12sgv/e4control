@@ -15,7 +15,7 @@
     <strong>Please answer the following questions about your experience in this study.</strong>
     </p>
 
-<table class="table">  <!-- Table for vote preference -->
+<table class="table">  <!-- Table for vote -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.PreferenceTable %}
@@ -24,17 +24,23 @@
     </tr>
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
-        {% for i in range(0,7) %}
+        {% for i in range(0, 7) %}
             <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
         {% endfor %}
     </tr>
     <tr>
-        <th class="first-column">{{form.vote_preference.label }}</th> <!-- Row header for the vote_preference label -->
+        <th style="text-align: left;"> <!-- Row header for the vote_preference label -->
+            {% if participant.vars.policy_vote == "Remote" %}
+                <p>To what extent did you prefer the fully remote policy you voted for over the hybrid policy?</p>
+            {% else %}
+                <p>To what extent did you prefer the hybrid policy you voted for over the fully remote policy?</p>
+            {% endif %}
+        </th>
         {% for choice in form.vote_preference %}
             <td>{{ choice }}</td> <!-- Data cells for the choices -->
         {% endfor %}
+    </tr>
 </table>
-
 <br>
 
 <table class="table">  <!-- Table for Affect -->

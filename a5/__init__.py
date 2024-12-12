@@ -142,12 +142,14 @@ class Player(BasePlayer):
         [7, 'A great extent']],
         label='''Please select the extent to which you feel that your input influenced your employer's remote work policies:''',
         widget=widgets.RadioSelect,
+        blank=True,
     )
     firm_full_remote_pandemic = models.BooleanField(choices=[
         [True, 'Yes'],
         [False, 'No'],
     ],
         widget=widgets.RadioSelect,
+        blank=True,
         label='Did your employer adopt a fully remote work policy during the pandemic?',
     )
     firm_adjust_post_pandemic = models.IntegerField(choices=[
@@ -180,8 +182,8 @@ class a51(Page):
         self.participant.vars['education'] = self.education
         self.participant.vars['work_experience'] = self.work_experience
         self.participant.vars['firm_allow_input'] = self.firm_allow_input
-        self.participant.vars['firm_feel_input'] = self.firm_feel_input
-        self.participant.vars['firm_full_remote_pandemic'] = self.firm_full_remote_pandemic
+        self.participant.vars['firm_feel_input'] = self.field_maybe_none('firm_feel_input')
+        self.participant.vars['firm_full_remote_pandemic'] = self.field_maybe_none('firm_full_remote_pandemic')
         self.participant.vars['firm_adjust_post_pandemic'] = self.field_maybe_none('firm_adjust_post_pandemic')
 
 page_sequence = [a51]

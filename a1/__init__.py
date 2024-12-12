@@ -140,26 +140,7 @@ class a15(Page):
         self.finished_voting = True
         self.participant.vars['finished_voting'] = True
         self.participant.vars['group_formation_arrival'] = time.time()
-        # kick out 2/3 of remote votes
-        rand_num = random.randrange(0,100,1)
-        print("Random Number:", rand_num)
-        print("Cutoff:", self.session.config['remote_cutoff'])
-        #Kick out the 2/3 remote voters
-        if rand_num < self.session.config['remote_cutoff'] and self.policy_vote == "Remote":
-            self.r23 = True
-            self.participant.vars['r23'] = True
-            self.is_out = True
-            self.participant.vars['is_out'] = True
 
-        #Send the rest of the participants to their own page
-        else:
-            self.participant.vars['r23'] = False
-            self.participant.vars['not_paired'] = False
-
-    # send 2/3 Remote to their own wait page
-    def app_after_this_page(self, upcoming_apps):
-        if self.r23 == True:
-            return "a3"
 
 
 

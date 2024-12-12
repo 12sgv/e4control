@@ -4,7 +4,7 @@ from os import environ
 SESSION_CONFIGS = [
        dict(
         name='treatment',
-        app_sequence=['a1', 'a2', 'a3', 'a4', 'a5', 'a6'],
+        app_sequence=['a1', 'a2', 'a4', 'a5', 'a6'],
         num_demo_participants=5,
         use_browser_bots=False,
        ),
@@ -23,7 +23,6 @@ SESSION_CONFIG_DEFAULTS = dict(
     extra_bonus=0.25,
     kicked_out_bonus=0.25,
     not_paired_bonus=0.25,
-    remote_cutoff=0,
     doc="",
     debug=False,
     group_size=5,
@@ -33,7 +32,6 @@ SESSION_CONFIG_DEFAULTS = dict(
     partner_check_timeout=120,
     offer_timeout=120,
     help_wait_timeout=120,
-    link_23r='https://app.prolific.com/submissions/complete?cc=C2T29CQ2',
     link_nopartner='https://app.prolific.com/submissions/complete?cc=C4UY7KQS',
     link_completed='https://app.prolific.com/submissions/complete?cc=C17GDOGH',
     link_timedoutgroup='https://app.prolific.com/submissions/complete?cc=C1JHEYPP',

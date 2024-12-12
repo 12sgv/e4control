@@ -434,7 +434,7 @@ class a21(WaitPage):
                 player.participant.vars['treatment'] = player.treatment
                 player.participant.vars['group_number'] = player.group_number
             else:
-                player.participant.vars['winner'] = player.winner
+                player.participant.vars['winner'] = player.field_maybe_none('winner')
 
 
     # send those who are kicked out to the end of the experiment

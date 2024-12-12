@@ -366,12 +366,10 @@ class a65(Page):
         self.finished = True
         self.participant.vars['finished'] = True
         # Assign completion codes
-        if self.participant.vars['r23'] == True:
-            self.completion_link = self.session.config['link_23r']
-        elif self.participant.vars['not_paired'] == True:
+        if self.participant.vars['not_paired'] == True:
             self.completion_link = self.session.config['link_nopartner']
         elif self.participant.vars['group_formation_timeout'] == True:
-            self.completion_link = self.session.config['link_timeoutgroup']
+            self.completion_link = self.session.config['link_timedoutgroup']
         elif self.participant.vars['kicked_out'] == True:
             self.completion_link = ""
         else:
