@@ -132,8 +132,6 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         blank=True,
         label='Has an employer sought employee input specifically on remote vs. hybrid work policies?')
-
-    # Demographics 2
     firm_feel_input = models.IntegerField(choices=[
         [1, 'Not at all'],
         [2, ''],
@@ -169,7 +167,8 @@ class a51(Page):
     form_model = 'player'
     form_fields = [
         'employed', 'work_location', 'location_preference', 'team_size', 'industry', 'education', 'work_experience',
-        'firm_allow_input', 'remote_allow_input',
+        'firm_allow_input', 'remote_allow_input', 'firm_feel_input',
+        'firm_full_remote_pandemic', 'firm_adjust_post_pandemic',
     ]
 
     def before_next_page(self, timeout_happened):
@@ -181,26 +180,8 @@ class a51(Page):
         self.participant.vars['education'] = self.education
         self.participant.vars['work_experience'] = self.work_experience
         self.participant.vars['firm_allow_input'] = self.firm_allow_input
-
-
-class a52(Page):
-    form_model = 'player'
-    form_fields = [
-        'firm_feel_input',
-        'firm_full_remote_pandemic', 'firm_adjust_post_pandemic',
-    ]
-
-    def is_displayed(self):
-        if self.firm_allow_input == True:
-            self.participant.vars['firm_allow_input'] = True
-            return True
-        else:
-            return False
-
-    def before_next_page(self, timeout_happened):
         self.participant.vars['firm_feel_input'] = self.firm_feel_input
         self.participant.vars['firm_full_remote_pandemic'] = self.firm_full_remote_pandemic
         self.participant.vars['firm_adjust_post_pandemic'] = self.field_maybe_none('firm_adjust_post_pandemic')
 
-
-page_sequence = [a51, a52]
+page_sequence = [a51]

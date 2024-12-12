@@ -19,6 +19,46 @@
     <div id="inputquestions" style="display: none;">
         {{ formfield 'remote_allow_input' }}
     </div>
+    <style>
+        .table {
+            table-layout: fixed;
+            width: 80%
+        }
+        .table td, .table th {
+            text-align: center;
+        }
+        .table tr:first-child th {
+            font-weight: normal;
+        }
+    </style>
+    <div id="fullremotepandemic" style="display: none;">
+
+        {{ form.firm_feel_input.label }}
+
+        <table class="table">
+            <tr>
+                {% for choice in C.InfluenceWorkTable %}
+                    <th>{{ choice }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for i in range(1, 8) %}
+                    <td>{{ i }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for choice in form.firm_feel_input %}
+                    <td>{{ choice }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+
+        {{ formfield 'firm_full_remote_pandemic' }}
+    </div>
+
+    <div id="firm-adjust-post-pandemic-field" style="display: none;">
+        {{ formfield 'firm_adjust_post_pandemic' }}
+    </div>
 
 <p>
     Please click Next to advance to the next page.
@@ -29,9 +69,15 @@
     <script>
         // Get references to the form fields
         var firmallowinputField = document.getElementById('firmallowinput');
-        var inputquestionsField = document.getElementById('inputquestions');
         var inputyes = document.getElementById('id_firm_allow_input-0');
         var inputno = document.getElementById('id_firm_allow_input-1');
+        var inputquestionsField = document.getElementById('inputquestions');
+        var remoteinputyes = document.getElementById('id_remote_allow_input-0');
+        var remoteinputno = document.getElementById('id_remote_allow_input-1');
+        var firmFullRemotePandemicField = document.getElementById('fullremotepandemic');
+        var firmAdjustPostPandemicField = document.getElementById('firm-adjust-post-pandemic-field');
+        var remoteyes = document.getElementById('id_firm_full_remote_pandemic-0');
+        var remoteno = document.getElementById('id_firm_full_remote_pandemic-1');
 
 
         // Listen for changes to the firm_allow_input field
@@ -41,6 +87,28 @@
                 inputquestionsField.style.display = 'block';
             } else if (inputno.checked) {
                 inputquestionsField.style.display = 'none';
+            }
+        });
+        // Listen for changes to the remote_allow_input field
+        inputquestionsField.addEventListener('change', function() {
+            // Show or hide the firm input type field based on the value of the remote_allow_input field
+            if (remoteinputyes.checked) {
+                firmFullRemotePandemicField.style.display = 'block';
+            } else if (remoteinputno.checked) {
+                firmFullRemotePandemicField.style.display = 'none';
+                firmAdjustPostPandemicField.style.display = 'none';
+            }
+        });
+
+        // Listen for changes to the firm_full_remote_pandemic field
+        firmFullRemotePandemicField.addEventListener('change', function() {
+            // Show or hide the firm_adjust_post_pandemic field based on the value of the firm_full_remote_pandemic field
+            if (remoteinputyes.checked) {
+                if (remoteyes.checked) {
+                    firmAdjustPostPandemicField.style.display = 'block';
+                } else if (remoteno.checked) {
+                    firmAdjustPostPandemicField.style.display = 'none';
+                }
             }
         });
     </script>

@@ -127,7 +127,7 @@ class a13(Page):
 class a14(Page):
     def vars_for_template(self):
         return {
-            'participation_fee': self.session.config['participation_fee']
+            'initial_wage': cu(self.session.config['initial_payoff_amount'])
         }
 
 #5. Voting
