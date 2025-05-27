@@ -9,8 +9,6 @@
     {{ formfield 'employed' }}
     {{ formfield 'work_location' }}
     {{ formfield 'location_preference' }}
-    {{ formfield 'team_size' }}
-    {{ formfield 'industry' }}
     {{ formfield 'education' }}
     {{ formfield 'work_experience' }}
     <div id="firmallowinput">
@@ -18,46 +16,6 @@
     </div>
     <div id="inputquestions" style="display: none;">
         {{ formfield 'remote_allow_input' }}
-    </div>
-    <style>
-        .table {
-            table-layout: fixed;
-            width: 80%
-        }
-        .table td, .table th {
-            text-align: center;
-        }
-        .table tr:first-child th {
-            font-weight: normal;
-        }
-    </style>
-    <div id="fullremotepandemic" style="display: none;">
-
-        {{ form.firm_feel_input.label }}
-
-        <table class="table">
-            <tr>
-                {% for choice in C.InfluenceWorkTable %}
-                    <th>{{ choice }}</th>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for i in range(1, 8) %}
-                    <td>{{ i }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for choice in form.firm_feel_input %}
-                    <td>{{ choice }}</td>
-                {% endfor %}
-            </tr>
-        </table>
-
-        {{ formfield 'firm_full_remote_pandemic' }}
-    </div>
-
-    <div id="firm-adjust-post-pandemic-field" style="display: none;">
-        {{ formfield 'firm_adjust_post_pandemic' }}
     </div>
 
 <p>

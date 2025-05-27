@@ -63,8 +63,7 @@ class Player(BasePlayer):
     employed = models.IntegerField(choices=[
         [1, 'Full-time'],
         [2, 'Part-time'],
-        [3, 'Unemployed and job seeking'],
-        [4, 'Not in paid work']],
+        [3, 'Not in paid work']],
         widget=widgets.RadioSelect,
         label='''What is your current employment status?''',
     )
@@ -72,8 +71,7 @@ class Player(BasePlayer):
         [1, '100% Remote'],
         [2, '100% In-person'],
         [3, 'Hybrid, mostly remote'],
-        [4, 'Hybrid, mostly in-person'],
-        [5, 'Other']],
+        [4, 'Hybrid, mostly in-person']],
         widget=widgets.RadioSelect,
         label='''Which of the following best describes the policy where you <strong>currently</strong> work?''',
     )
@@ -81,31 +79,9 @@ class Player(BasePlayer):
         [1, '100% Remote'],
         [2, '100% In-person'],
         [3, 'Hybrid, mostly remote'],
-        [4, 'Hybrid, mostly in-person'],
-        [5, 'Other']],
+        [4, 'Hybrid, mostly in-person']],
         widget=widgets.RadioSelect,
-        label='''Which of the following best describes the policy under which you <strong>prefer</strong> to work?''',
-    )
-    team_size = models.IntegerField(choices=[
-        [1, 'I work by myself'],
-        [2, 'I work with one other person'],
-        [3, 'I work in a team of 3-5 people'],
-        [4, 'I work in a team of 6-10 people'],
-        [5, 'I work in a team of more than 10 people']],
-        widget=widgets.RadioSelect,
-        label='''Which of the following best describes who you regularly work with?''',
-    )
-    industry = models.IntegerField(choices=[
-        [1, 'Financial services'],
-        [2, 'Education'],
-        [3, 'Health care'],
-        [4, 'Information services'],
-        [5, 'Food services'],
-        [6, 'Legal services'],
-        [7, 'Transportation'],
-        [8, 'Other']],
-        widget=widgets.RadioSelect,
-        label='''Which of the following best describes your work industry?'''
+        label='''Which of the following best describes the policy under which you <strong>prefer</strong> to currently work?''',
     )
     education = models.IntegerField(choices=[
         [1, 'No formal qualifications'],
@@ -132,58 +108,24 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         blank=True,
         label='Has an employer sought employee input specifically on remote vs. hybrid work policies?')
-    firm_feel_input = models.IntegerField(choices=[
-        [1, 'Not at all'],
-        [2, ''],
-        [3, 'Slightly'],
-        [4, ''],
-        [5, 'Moderately'],
-        [6, ''],
-        [7, 'A great extent']],
-        label='''Please select the extent to which you feel that your input influenced your employer's remote work policies:''',
-        widget=widgets.RadioSelect,
-        blank=True,
-    )
-    firm_full_remote_pandemic = models.BooleanField(choices=[
-        [True, 'Yes'],
-        [False, 'No'],
-    ],
-        widget=widgets.RadioSelect,
-        blank=True,
-        label='Did your employer adopt a fully remote work policy during the pandemic?',
-    )
-    firm_adjust_post_pandemic = models.IntegerField(choices=[
-        [1, 'No change, still fully-remote'],
-        [2, 'Moved to hybrid, but mostly remote'],
-        [3, 'Moved to hybrid, but in-office'],
-        [4, 'Moved to fully in-office'],
-    ],
-        label='Has your employer moved away from the fully remote policy adopted during the pandemic?',
-        widget=widgets.RadioSelect,
-        blank=True,
-    )
-
 
 # PAGES
 class a51(Page):
     form_model = 'player'
     form_fields = [
-        'employed', 'work_location', 'location_preference', 'team_size', 'industry', 'education', 'work_experience',
-        'firm_allow_input', 'remote_allow_input', 'firm_feel_input',
-        'firm_full_remote_pandemic', 'firm_adjust_post_pandemic',
+        'employed', 'work_location', 'location_preference', 'education', 'work_experience',
+        'firm_allow_input', 'remote_allow_input',
     ]
 
     def before_next_page(self, timeout_happened):
         self.participant.vars['employed'] = self.employed
         self.participant.vars['work_location'] = self.work_location
         self.participant.vars['location_preference'] = self.location_preference
-        self.participant.vars['team_size'] = self.team_size
-        self.participant.vars['industry'] = self.industry
         self.participant.vars['education'] = self.education
         self.participant.vars['work_experience'] = self.work_experience
         self.participant.vars['firm_allow_input'] = self.firm_allow_input
-        self.participant.vars['firm_feel_input'] = self.field_maybe_none('firm_feel_input')
-        self.participant.vars['firm_full_remote_pandemic'] = self.field_maybe_none('firm_full_remote_pandemic')
-        self.participant.vars['firm_adjust_post_pandemic'] = self.field_maybe_none('firm_adjust_post_pandemic')
+        self.participant.vars['remote_allow_input'] = self.field_maybe_none('remote_allow_input')
+
+
 
 page_sequence = [a51]

@@ -4,62 +4,59 @@
 
     <p>
         <p>
-            Please recall that you were provided with 100 help points (where 1 point = $0.01)
-            that you could use to help your partner or keep for yourself.
+            Please recall that you made a decision about whether to help your partner.
         </p>
         <p>
-            You decided to give your partner {{ player_giving }} help points ({{ gave_dollars}}),
-            therefore you kept {{kept_points}} help points ({{ kept_dollars}}) for yourself.
+            You gave your partner {{ player_helping }} minutes of help which came at a cost to you of {{ gave_dollars}}.
         </p>
 {% if participant.vars.other_timed_out == 1 %}
     <p>
-        Although you were unaware of this at the time, when you had the opportunity to help your partner, your partner also
-        had the opportunity to help you. However, your partner was unable to complete the study.
-        As a result, you were awarded the maximum possible amount of help points that your partner could have given you.
+        Although you were unaware of this at the time, when you decided whether to help your partner, your
+        partner also decided whether to help you. However, your partner was unable to complete the study. As a
+        result, you were awarded the maximum possible amount of help that your partner could have given you.
     </p>
     <p>
-        Thus, you received 100 help points ($1.00).
+        Thus, you received {{ received_dollars }}.
     </p>
 {% endif %}
 {% if not participant.vars.other_timed_out == 1 %}
     <p>
-        Although you were unaware of this at the time, when you had the opportunity to help your partner,
-        your partner also had the opportunity to help you. Your partner chose to give you
-        {{other_giving}} help points ({{received_dollars}}).
+        Although you were unaware of this at the time, when you decided whether to help your partner, your
+        partner also decided whether to help you. Your partner gave you {{ other_helping }} minutes of help which had a benefit
+        to you of {{ received_dollars }}.
     </p>
 {% endif %}
     <p>
-        Therefore, your payoff is as follows:
+        Therefore, your total payoff is as follows:
     </p>
 <div style="margin-left: 30px;">
     <p>
         Participation fee: <strong>{{ participation_fee }}</strong>
     </p>
     <p>
-        Initial wage: <strong>{{ initial_payoff_amount }}</strong>
+        Initial bonus pay: <strong>{{ initial_payoff_amount }} </strong>
     </p>
     {% if participant.vars.winner %}
     <p>
-        Increase in payoff amount for winning the vote: <strong>{{outcome_effect}}</strong>
+        Increase in bonus pay for winning the vote: <strong>{{outcome_effect}}</strong>
     </p>
     {% endif %}
     {% if not participant.vars.winner %}
     <p>
-        Reduction in payoff amount for losing the vote: <strong>-{{ outcome_effect }}</strong>
+        Decrease in bonus pay for losing the vote: <strong>-{{ outcome_effect }}</strong>
     </p>
     {% endif %}
     <p>
-        Help points kept: <strong>{{ kept_dollars }}</strong>
+        Cost to you of help given to your partner: <strong> -{{ gave_dollars }} </strong>
     </p>
-
     {% if participant.vars.other_timed_out %}
         <p>
-            Maximum help points received: <strong>$1.00</strong>
+            Maximum benefit to you from help received from your partner: <strong>$1.20</strong>
         </p>
     {% endif %}
     {% if not participant.vars.other_timed_out%}
         <p>
-            Help points received from partner: <strong>{{ received_dollars }}</strong>
+            Benefit to you from help received from your partner: <strong>{{ received_dollars }}</strong>
         </p>
     {% endif %}
     <p>

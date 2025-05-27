@@ -90,12 +90,6 @@ class a11(Page):
 
 #2. Consent
 class a12(Page):
-    @staticmethod
-    def vars_for_template(player: Player):
-        return {
-            'participation_fee': player.session.config['participation_fee']
-        }
-
     # pass initialized variables to the rest of the apps
     def before_next_page(self, timeout_happened):
         self.participant.vars['finished_voting'] = False
@@ -123,10 +117,7 @@ class a13(Page):
 
 #4. Overview of Task
 class a14(Page):
-    def vars_for_template(self):
-        return {
-            'initial_wage': cu(self.session.config['initial_payoff_amount'])
-        }
+    pass
 
 #5. Voting
 class a15(Page):

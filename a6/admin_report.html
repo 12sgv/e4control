@@ -2,7 +2,7 @@
 <p>Here is the current <b>vote breakdown:</b></p>
 
 <ul>
-    <li>Votes for the hybrid policy: {{ total_office_votes }}</li>
+    <li>Votes for the hybrid policy: {{ total_hybrid_votes }}</li>
     <li>Votes for the fully remote policy: {{ total_remote_votes }}</li>
     <li>Percent voting for the <b>fully remote</b> policy: {{ total_percent_votes_remote }}%</li>
 </ul>
@@ -85,7 +85,7 @@
 </style>
 
 <!-- chart helping by treatment -->
-<p style="text-align: center;"><b>Chart of giving by condition</b></p>
+<p style="text-align: center;"><b>Chart of helping by condition</b></p>
 
 
 <canvas id="myChart" width="250" height="150"></canvas>
@@ -96,10 +96,10 @@
 <ul>
     <li>Mean <b>Totals</b> helping: {{ total_mean }}</li>
     <li>Mean <b>Remote</b> helping: {{ remote_mean }}</li>
-    <li>Mean <b>Hybrid</b> helping: {{ office_mean }}</li>
+    <li>Mean <b>Hybrid</b> helping: {{ hybrid_mean }}</li>
 </ul>
 <!-- chart helping by vote -->
-<p style="text-align: center;"><b>Chart of giving by vote type</b></p>
+<p style="text-align: center;"><b>Chart of helping by vote type</b></p>
 
 
 <canvas id="myChart2" width="250" height="150"></canvas>
@@ -144,7 +144,7 @@
                     beginAtZero: false,
                     title: {
                         display: true,
-                        text: 'Giving (help points)'
+                        text: 'Helping (help level selected)'
                     }
                 }
             }
@@ -157,7 +157,7 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Giving'],
+            labels: ['Helping'],
             datasets: [
                 {
                     label: 'Total',
@@ -176,8 +176,8 @@
                     fill: false
                 },
                 {
-                    label: 'Office',
-                    data: [{{ office_mean }}],
+                    label: 'Hybrid',
+                    data: [{{ hybrid_mean }}],
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
@@ -194,7 +194,7 @@
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Giving (help points given)'
+                        text: 'Helping (help level selected)'
                     }
                 }
             }

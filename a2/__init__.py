@@ -339,7 +339,7 @@ class Player(BasePlayer):
     #page finished vars
     finished_voting = models.BooleanField(initial=False)
     finished_vote_outcome = models.BooleanField(initial=False)
-    finished_giving = models.BooleanField(initial=False)
+    finished_helping = models.BooleanField(initial=False)
 #    voted_remote = models.BooleanField()
     #page vars
     partner_check = models.IntegerField(
@@ -355,11 +355,13 @@ class Player(BasePlayer):
     )
     incorrect_count = models.IntegerField(initial=0)
     incorrect_answers = models.LongStringField(initial="")
-    giving = models.IntegerField(
+    helping = models.IntegerField(
         doc="""Amount player helps their partner""",
-        min=0,
-        max=100,
         label="Amount of help I am giving to my partner:",
+        blank=False,
+        choices=[
+            0,5,10,15,20,25,30,35,40,45,50,55,60,
+        ],
     )
     group_formation_timeout = models.BooleanField(initial=False)
     #PEQ Vars
@@ -400,7 +402,7 @@ def waiting_too_long_group_formation(self):
         'group_formation_timeout']
 
 # retrieve what other player provided
-def other_giving(self):
+def other_helping(self):
     if self.id_in_group == 1:
         other_player = self.group.get_player_by_id(2)
         self.participant.vars['partner__id'] = other_player.participant.id_in_session
@@ -409,8 +411,8 @@ def other_giving(self):
         self.participant.vars['partner_id'] = other_player.participant.id_in_session
     else:
         print("no id in group for this player. Player group id:", self.id_in_group)
-    self.participant.vars['other_giving'] = other_player.giving
-    return self.participant.vars['other_giving']
+    self.participant.vars['other_helping'] = other_player.helping
+    return self.participant.vars['other_helping']
 
 
 # PAGES
@@ -468,7 +470,7 @@ class a23(Page):
 
     # display for participants who have not timed out
     def is_displayed(player: Player):
-        if player.group_formation_timeout == True:
+        if player.group_formation_timeout == True or player.is_out == True:
             return False
         else:
             return True
@@ -527,8 +529,8 @@ class a24(Page):
     def before_next_page(self, timeout_happened):
         # timeout means that they give everything to their partner
         if timeout_happened:
-            self.giving = 100
-            self.participant.vars['giving'] = 100
+            self.helping = 100
+            self.participant.vars['helping'] = 100
             self.timed_out = True
             self.participant.vars['timed_out'] = True
             self.participant.vars['timed_out_partner_check'] = True
@@ -537,7 +539,7 @@ class a24(Page):
             for p in self.group.get_players():
                 if p.participant.vars['group_number'] == self.participant.vars['group_number'] and p.id_in_group != self.id_in_group:
                     p.participant.vars['other_timed_out'] = True
-                    p.participant.vars['other_giving'] = 100
+                    p.participant.vars['other_helping'] = 100
 
 
 
@@ -560,11 +562,11 @@ class a25(Page):
             return True
 
     form_model = "player"
-    form_fields = ["giving"]
+    form_fields = ["helping"]
 
     # custom error message if they did not select a number of points to give
     def error_message(player, values):
-        if values['giving'] is None:
+        if values['helping'] is None:
             return 'Please select the number of help points you want to give to your partner.'
 
     def vars_for_template(self):
@@ -579,12 +581,12 @@ class a25(Page):
     def before_next_page(self, timeout_happened):
         # track when participant left this page to start timer for the next group formation page
         self.participant.vars['help_completion_time'] = time.time()
-        self.participant.vars['giving'] = self.giving
+        self.participant.vars['helping'] = self.helping
         self.participant.vars['group_number'] = self.group_number
         if timeout_happened:
-            self.giving = 100
+            self.helping = 100
             self.participant.vars['payoff'] = 0
-            self.participant.vars['giving'] = self.giving
+            self.participant.vars['helping'] = self.helping
             self.participant.vars['timed_out'] = True
             self.participant.vars['timed_out_help'] = True
             self.kicked_out = True
@@ -592,10 +594,10 @@ class a25(Page):
             for p in self.group.get_players():
                 if p.participant.vars['group_number'] == self.participant.vars['group_number'] and p.id_in_group != self.id_in_group:
                     p.participant.vars['other_timed_out'] = True
-                    p.participant.vars['other_giving'] = 100
+                    p.participant.vars['other_helping'] = 100
         else:
-            self.finished_giving = True
-            self.participant.vars['finished_giving'] = True
+            self.finished_helping = True
+            self.participant.vars['finished_helping'] = True
 
     # send those who are kicked out to the end of the experiment
     def app_after_this_page(self, upcoming_apps):
@@ -616,59 +618,8 @@ class a26(Page):
         else:
             return False
 
-
-#Helping (5th Person)
-class a27(Page):
-
-    # only display if the participant is 5th participant
-    def is_displayed(player: Player):
-        if player.participant.vars['not_paired'] == 1:
-            return True
-        else:
-            return False
-
-    form_model = "player"
-    form_fields = ["giving"]
-
-    # custom error message if they did not select a number of points to give
-    def error_message(player, values):
-        if values['giving'] is None:
-            return 'Please select the number of help points you would give your team member.'
-
-    def vars_for_template(self):
-        wonlost = "won" if self.winner == True else "lost"
-        return {
-            'wonlost': wonlost,
-        }
-
-    # give everything if the participant timed out
-    def before_next_page(self, timeout_happened):
-        # track when participant left this page to start timer for the next group formation page
-        self.participant.vars['help_completion_time'] = time.time()
-        self.participant.vars['giving'] = self.giving
-        self.finished_giving = True
-        self.participant.vars['finished_giving'] = True
-
-
-#5th Person PEQ
-class a28(Page):
-    form_model = 'player'
-    form_fields = ['vote_preference', 'affect', 'fairness', 'expectation_valence', 'expectation_strength', 'vote_valued']
-
-    # only display if the participant is 5th participant
-    def is_displayed(player: Player):
-        if player.participant.vars['not_paired'] == 1:
-            return True
-        else:
-            return False
-
-    def vars_for_template(self):
-        return dict(
-        #expectation_strength_label = "How confident were you that the fully {} policy would win?".format(self.participant.vars['policy_vote'])
-        )
-
     def app_after_this_page(self, upcoming_apps):
-            return "a5"
+        return "a6"
 
 
-page_sequence = [a21, a22, a23, a24, a25, a26, a27, a28]
+page_sequence = [a21, a22, a23, a24, a25, a26]

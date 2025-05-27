@@ -1,54 +1,50 @@
-{{ block title }}Details About How Your Partner Voted{{ endblock }}
+{{ block title }}Details About Your Partner{{ endblock }}
 {{ block content }}
-<!-- 8a. Details About How Your Partner Voted (4 paired team members)  -->
+<!-- 8b. Details About Your Partner (4 paired team members)  -->
 
-<p>You have been paired with one other member of your team who is a real Prolific participant completing the study
-    at the same time as you. This person will be your partner in the next task.</p>
+<p>You have been paired with one member of your five-member team who is a real Prolific participant
+    completing the study at the same time as you. This person will be your partner for the rest of the study.</p>
+
 <p>As stated earlier, the majority of your team voted for the <strong>{{outcome}} policy.</strong></p>
 
     {% if participant.vars.treatment == 1%} <!-- WW -->
         <p>
             <ul>
-            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore
-                you <strong>both won</strong> the vote. As explained earlier, both you and your partner will
-                receive the benefits of having your preferred policy implemented as an increase in your
-                payoff amount of $0.50.</li>
+            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore you <strong>both won</strong> the
+                vote. As explained earlier, you will receive the benefits of being able to work under your
+                preferred policy as an increase in your bonus pay of $0.50. Your partner will also receive benefits
+                of being able to work under their preferred policy as an increase in their bonus pay.</li>
             </ul>
         </p>
     {% elif participant.vars.treatment == 2 %} <!-- LL -->
         <p>
             <ul>
-            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore
-                you <strong>both lost</strong> the vote. As explained earlier, both you and your partner
-                will incur costs related to not having your preferred policy implemented as a decrease
-                in your payoff amount of $0.50.</li>
+            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore you <strong>both lost</strong> the
+                vote. As explained earlier, you will incur the costs of not being able to work under your preferred
+                policy as a decrease in your bonus pay of $0.50. Your partner will also incur costs of not being
+                able to work under their preferred policy as a decrease in their bonus pay.</li>
             </ul>
         </p>
     {% elif participant.vars.treatment == 3 %} <!-- WL -->
             <p>
             <ul>
-                <li>You preferred and voted for the <strong>{{outcome}} policy</strong> and
-                therefore <strong>won</strong> the vote. As explained earlier, you will receive
-                    the benefits of having your preferred policy implemented as an increase
-                    in your payoff amount of $0.50.</li>
-                <li>However, your partner preferred and voted for the <strong>
-                {{othervote}} policy</strong> and therefore <strong>lost</strong> the vote.
-                    Thus, as explained earlier, your partner will incur costs related to not having
-                    their preferred policy implemented as a decrease in their payoff
-                    amount of $0.50.</li>
+                <li>You preferred and voted for the <strong>{{outcome}} policy</strong> and therefore <strong>won</strong> the vote. As explained earlier, you
+                    will receive the benefits of being able to work under your preferred policy as an increase in your
+                    bonus pay of $0.50.</li>
+                <li>However, your partner preferred and voted for the <strong>{{othervote}} policy</strong> and therefore <strong>lost</strong> the vote. Thus, as
+                    explained earlier, your partner will incur costs of not being able to work under their preferred
+                    policy as a decrease in their bonus pay.</li>
             </ul>
             </p>
     {% elif participant.vars.treatment == 4 %} <!-- LW -->
         <p>
             <ul>
-            <li>You preferred and voted for the <strong>
-            {{vote}} policy</strong> and therefore <strong>lost</strong> the vote. As explained earlier,
-                you will incur costs related to not having your preferred policy implemented as a decrease
-                in your payoff amount of $0.50.</li>
-            <li>However, your partner preferred and voted for the <strong>{{outcome}} policy</strong> and
-                therefore <strong>won</strong> the vote. Thus, as explained earlier, your partner will
-                receive the benefits of having their preferred policy implemented as an increase in their
-                payoff amount of ${0.50.</li>
+            <li>You preferred and voted for the <strong>{{vote}} policy</strong> and therefore <strong>lost</strong> the vote. As explained earlier, you
+                will incur the costs of not being able to work under your preferred policy as a decrease in your bonus
+                pay of $0.50.</li>
+            <li>However, your partner preferred and voted for the <strong>{{outcome}} policy</strong> and therefore <strong>won</strong> the vote. Thus, as
+                explained earlier, your partner will receive benefits of being able to work under their preferred policy as an increase
+                in their bonus pay.</li>
             </ul>
         </p>
     {% endif %}

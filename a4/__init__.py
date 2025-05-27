@@ -83,6 +83,15 @@ class C(BaseConstants):
         '',
         'Very strong preference',
     ]
+    EqualityTable = [
+    'Only concerned about my cost',
+    'Moderately more concerned about my cost',
+    'Slightly more concerned about my cost',
+    "Equally concerned about my cost & my partner's benefit",
+    "Slightly more concerned about my partner's benefit",
+    "Moderately more concerned about my partner's benefit",
+    "Only concerned about my partner's benefit",
+    ]
 
 class Subsession(BaseSubsession):
     def group_by_arrival_time_method(self, waiting_players):
@@ -112,7 +121,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     is_out = models.BooleanField()
     is_bot = models.BooleanField()
-    other_giving = models.IntegerField()
+    other_helping = models.IntegerField()
     # PEQ
     vote_preference = models.IntegerField(choices=[
                                           [0, 'No preference'],
@@ -127,6 +136,9 @@ class Player(BasePlayer):
     affect = models.IntegerField(choices=C.AffectChoices,
                                  widget=widgets.RadioSelect,
                                  label="How did you feel about the outcome of the vote? (i.e., whether you won or lost)")
+    vote_fair = models.IntegerField(choices=C.StandardChoices,
+                                   widget=widgets.RadioSelect,
+                                   label='The outcome of the vote was fair.')
     identity_identify = models.IntegerField(choices=C.StandardChoices,
                                             widget=widgets.RadioSelect,
                                             label='I identified with my partner.')
@@ -145,7 +157,7 @@ class Player(BasePlayer):
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
-        label="To what extent were you angry or upset with your partner because of the outcome of the vote?")
+        label="To what extent were you angry or upset with your partner because you believe they were responsible for the outcome of the vote?")
     sympathy = models.IntegerField(choices=[
         [0, 'Not at all'],
         [1, ''],
@@ -155,7 +167,7 @@ class Player(BasePlayer):
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
-        label="To what extent did you feel bad for your partner because of the outcome of the vote?")
+        label="To what extent did you sympathize with your partner because of the outcome of the vote?")
     deserving = models.IntegerField(choices=[
         [0, 'Not at all'],
         [1, ''],
@@ -165,13 +177,21 @@ class Player(BasePlayer):
         [5, ''],
         [6, 'A great extent']],
         widget=widgets.RadioSelect,
-        label='To what extent did you partner deserve your help?')
-    fairness = models.IntegerField(choices=C.StandardChoices,
-                                   widget=widgets.RadioSelect,
-                                   label='My helping behavior was influenced by a desire to be fair.')
-    equality = models.IntegerField(choices=C.StandardChoices,
-                                   widget=widgets.RadioSelect,
-                                   label="My helping behavior was influenced by a desire to make my payoff and my partner's payoff more equal.")
+        label='To what extent did your partner deserve your help?')
+    fair_help = models.IntegerField(choices=C.StandardChoices,
+                                    widget=widgets.RadioSelect,
+                                    label='It was fair for my partner to ask for my help.')
+    equality = models.IntegerField(choices=[
+        [-3, 'Only concerned about my cost'],
+        [-2, 'Moderately more concerned about my cost'],
+        [-1, 'Slightly more concerned about my cost'],
+        [0, "Equally concerned about my cost and my partner's benefit"],
+        [1, "Slightly more concerned about my partner's benefit"],
+        [2, "Moderately more concerned about my partner's benefit"],
+        [3, "Only concerned about my partner's benefit"]],
+        widget=widgets.RadioSelect,
+        label='When deciding how much to help your partner, were you more concerned about the cost to you or the benefit to your partner?')
+
     expectation_valence = models.StringField(
         choices=[
             ['Remote', mark_safe("<b>Fully remote policy:</b> Work remotely 5 full days per week.")],
@@ -183,9 +203,6 @@ class Player(BasePlayer):
     expectation_strength = models.IntegerField(choices=C.StandardChoices,
                                                widget=widgets.RadioSelectHorizontal,
                                                blank=True)
-    vote_valued = models.IntegerField(choices=C.StandardChoices,
-                                          widget=widgets.RadioSelectHorizontal,
-                                          label='The company values employee input on remote versus hybrid work policies.')
 
 #FUNCTIONS
 # function to determine if waiting to long for the partner to arrive
@@ -194,29 +211,29 @@ def waiting_too_long_partner_formation(self):
         'partner_creation_timeout']
 
 # retrieve what other player provided
-def other_giving(self):
+def other_helping(self):
     if self.id_in_group == 1:
         other_player = self.group.get_player_by_id(2)
     elif self.id_in_group == 2:
         other_player = self.group.get_player_by_id(1)
     else:
         print("no id in group for this player. Player group id:", self.id_in_group)
-    self.participant.vars['other_giving'] = other_player.giving
-    return self.participant.vars['other_giving']
+    self.participant.vars['other_helping'] = other_player.helping
+    return self.participant.vars['other_helping']
 
 # PAGES
 # 10. Help Completion Page
 class a41(WaitPage):
     group_by_arrival_time = True
     title_text = 'Help Completion Page'
-    body_text = 'The amount of help you have given to your partner has been recorded and both of your payoffs' \
+    body_text = 'The amount of help you have given to your partner has been recorded and both of your bonus amounts' \
                 ' have been adjusted accordingly. You will automatically advance to the next page shortly where ' \
                 'you will answer a few survey questions about the study…'
 
 class a42(Page):
     form_model = 'player'
-    form_fields = ['vote_preference', 'affect', 'identity_identify', 'identity_happy', 'identity_like', 'blame',
-                   'sympathy', 'deserving', 'fairness', 'equality', 'expectation_valence', 'expectation_strength', 'vote_valued',]
+    form_fields = ['vote_preference', 'affect', 'vote_fair', 'identity_identify', 'identity_happy', 'identity_like', 'blame',
+                   'sympathy', 'deserving', 'fair_help', 'equality', 'expectation_valence', 'expectation_strength',]
 
     def vars_for_template(self):
         if self.participant.vars['other_timed_out'] == 0 and len(self.group.get_players())>1:
@@ -225,8 +242,8 @@ class a42(Page):
             elif self.id_in_group == 2:
                 other_player = self.group.get_player_by_id(1)
             self.participant.vars['partner_session_id'] = other_player.participant.id_in_session
-            self.other_giving = other_player.participant.vars['giving']
-            self.participant.vars['other_giving'] = self.other_giving
+            self.other_helping = other_player.participant.vars['helping']
+            self.participant.vars['other_helping'] = self.other_helping
         else:
             pass
 

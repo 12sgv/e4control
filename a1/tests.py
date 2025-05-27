@@ -10,6 +10,6 @@ class PlayerBot(Bot):
         yield a12
         yield a13
         yield a14
-        choices = ['Remote']*86 + ['Office']*14
+        choices = ['Remote']*60 + ['Hybrid']*40
         vote = random.choice(choices)
         yield a15, dict(policy_vote=vote)

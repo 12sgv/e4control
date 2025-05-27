@@ -2,24 +2,27 @@
 {{ block content }}
 <!-- 11. Survey (PEQ Questions)  -->
 
+    <!-- html styling -->
     <style>
         table td, table th {
             text-align: center;
             vertical-align: middle;
+            font-weight:normal; /*unbolds all rows*/
         }
         .first-column {
             text-align: left;
         }
     </style>
+
     <p style="font-size: larger;">
     <strong>Please answer the following questions about your experience in this study.</strong>
     </p>
 
-<table class="table">  <!-- Table for vote -->
+<table class="table">  <!-- Table for vote preference -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.PreferenceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -48,7 +51,7 @@
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.AffectChoiceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strgon>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -66,11 +69,33 @@
 
 <br>
 
+<table class="table">  <!-- Table for Vote_Fair -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.StandardChoiceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(-3, 4) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column">{{form.vote_fair.label }}</th> <!-- Row header for the vote_preference label -->
+        {% for choice in form.vote_fair %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+</table>
+
+<br>
+
 <table class="table">  <!-- Table for identity -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.StandardChoiceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -107,11 +132,12 @@
         width: 100px; /* Adjust this value to your preference */
     }
 </style>
+
 <table class="table">  <!-- Table for blame/sympathy/deservingness -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.FeelChoiceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -143,11 +169,11 @@
 
 <br>
 
-<table class="table">  <!-- Table for fairness/equality -->
+<table class="table">  <!-- Table for Fair_Help -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.StandardChoiceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -157,17 +183,33 @@
         {% endfor %}
     </tr>
     <tr>
-        <th class="first-column">{{form.fairness.label }}</th> <!-- Row header for the vote_preference label -->
-        {% for choice in form.fairness %}
+        <th class="first-column">{{form.fair_help.label }}</th> <!-- Row header for the vote_preference label -->
+        {% for choice in form.fair_help %}
             <td>{{ choice }}</td> <!-- Data cells for the choices -->
         {% endfor %}
+</table>
+
+
+<br>
+
+<table class="table">  <!-- Table for Equality -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.EqualityTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
     </tr>
-         <tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(-3, 4) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
         <th class="first-column">{{form.equality.label }}</th> <!-- Row header for the vote_preference label -->
         {% for choice in form.equality %}
             <td>{{ choice }}</td> <!-- Data cells for the choices -->
         {% endfor %}
-    </tr>
 </table>
 
 <br>
@@ -177,6 +219,7 @@
         margin: 0;
     }
 </style>
+
 {% if participant.vars.policy_vote == "Remote" %}
     <p class="no-margin"><b>At the time you voted for the fully remote work policy, which of the two policies did you <u>expect</u> to win?</b></p>
 {% else %}
@@ -192,7 +235,7 @@
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
         {% for choice in C.ConfidenceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>
@@ -211,33 +254,13 @@
 
 <br>
 
-<table class="table">  <!-- Table for vote_valued -->
-    <tr>
-        <th class="first-column"></th> <!-- Empty header for the first column -->
-        {% for choice in C.StandardChoiceTable %}
-            <th>{{ choice }}</th> <!-- Column headers for the standard choices -->
-        {% endfor %}
-    </tr>
-    <tr>
-        <th class="first-column"></th> <!-- Empty header for the first column -->
-        {% for i in range(-3, 4) %}
-            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
-        {% endfor %}
-    </tr>
-    <tr>
-        <th class="first-column">{{form.vote_valued.label }}</th> <!-- Row header for the vote_preference label -->
-        {% for choice in form.vote_valued %}
-            <td>{{ choice }}</td> <!-- Data cells for the choices -->
-        {% endfor %}
-</table>
-
 <p>
     Please click Next to advance to the next page.
 </p>
 
     {{ next_button }}
 
-<!-- This codee is for updating the expectation strength form label-->
+<!-- This code is for updating the expectation strength form label-->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -261,6 +284,5 @@ $(document).ready(function() {
     });
 });
 </script>
-
 
 {{ endblock }}

@@ -1,12 +1,14 @@
 {{ block title }}Payoff{{ endblock }}
 {{ block content }}
-<!-- 2/3 Remote & 5th Person Payoff Page -->
+<!-- 5th Person Payoff Page -->
+
     <p>
-        Thank you for completing the study. Recall that due to the specific requirements of the study,
-        {{ not_paired_wording }} assigned to a shorter version of the study.
+        Thank you for completing the study. Recall that due to the specific requirements of the study, you were
+        unable to be paired with another participant and will not be able to complete the remainder of the study.
+        For your time, you will keep your {{ participation_fee }} participation fee and your {{ initial_payoff_amount }} bonus pay.
     </p>
     <p>
-        Therefore, your payoff is as follows:
+        Therefore, your total payoff is as follows:
     </p>
 <div style="margin-left: 30px;">
     <p>
@@ -14,9 +16,6 @@
     </p>
     <p>
         Initial wage: <strong>{{ initial_payoff_amount }}</strong>
-    </p>
-    <p>
-        Increase in payoff amount for winning the vote: <strong>{{ outcome_effect }}</strong>
     </p>
     <p>
         <strong>Total Payoff = {{ earnings }}</strong>

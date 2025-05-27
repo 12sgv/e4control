@@ -8,7 +8,7 @@ class PlayerBot(Bot):
         # payment_info app
         if self.participant.vars['is_out'] == False and self.participant.vars['timed_out'] == False:
             yield a61
-        elif self.participant.vars['is_out'] == True:
+        elif self.participant.vars['is_out'] == True and self.participant.vars['group_formation_timeout'] == False:
             yield a62
         elif self.participant.vars['group_formation_timeout'] == 1:
             yield a63
