@@ -74,6 +74,7 @@ class Player(BasePlayer):
         [4, 'Hybrid, mostly in-person']],
         widget=widgets.RadioSelect,
         label='''Which of the following best describes the policy where you <strong>currently</strong> work?''',
+        blank=True,
     )
     location_preference = models.IntegerField(choices=[
         [1, '100% Remote'],
@@ -119,7 +120,7 @@ class a51(Page):
 
     def before_next_page(self, timeout_happened):
         self.participant.vars['employed'] = self.employed
-        self.participant.vars['work_location'] = self.work_location
+        self.participant.vars['work_location'] = self.field_maybe_none('work_location')
         self.participant.vars['location_preference'] = self.location_preference
         self.participant.vars['education'] = self.education
         self.participant.vars['work_experience'] = self.work_experience

@@ -6,8 +6,12 @@
         of the participants in the study.
     </p>
 
-    {{ formfield 'employed' }}
-    {{ formfield 'work_location' }}
+    <div id="employed">
+        {{ formfield 'employed' }}
+    </div>
+    <div id="location" style="display: none;">
+        {{ formfield 'work_location' }}
+    </div>
     {{ formfield 'location_preference' }}
     {{ formfield 'education' }}
     {{ formfield 'work_experience' }}
@@ -30,13 +34,11 @@
         var inputyes = document.getElementById('id_firm_allow_input-0');
         var inputno = document.getElementById('id_firm_allow_input-1');
         var inputquestionsField = document.getElementById('inputquestions');
-        var remoteinputyes = document.getElementById('id_remote_allow_input-0');
-        var remoteinputno = document.getElementById('id_remote_allow_input-1');
-        var firmFullRemotePandemicField = document.getElementById('fullremotepandemic');
-        var firmAdjustPostPandemicField = document.getElementById('firm-adjust-post-pandemic-field');
-        var remoteyes = document.getElementById('id_firm_full_remote_pandemic-0');
-        var remoteno = document.getElementById('id_firm_full_remote_pandemic-1');
-
+        var employedField = document.getElementById('employed');
+        var fullemployed = document.getElementById('id_employed-0');
+        var partemployed= document.getElementById('id_employed-1')
+        var unemployed = document.getElementById('id_employed-2');
+        var locationField = document.getElementById('location');
 
         // Listen for changes to the firm_allow_input field
         firmallowinputField.addEventListener('change', function() {
@@ -47,26 +49,15 @@
                 inputquestionsField.style.display = 'none';
             }
         });
-        // Listen for changes to the remote_allow_input field
-        inputquestionsField.addEventListener('change', function() {
-            // Show or hide the firm input type field based on the value of the remote_allow_input field
-            if (remoteinputyes.checked) {
-                firmFullRemotePandemicField.style.display = 'block';
-            } else if (remoteinputno.checked) {
-                firmFullRemotePandemicField.style.display = 'none';
-                firmAdjustPostPandemicField.style.display = 'none';
-            }
-        });
-
-        // Listen for changes to the firm_full_remote_pandemic field
-        firmFullRemotePandemicField.addEventListener('change', function() {
-            // Show or hide the firm_adjust_post_pandemic field based on the value of the firm_full_remote_pandemic field
-            if (remoteinputyes.checked) {
-                if (remoteyes.checked) {
-                    firmAdjustPostPandemicField.style.display = 'block';
-                } else if (remoteno.checked) {
-                    firmAdjustPostPandemicField.style.display = 'none';
-                }
+        // Listen for changes to the employment status field
+        employedField.addEventListener('change', function() {
+            // Show or hide the currently work
+            if (unemployed.checked) {
+                locationField.style.display = 'none';
+            } else if (fullemployed.checked) {
+                locationField.style.display = 'block';
+            } else if (partemployed.checked) {
+                locationField.style.display = 'block';
             }
         });
     </script>
