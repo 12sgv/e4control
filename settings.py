@@ -29,9 +29,9 @@ SESSION_CONFIG_DEFAULTS = dict(
     partner_check_timeout=120,
     offer_timeout=240,
     help_wait_timeout=375,
-    link_nopartner='https://app.prolific.com/submissions/complete?cc=C4UY7KQS',
-    link_completed='https://app.prolific.com/submissions/complete?cc=C17GDOGH',
-    link_timedoutgroup='https://app.prolific.com/submissions/complete?cc=C1JHEYPP',
+    link_nopartner='https://app.prolific.com/submissions/complete?cc=CUK49Q8H',
+    link_completed='https://app.prolific.com/submissions/complete?cc=CYUXPUDT',
+    link_timedoutgroup='https://app.prolific.com/submissions/complete?cc=CQ8Q1ZE8',
    )
 
 PARTICIPANT_FIELDS = [
