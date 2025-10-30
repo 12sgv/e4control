@@ -1,0 +1,154 @@
+{{ block title }}Survey{{ endblock }}
+{{ block content }}
+<!-- 10. Survey (Help Questions) -->
+
+<p style="font-size: larger;">
+    <strong>Please answer the following questions about your experience in this study.</strong>
+</p>
+
+<table class="table">  <!-- Table for identity -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.StandardChoiceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(-3, 4) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column">{{form.identity_identify.label }}</th> <!-- Row header for the identity_identify label -->
+        {% for choice in form.identity_identify %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+         <tr>
+        <th class="first-column">{{form.identity_happy.label }}</th> <!-- Row header for the identity_happy label -->
+        {% for choice in form.identity_happy %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+    </tr>
+         <tr>
+        <th class="first-column">{{form.identity_like.label }}</th> <!-- Row header for the identity_like label -->
+        {% for choice in form.identity_like %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+</table>
+
+<br>
+
+<table class="table equal-cols">  <!-- Table for deserving -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.FeelChoiceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(0, 7) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+        </tr>
+         <tr>
+        <th class="first-column">{{form.deserving.label }}</th> <!-- Row header for the deserving label -->
+        {% for choice in form.deserving %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+</table>
+
+
+
+<br>
+
+<table class="table">  <!-- Table for Fair_Help -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.StandardChoiceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(-3, 4) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column">{{form.fair_help.label }}</th> <!-- Row header for the fair_help label -->
+        {% for choice in form.fair_help %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+</table>
+
+<br>
+
+<table class="table">  <!-- Table for Equality -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.EqualityTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(-3, 4) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column">{{form.equality.label }}</th> <!-- Row header for the equality label -->
+        {% for choice in form.equality %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+</table>
+
+<br>
+
+<p>
+    Please click Next to submit your answers to the question above and advance to
+    the next page.
+</p>
+
+    {{ next_button }}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 30) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+<!-- html styling -->
+<style>
+    table td, table th {
+        text-align: center;
+        vertical-align: middle;
+        font-weight:normal; /*unbolds all rows*/
+    }
+    .first-column {
+        text-align: left;
+    }
+    .no-margin {
+        margin: 0;
+    }
+    .table td:nth-child(n+2):nth-child(-n+8) {
+        width: 100px; /* Adjust this value to your preference */
+    }
+</style>
+
+
+
+{{ endblock }}
+
+

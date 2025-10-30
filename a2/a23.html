@@ -1,49 +1,10 @@
-{{ block title }}Vote Result{{ endblock }}
+{{ block title }}Additional Instructions{{ endblock }}
 {{ block content }}
-<!-- 7a. Vote Result  -->
-{% if participant.vars.winner == 1 %}
-    <p>
-        The majority of the members in your team voted for the <strong>{{outcome}} policy.</strong> You voted for the
-        <strong>{{vote}} policy.</strong> Therefore, <strong>you won</strong> the vote.
-    </p>
-    <p>
-        In an actual work environment your team would be required to work under a {{outcome}} policy.
-        Because a {{outcome}} policy is your preferred policy, you would have benefits related to
-        winning the vote and having this policy implemented. Since it is not practical to implement actual work
-        policies in this study, you instead will receive the related benefits as a $0.50 increase in your bonus pay.
-        All other team members whose preferred policy won the vote will also receive benefits related to
-        winning the vote as an increase in their bonus pay.
-    </p>
-    <p>
-        Just as team members in an actual work environment who won the vote would have benefits related to
-        working under their preferred policy, team members who lost the vote would have costs related to not
-        being able to work under their preferred policy. In this study these related costs are implemented as a
-        decrease in the losing team members' bonus pay.
-    </p>
-{% elif participant.vars.winner == 0 %}
-    <p>
-        The majority of the members in your team voted for the <strong>{{outcome}} policy.</strong> You voted for the
-        <strong>{{vote}} policy.</strong> Therefore, <strong>you lost</strong> the vote.
-    </p>
-    <p>
-        In an actual work environment your team would be required to work under a {{outcome}} policy.
-        Because a {{outcome}} policy is not your preferred policy, you would have costs related to losing
-        the vote and having this policy implemented. Since it is not practical to implement actual work policies in
-        this study, you instead will incur the related costs as a $0.50 decrease in your bonus pay. All other
-        team members whose preferred policy lost the vote will also incur costs related to losing the vote as a
-        decrease in their bonus pay.
-    </p>
-    <p>
-        Just as team members in an actual work environment who lost the vote would have costs related to not
-        being able to work under their preferred policy, team members who won the vote would have benefits
-        related to working under their preferred policy. In this study these related benefits are implemented as an
-        increase in the winning team members' bonus pay.
-    </p>
-{% endif %}
-    <p>
-        On the next page, you will be paired with one member of your five-member team and receive additional
-        instructions.
-    </p>
+<!-- 6. Additional Instructions  -->
+<p>
+    You and your team are now ready to complete the remainder of the study. On the next page, you will be paired with one other member of your team and complete a task.
+</p>
+
 <p>
     Please click Next to advance to the next page.
 </p>

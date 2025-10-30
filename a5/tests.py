@@ -1,30 +1,20 @@
 from otree.api import Bot
 from . import *
-import random
 
 
 # this bot plays through correctly (complete)
 class PlayerBot(Bot):
     def play_round(self):
-        if not self.participant.vars['is_out'] and not self.player.participant.vars['timed_out']:
-            # survey app
-            #generate random choices for Demo 1
-            em = random.randint(1, 3)
-            wl = random.randint(1, 4)
-            lp = random.randint(1, 4)
-            ed = random.randint(1, 6)
-            we = random.randint(0, 80)
-            fai_choices = ['Yes']*67 + ['No']*33
-            fai = random.choice(fai_choices)
-            rai_choices = ['Yes'] * 67 + ['No'] * 33
-            rai = random.choice(fai_choices)
-            # On the Demographics1 page, enter the specified values and submit the page
-            yield a51, dict(
-                employed=em,
-                work_location=wl,
-                location_preference=lp,
-                education=ed,
-                work_experience=we,
-                firm_allow_input=fai,
-                remote_allow_input=rai,
-            )
+        # payment_info app
+        if self.participant.vars['is_out'] == False and self.participant.vars['timed_out'] == False:
+            yield a61
+        elif self.participant.vars['is_out'] == True and self.participant.vars['group_formation_timeout'] == False:
+            yield a62
+        elif self.participant.vars['group_formation_timeout'] == 1:
+            yield a63
+        elif self.participant.vars['kicked_out'] == 1:
+            yield a64
+        if not self.participant.vars['kicked_out'] == 1:
+            yield Submission(a65, dict(feedback='bot'), check_html=False)
+            yield Submission(a66, check_html=False)
+

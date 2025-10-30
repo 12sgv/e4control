@@ -1,0 +1,120 @@
+{{ block title }}Survey{{ endblock }}
+{{ block content }}
+<!-- 12. Survey (Vote Questions)  -->
+
+<p style="font-size: larger;">
+    <strong>Please answer the following questions about the previous scenario in which you indicated how you would vote.</strong>
+</p>
+
+<table class="table equal-cols">  <!-- Table for vote preference -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.PreferenceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(0, 7) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th style="text-align: left;"> <!-- Row header for the vote_preference label -->
+            {% if participant.vars.policy_vote == "Remote" %}
+                <p>To what extent did you prefer the fully remote policy you voted for over the hybrid policy?</p>
+            {% else %}
+                <p>To what extent did you prefer the hybrid policy you voted for over the fully remote policy?</p>
+            {% endif %}
+        </th>
+        {% for choice in form.vote_preference %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+</table>
+
+<br>
+
+{% if participant.vars.policy_vote == "Remote" %}
+    <p class="no-margin"><b>At the time you voted for the fully remote work policy, which of the two policies did you <u>expect</u> to win?</b></p>
+{% else %}
+    <p class="no-margin"><b>At the time you voted for the hybrid work policy, which of the two policies did you <u>expect</u> to win?</b></p>
+{% endif %}
+
+<tag id="expectation_valence">{{ form.expectation_valence}}</tag>
+
+<br>
+
+<table class="table" id="expectation_strength_table" style="display: none;">  <!-- Table for expectation_strength -->
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for choice in C.ConfidenceTable %}
+            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column"></th> <!-- Empty header for the first column -->
+        {% for i in range(0, 7) %}
+            <td><strong>{{ i }}</strong></td> <!-- Data cells for the integers -3 to 3 -->
+        {% endfor %}
+    </tr>
+    <tr>
+        <th class="first-column" id="expectation_strength_label">{{form.expectation_strength.label}}</th> <!-- Row header for the expectation_strength label -->
+        {% for choice in form.expectation_strength %}
+            <td>{{ choice }}</td> <!-- Data cells for the choices -->
+        {% endfor %}
+    </tr>
+</table>
+
+<br>
+
+<p>
+    Please click Next to advance to the next page.
+</p>
+
+    {{ next_button }}
+
+<!-- html styling -->
+<style>
+    table td, table th {
+        text-align: center;
+        vertical-align: middle;
+        font-weight:normal; /*unbolds all rows*/
+    }
+    .first-column {
+        text-align: left;
+    }
+    .no-margin {
+        margin: 0;
+    }
+    .table td:nth-child(n+2):nth-child(-n+8) {
+        width: 100px; /* Adjust this value to your preference */
+    }
+</style>
+
+<!-- This code is for updating the expectation strength form label-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+   $('input[name="expectation_valence"]').change(function() {
+       var label = ""; // Default label
+       var strength_table = document.getElementById("expectation_strength_table");
+       if ($('#id_expectation_valence-1').is(':checked')) {
+           strength_table.style.display = 'block';
+       } else if ($('#id_expectation_valence-0').is(':checked')) {
+           strength_table.style.display = 'block';
+        } else  {
+            strength_table.style.display = 'none';
+        }
+       if ($('#id_expectation_valence-0').is(':checked')) {
+           label = "How confident were you that the fully remote policy would win the vote?";
+       } else if ($('#id_expectation_valence-1').is(':checked')) {
+           label = "How confident were you that the hybrid policy would win the vote?";
+       }
+        // Update the label for expectation_strength
+        $('#expectation_strength_label').text(label);
+    });
+});
+</script>
+
+{{ endblock }}

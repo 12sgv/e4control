@@ -3,8 +3,8 @@ from os import environ
 
 SESSION_CONFIGS = [
        dict(
-        name='treatment',
-        app_sequence=['a1', 'a2', 'a4', 'a5', 'a6'],
+        name='control',
+        app_sequence=['a1', 'a2', 'a3', 'a4', 'a5'],
         num_demo_participants=5,
         use_browser_bots=False,
        ),
@@ -24,9 +24,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     debug=False,
     group_size=5,
     group_formation_timeout=420,
-    vote_outcome_timeout=120,
-    partner_creation_timeout=150,
-    partner_check_timeout=120,
+    additional_instructions_timeout=60,
     offer_timeout=240,
     help_wait_timeout=375,
     link_nopartner='https://app.prolific.com/submissions/complete?cc=CUK49Q8H',

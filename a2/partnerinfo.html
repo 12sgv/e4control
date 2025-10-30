@@ -1,0 +1,80 @@
+{{ block title }}Details About Your Partner{{ endblock }}
+{{ block content }}
+<!-- 8b. Details About Your Partner (4 paired team members)  -->
+
+<p>You have been paired with one member of your five-member team who is a real Prolific participant
+    completing the study at the same time as you. This person will be your partner for the rest of the study.</p>
+
+<p>As stated earlier, the majority of your team voted for the <strong>{{outcome}} policy.</strong></p>
+
+    {% if participant.vars.treatment == 1%} <!-- WW -->
+        <p>
+            <ul>
+            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore you <strong>both won</strong> the
+                vote. As explained earlier, you will receive the benefits of being able to work under your
+                preferred policy as a $0.50 increase in your bonus pay. Your partner will also receive benefits
+                of being able to work under their preferred policy as an increase in their bonus pay.</li>
+            </ul>
+        </p>
+    {% elif participant.vars.treatment == 2 %} <!-- LL -->
+        <p>
+            <ul>
+            <li>You and your partner both preferred and voted for the <strong>{{vote}} policy</strong>, therefore you <strong>both lost</strong> the
+                vote. As explained earlier, you will incur the costs of not being able to work under your preferred
+                policy as a $0.50 decrease in your bonus pay. Your partner will also incur costs of not being
+                able to work under their preferred policy as a decrease in their bonus pay.</li>
+            </ul>
+        </p>
+    {% elif participant.vars.treatment == 3 %} <!-- WL -->
+            <p>
+            <ul>
+                <li>You preferred and voted for the <strong>{{outcome}} policy</strong> and therefore <strong>won</strong> the vote. As explained earlier, you
+                    will receive the benefits of being able to work under your preferred policy as a $0.50 increase in your
+                    bonus pay.</li>
+                <li>However, your partner preferred and voted for the <strong>{{othervote}} policy</strong> and therefore <strong>lost</strong> the vote. Thus, as
+                    explained earlier, your partner will incur costs of not being able to work under their preferred
+                    policy as a decrease in their bonus pay.</li>
+            </ul>
+            </p>
+    {% elif participant.vars.treatment == 4 %} <!-- LW -->
+        <p>
+            <ul>
+            <li>You preferred and voted for the <strong>{{vote}} policy</strong> and therefore <strong>lost</strong> the vote. As explained earlier, you
+                will incur the costs of not being able to work under your preferred policy as a $0.50 decrease in your bonus
+                pay.</li>
+            <li>However, your partner preferred and voted for the <strong>{{outcome}} policy</strong> and therefore <strong>won</strong> the vote. Thus, as
+                explained earlier, your partner will receive benefits of being able to work under their preferred policy as an increase
+                in their bonus pay.</li>
+            </ul>
+        </p>
+    {% endif %}
+
+    <p>
+        Please answer the following question correctly to continue with the study.
+    </p>
+
+    {{ formfields }}
+
+<p>
+    Please click Next to submit your answer to the question above and advance to the next page.
+</p>
+    {{ next_button }}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 30) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+{{ endblock }}
+

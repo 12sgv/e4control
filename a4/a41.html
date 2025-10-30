@@ -1,0 +1,65 @@
+{{ block title }}Survey{{ endblock }}
+{{ block content }}
+    <p style="font-size: larger;">
+        <strong>The following questions are about your actual work situation rather than your
+            experience in the study.</strong> These questions are only included to understand the makeup
+        of the participants in the study.
+    </p>
+
+    <div id="employed">
+        {{ formfield 'employed' }}
+    </div>
+    <div id="location" style="display: none;">
+        {{ formfield 'work_location' }}
+    </div>
+    {{ formfield 'location_preference' }}
+    {{ formfield 'education' }}
+    {{ formfield 'work_experience' }}
+    <div id="firmallowinput">
+        {{ formfield 'firm_allow_input' }}
+    </div>
+    <div id="inputquestions" style="display: none;">
+        {{ formfield 'remote_allow_input' }}
+    </div>
+
+<p>
+    Please click Next to advance to the next page.
+</p>
+
+    {{ next_button }}
+
+    <script>
+        // Get references to the form fields
+        var firmallowinputField = document.getElementById('firmallowinput');
+        var inputyes = document.getElementById('id_firm_allow_input-0');
+        var inputno = document.getElementById('id_firm_allow_input-1');
+        var inputquestionsField = document.getElementById('inputquestions');
+        var employedField = document.getElementById('employed');
+        var fullemployed = document.getElementById('id_employed-0');
+        var partemployed= document.getElementById('id_employed-1')
+        var unemployed = document.getElementById('id_employed-2');
+        var locationField = document.getElementById('location');
+
+        // Listen for changes to the firm_allow_input field
+        firmallowinputField.addEventListener('change', function() {
+            // Show or hide the firm input type field based on the value of the firm_allow_input field
+            if (inputyes.checked) {
+                inputquestionsField.style.display = 'block';
+            } else if (inputno.checked) {
+                inputquestionsField.style.display = 'none';
+            }
+        });
+        // Listen for changes to the employment status field
+        employedField.addEventListener('change', function() {
+            // Show or hide the currently work
+            if (unemployed.checked) {
+                locationField.style.display = 'none';
+            } else if (fullemployed.checked) {
+                locationField.style.display = 'block';
+            } else if (partemployed.checked) {
+                locationField.style.display = 'block';
+            }
+        });
+    </script>
+
+{{ endblock }}
