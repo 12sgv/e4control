@@ -179,7 +179,7 @@ class Player(BasePlayer):
 class a31(WaitPage):
 #    wait_for_all_groups = False
     title_text = 'Help Completion Page'
-    body_text = ('The amount of help you have given to your partner has been recorded and both of your bonus amounts'
+    body_text = ('The amount of help you have given to your partner has been recorded and both of your bonus amounts '
                  'have been adjusted accordingly. You will automatically advance to the next page shortly where you will'
                  ' answer a few survey questions about the study...')
 
