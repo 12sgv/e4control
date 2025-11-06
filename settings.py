@@ -4,7 +4,7 @@ from os import environ
 SESSION_CONFIGS = [
        dict(
         name='control',
-        app_sequence=['a1', 'a2', 'a3', 'a4', 'a5'],
+        app_sequence=['a1', 'a2', 'a4', 'a5'],
         num_demo_participants=5,
         use_browser_bots=False,
        ),
@@ -25,8 +25,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     group_size=5,
     group_formation_timeout=420,
     additional_instructions_timeout=60,
-    offer_timeout=240,
-    help_wait_timeout=375,
+    offer_timeout=185,
+    help_wait_timeout=260,
     link_nopartner='https://app.prolific.com/submissions/complete?cc=CUK49Q8H',
     link_completed='https://app.prolific.com/submissions/complete?cc=CYUXPUDT',
     link_timedoutgroup='https://app.prolific.com/submissions/complete?cc=CQ8Q1ZE8',

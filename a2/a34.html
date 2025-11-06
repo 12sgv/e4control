@@ -45,8 +45,8 @@
 <table class="table equal-cols">  <!-- Table for deserving -->
     <tr>
         <th class="first-column"></th> <!-- Empty header for the first column -->
-        {% for choice in C.FeelChoiceTable %}
-            <th><strong>{{ choice }}</strong></th> <!-- Column headers for the standard choices -->
+        {% for value, label in form.deserving.choices %}
+            <th><strong>{{ label }}</strong></th> <!-- Column headers for the standard choices -->
         {% endfor %}
     </tr>
     <tr>

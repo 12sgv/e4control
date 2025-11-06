@@ -4,8 +4,8 @@ from otree.export import get_fields_for_csv
 
 doc = """
 SURVEY
-App 4/6 in sequence.
-App Before: a3 (2/3 Remote) or a4 (PEQ)
+App 3/4 in sequence.
+App Before: a2 (Helping)
 App After: a5 (Payment Info)
 ---------------------------------------
 Participants in the main group advance to this app after completing the PEQ (a4).
@@ -82,7 +82,7 @@ class Player(BasePlayer):
         [3, 'Hybrid, mostly remote'],
         [4, 'Hybrid, mostly in-person']],
         widget=widgets.RadioSelect,
-        label='''Which of the following best describes the policy under which you <strong>prefer</strong> to currently work?''',
+        label='''Which of the following best describes the policy under which you would <strong>prefer</strong> to currently work?''',
     )
     education = models.IntegerField(choices=[
         [1, 'No formal qualifications'],

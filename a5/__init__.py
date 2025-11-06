@@ -4,8 +4,8 @@ from otree.export import get_fields_for_csv
 
 doc = """
 PAYMENT INFO
-App 6/6 in sequence.
-App Before: a4 (Survey)
+App 4/4 in sequence.
+App Before: a4 (PEQ)
 App After: NONE, redirect to Prolific
 ---------------------------------------
 Participants advance to this app after completing the survey (a4).

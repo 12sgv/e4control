@@ -36,9 +36,11 @@
 <br>
 
 {% if participant.vars.policy_vote == "Remote" %}
-    <p class="no-margin"><b>At the time you voted for the fully remote work policy, which of the two policies did you <u>expect</u> to win?</b></p>
+    <p class="no-margin"><b>At the time you voted for the fully remote work policy, which of the two policies would you
+        have <u>expected</u> to win?</b></p>
 {% else %}
-    <p class="no-margin"><b>At the time you voted for the hybrid work policy, which of the two policies did you <u>expect</u> to win?</b></p>
+    <p class="no-margin"><b>At the time you voted for the hybrid work policy, which of the two policies would you
+        have <u>expected</u> to win?</b></p>
 {% endif %}
 
 <tag id="expectation_valence">{{ form.expectation_valence}}</tag>
@@ -107,9 +109,9 @@ $(document).ready(function() {
             strength_table.style.display = 'none';
         }
        if ($('#id_expectation_valence-0').is(':checked')) {
-           label = "How confident were you that the fully remote policy would win the vote?";
+           label = "How confident were you that the fully remote policy would have won?";
        } else if ($('#id_expectation_valence-1').is(':checked')) {
-           label = "How confident were you that the hybrid policy would win the vote?";
+           label = "How confident were you that the hybrid policy would have won?";
        }
         // Update the label for expectation_strength
         $('#expectation_strength_label').text(label);

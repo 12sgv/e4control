@@ -6,9 +6,9 @@ import time
 
 doc = """
 INSTRUCTIONS
-App 1/5 in sequence.
+App 1/4 in sequence.
 App Before: None [Prolific]
-App After: a2
+App After: a2 (Helping)
 ---------------------------------------
 Participants are directed to this app from Prolific via a link on Prolific.
 In this app, participants input ProlificID, consent to the study, read instructions, read an overview, and then
