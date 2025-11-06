@@ -46,82 +46,32 @@ def vars_for_admin_report(subsession):
     total_remote_votes = 0
     total_hybrid_votes = 0
     total_voters = 0
-    # initialize counters for participants assigned to each condition
-    WL_participants_assigned = 0
-    LW_participants_assigned = 0
-    WW_participants_assigned = 0
-    LL_participants_assigned = 0
-    # initialize counters for the number of participants completed in each condition
-    WL_participants_completed = 0
-    LW_participants_completed = 0
-    LL_participants_completed = 0
-    WW_participants_completed = 0
-    # Initialize counters for the number of participants finished in each condition
-    WL_participants_finished = 0
-    LW_participants_finished = 0
-    LL_participants_finished = 0
-    WW_participants_finished = 0
     # initialize a list of all payoffs for complete/not_paired/timed_out/
     completed_payments = []
     not_paired_payments = []
     timed_out_total = 0
     # initialize a list of all helping for each condition
-    WW_helping = []
-    LL_helping = []
-    WL_helping = []
-    LW_helping = []
     total_helping = []
     remote_helping = []
     hybrid_helping = []
     # gather vars for the dashboard
     for player in subsession.get_players():
         # gather the votes for each policy
-        if player.participant.vars.get('finished_voting') == True:
+        if player.participant.vars.get('finished') == True:
             total_voters += 1
             if player.participant.vars.get('policy_vote') == 'Remote':
                 total_remote_votes += 1
             elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 total_hybrid_votes += 1
-            # gather the assigned observations
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_assigned += 1
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_assigned += 1
         # gather the completed observations
-        if player.participant.vars.get('finished_helping') == True:
+        if player.participant.vars.get('finished') == True:
             total_helping.append(player.participant.vars.get('helping'))
             if player.participant.vars.get('policy_vote') == 'Remote':
                 remote_helping.append(player.participant.vars.get('helping'))
             elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 hybrid_helping.append(player.participant.vars.get('helping'))
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_completed += 1
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_completed += 1
-        if player.participant.vars.get('finished') == True:
-            # gather the finished observations and their helping
-            if player.participant.vars.get('treatment') == 1:
-                WW_participants_finished += 1
-                WW_helping.append(player.participant.vars.get('helping'))
-            elif player.participant.vars.get('treatment') == 2:
-                LL_participants_finished += 1
-                LL_helping.append(player.participant.vars.get('helping'))
-            elif player.participant.vars.get('treatment') == 3:
-                WL_participants_finished += 1
-                WL_helping.append(player.participant.vars.get('helping'))
-            elif player.participant.vars.get('treatment') == 4:
-                LW_participants_finished += 1
-                LW_helping.append(player.participant.vars.get('helping'))
             # gather payments for each type of participant (of the completed or not completed, but finished)
-            if player.participant.vars.get('not_paired') == True:
+            if player.participant.vars.get('group_formation_timeout') == True:
                 not_paired_payments.append(player.participant.vars.get('earnings'))
             else:
                 completed_payments.append(player.participant.vars.get('earnings'))
@@ -160,10 +110,6 @@ def vars_for_admin_report(subsession):
     total_percent_completed = round(100 * ((total_complete_finished + total_not_paired_finished + timed_out_total) / total_participants), 2) if total_participants > 0 else 0
 
     # calculate the mean for each condition
-    WW_mean = sum(WW_helping) / len(WW_helping) if len(WW_helping) > 0 else 0
-    LL_mean = sum(LL_helping) / len(LL_helping) if len(LL_helping) > 0 else 0
-    WL_mean = sum(WL_helping) / len(WL_helping) if len(WL_helping) > 0 else 0
-    LW_mean = sum(LW_helping) / len(LW_helping) if len(LW_helping) > 0 else 0
     total_mean = sum(total_helping) / len(total_helping) if len(total_helping) > 0 else 0
     remote_mean = sum(remote_helping) / len(remote_helping) if len(remote_helping) > 0 else 0
     hybrid_mean = sum(hybrid_helping) / len(hybrid_helping) if len(hybrid_helping) > 0 else 0
@@ -179,13 +125,6 @@ def vars_for_admin_report(subsession):
         timed_out_total=timed_out_total, percent_complete=percent_complete, percent_timed_out=percent_timed_out,
         percent_not_paired=percent_not_paired, total_participants=total_participants,
         total_percent_completed = total_percent_completed,
-        WW_participants_assigned=WW_participants_assigned, LL_participants_assigned=LL_participants_assigned,
-        WL_participants_assigned=WL_participants_assigned, LW_participants_assigned=LW_participants_assigned,
-        WW_participants_finished=WW_participants_finished, LL_participants_finished=LL_participants_finished,
-        WL_participants_finished=WL_participants_finished, LW_participants_finished=LW_participants_finished,
-        WW_participants_completed=WW_participants_completed, LL_participants_completed=LL_participants_completed,
-        WL_participants_completed=WL_participants_completed, LW_participants_completed=LW_participants_completed,
-        WW_mean=WW_mean, LL_mean=LL_mean, WL_mean=WL_mean, LW_mean=LW_mean,
         payments_table_html=payments_table_html,
         total_mean=total_mean, remote_mean=remote_mean, hybrid_mean=hybrid_mean,
     )

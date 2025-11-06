@@ -7,14 +7,13 @@ class PlayerBot(Bot):
     def play_round(self):
         # payment_info app
         if self.participant.vars['is_out'] == False and self.participant.vars['timed_out'] == False:
-            yield a61
-        elif self.participant.vars['is_out'] == True and self.participant.vars['group_formation_timeout'] == False:
-            yield a62
+            yield a51
         elif self.participant.vars['group_formation_timeout'] == 1:
-            yield a63
+            yield a52
         elif self.participant.vars['kicked_out'] == 1:
-            yield a64
+            yield a53
         if not self.participant.vars['kicked_out'] == 1:
-            yield Submission(a65, dict(feedback='bot'), check_html=False)
-            yield Submission(a66, check_html=False)
+            yield Submission(a54, dict(feedback='bot'), check_html=False)
+        if not self.participant.vars['kicked_out'] == 1:
+            yield Submission(a55, check_html=False)
 

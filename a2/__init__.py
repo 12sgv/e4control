@@ -334,23 +334,22 @@ class a32(Page):
     timeout_seconds = 0.001
 
     def before_next_page(player, timeout_happened):
-        if timeout_happened:
-            print("Start setting other helping on buffer 32 for participant with group id", player.id_in_group)
+        print("Start setting other helping on buffer 32 for participant with group id", player.id_in_group)
 
-            group_size = len(player.group.get_players())
-            partner_id = player.id_in_group - 1 if player.id_in_group > 1 else group_size
-            partner = player.group.get_player_by_id(partner_id)
-            #Copy partner's helping
-            player.other_helping = partner.participant.vars['helping']
-            player.participant.vars['other_helping'] = player.other_helping
+        group_size = len(player.group.get_players())
+        partner_id = player.id_in_group - 1 if player.id_in_group > 1 else group_size
+        partner = player.group.get_player_by_id(partner_id)
+        #Copy partner's helping
+        player.other_helping = partner.participant.vars['helping']
+        player.participant.vars['other_helping'] = player.other_helping
 
-            #Check if partner timed out on help page
-            if partner.participant.vars.get('timed_out_help'):
-                player.participant.vars['other_timed_out'] = True
-            else:
-                player.participant.vars['other_timed_out'] = False
+        #Check if partner timed out on help page
+        if partner.participant.vars.get('timed_out_help'):
+            player.participant.vars['other_timed_out'] = True
+        else:
+            player.participant.vars['other_timed_out'] = False
 
-            print("End setting other helping on buffer 32", player.id_in_group, "->", player.other_helping)
+        print("End setting other helping on buffer 32", player.id_in_group, "->", player.other_helping)
 
 
 #Help Completion Page

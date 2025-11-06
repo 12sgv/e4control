@@ -16,10 +16,9 @@ class PlayerBot(Bot):
             we = random.randint(0, 80)
             fai_choices = ['Yes']*67 + ['No']*33
             fai = random.choice(fai_choices)
-            rai_choices = ['Yes'] * 67 + ['No'] * 33
             rai = random.choice(fai_choices)
             # On the Demographics1 page, enter the specified values and submit the page
-            yield a51, dict(
+            yield a41, dict(
                 employed=em,
                 work_location=wl,
                 location_preference=lp,

@@ -37,42 +37,6 @@
     <li>Percent <b>timed_out:</b> {{ percent_timed_out }}%</li>
 </ul>
 
-<!-- assigned pairings table -->
-<p>Table of <b>assigned</b> observations for each condition:</p>
-
-<table>
-    <tr>
-        <td>WW</td>
-        <td>{{ WW_participants_assigned }}</td>
-        <td>{{ LL_participants_assigned }}</td>
-        <td>LL</td>
-    </tr>
-    <tr>
-        <td>WL</td>
-        <td> {{ WL_participants_assigned }} </td>
-        <td> {{ LW_participants_assigned }} </td>
-        <td>LW</td>
-    </tr>
-</table>
-
-<!-- observations table -->
-<p>Table of <b>actual</b> observations for each condition:</p>
-
-<table>
-    <tr>
-        <td>WW</td>
-        <td>{{ WW_participants_finished }}</td>
-        <td>{{ LL_participants_finished }}</td>
-        <td>LL</td>
-    </tr>
-    <tr>
-        <td>WL</td>
-        <td> {{ WL_participants_finished }} </td>
-        <td> {{ LW_participants_finished }} </td>
-        <td>LW</td>
-    </tr>
-</table>
-
 <!-- styling for tables -->
 <style>
     table, td {
@@ -84,13 +48,6 @@
     }
 </style>
 
-<!-- chart helping by treatment -->
-<p style="text-align: center;"><b>Chart of helping by condition</b></p>
-
-
-<canvas id="myChart" width="250" height="150"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <!-- Helping by vote type -->
 <p>Here is the current breakdown of helping behavior by vote type:</p>
 <ul>
@@ -98,106 +55,10 @@
     <li>Mean <b>Remote</b> helping: {{ remote_mean }}</li>
     <li>Mean <b>Hybrid</b> helping: {{ hybrid_mean }}</li>
 </ul>
-<!-- chart helping by vote -->
-<p style="text-align: center;"><b>Chart of helping by vote type</b></p>
 
-
-<canvas id="myChart2" width="250" height="150"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- payments table -->
 <p><b>Below are the payments for each participant:</b></p>
 
 {{ payments_table_html }}
 
-<!-- script for chart -->
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Winner', 'Loser'],
-            datasets: [
-                {
-                    label: 'Same',
-                    data: [{{ WW_mean }}, {{ LL_mean }}],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Different',
-                    data: [{{ WL_mean }}, {{ LW_mean }}],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            scales: {
-                x: {
-                    offset: true
-                },
-                y: {
-                    beginAtZero: false,
-                    title: {
-                        display: true,
-                        text: 'Helping (help level selected)'
-                    }
-                }
-            }
-        }
-    });
-</script>
 
-<script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Helping'],
-            datasets: [
-                {
-                    label: 'Total',
-                    data: [{{ total_mean }}],
-                    backgroundColor: 'rgba(128, 128, 128, 0.2)',
-                    borderColor: 'rgba(128, 128, 128, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Remote',
-                    data: [{{ remote_mean }}],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Hybrid',
-                    data: [{{ hybrid_mean }}],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-            ]
-        },
-        options: {
-            scales: {
-                x: {
-                    offset: true,
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Helping (help level selected)'
-                    }
-                }
-            }
-        }
-    });
-</script>
