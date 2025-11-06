@@ -57,25 +57,25 @@ def vars_for_admin_report(subsession):
     # gather vars for the dashboard
     for player in subsession.get_players():
         # gather the votes for each policy
-        if player.participant.vars.get('finished') == True:
+        if player.participant.vars.get('finished') == True and player.participant.vars.get('is_out') == False:
             total_voters += 1
             if player.participant.vars.get('policy_vote') == 'Remote':
                 total_remote_votes += 1
             elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 total_hybrid_votes += 1
         # gather the completed observations
-        if player.participant.vars.get('finished') == True:
+        if player.participant.vars.get('finished') == True and player.participant.vars.get('is_out') == False:
             total_helping.append(player.participant.vars.get('helping'))
             if player.participant.vars.get('policy_vote') == 'Remote':
                 remote_helping.append(player.participant.vars.get('helping'))
             elif player.participant.vars.get('policy_vote') == 'Hybrid':
                 hybrid_helping.append(player.participant.vars.get('helping'))
-            # gather payments for each type of participant (of the completed or not completed, but finished)
-            if player.participant.vars.get('group_formation_timeout') == True:
-                not_paired_payments.append(player.participant.vars.get('earnings'))
-            else:
-                completed_payments.append(player.participant.vars.get('earnings'))
-                print("completed payment added", completed_payments)
+        # gather payments for each type of participant (of the completed or not completed, but finished)
+        if player.participant.vars.get('group_formation_timeout') == True:
+            not_paired_payments.append(player.participant.vars.get('earnings'))
+        elif player.participant.vars.get('finished') == True:
+            completed_payments.append(player.participant.vars.get('earnings'))
+            print("completed payment added", completed_payments)
         # count timed_out_participants
         if player.participant.vars.get('timed_out') == True:
             timed_out_total += 1
